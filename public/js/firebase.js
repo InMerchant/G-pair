@@ -25,4 +25,3 @@ export const storage = getStorage(app);
 
 // Firebase Firestore에 대한 참조 얻기
 export const db = getFirestore(app);
-
