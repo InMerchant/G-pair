@@ -1,8 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-analytics.js";
-import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+// Import the Auth module from Firebase
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -20,8 +22,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-// Firebase Storage에 대한 참조 얻기
+// Get a reference to the storage service
 export const storage = getStorage(app);
 
-// Firebase Firestore에 대한 참조 얻기
+// Get a reference to the Firestore service
 export const db = getFirestore(app);
+
+// Initialize Firebase Auth and export it
+export const auth = getAuth(app);
