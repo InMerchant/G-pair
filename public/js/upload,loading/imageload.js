@@ -1,35 +1,38 @@
-// 이미 `firebase.js`에서 `db`와 `storage`를 import 했습니다.
 import { storage } from '../firebase.js';
 import { getStorage, ref, getDownloadURL,listAll } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
-export function loadImages() {
-    const storageRef = ref(storage, 'webtoonDATA1/');
-  
-    listAll(storageRef).then((result) => {
-      result.items.forEach((imageRef) => {
-        // Get the download URL
+
+//웹툰 이미지 불러오는 js
+
+//웹툰 표지 불러오는 함수
+export function loadSignImages(webtoonID) {
+  // storageRef now points to the folder named after the webtoonID
+  const storageRef = ref(storage, `${webtoonID}/`);
+
+  listAll(storageRef).then((result) => {
+    let signImageFound = false;
+
+    result.items.forEach((imageRef) => {
+      // Check if the file is 'sign.png'
+      if (imageRef.name === "sign.png") {
+        signImageFound = true;
+
         getDownloadURL(imageRef).then((url) => {
-          const imageList = document.getElementById('imageList');
-          if (!imageList) return; // Ensure the element exists
-  
-          // If the image has already been loaded, skip it
-          if (imageList.querySelector(`img[src="${url}"]`)) return;
-  
-          // Create a new image element
-          const img = document.createElement('img');
-          img.src = url;
-          img.width = 100;  // Set image size as required
-          img.height = 100;
-  
-          // Append the new image to the image list
-          imageList.appendChild(img);
+          // Get the image container
+          const imageContainer = document.querySelector('.col-lg-3 img.img-fluid');
+          if (!imageContainer) return; // Ensure the element exists
+
+          // Set the image source to the URL
+          imageContainer.src = url;
         }).catch((error) => {
           console.error("Error getting document:", error);
         });
-      });
-    }).catch((error) => {
-      console.error("Error listing documents:", error);
+      }
     });
-  }
 
-// Assuming you have a button with id 'loadImagesButton' to trigger image loading
-document.getElementById('loadImagesButton').addEventListener('click', loadImages);
+    if (!signImageFound) {
+      console.error("sign.png not found in the specified folder.");
+    }
+  }).catch((error) => {
+    console.error("Error listing documents:", error);
+  });
+}

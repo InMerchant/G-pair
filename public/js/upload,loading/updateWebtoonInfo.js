@@ -1,6 +1,8 @@
 import { db } from '../firebase.js';
 import { collection, getDocs, doc, query, where } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js'; // Firebase Firestore 모듈 가져오기
 
+//웹툰 제목, 설명, 작가이름 불러오는 js파일
+
 //웹툰 제목 불러오기
 export async function updateWebtoonTitle(webtoonID) {
     try {
@@ -75,8 +77,6 @@ export async function updateWebtoonAuthor(webtoonID) {
 
       // HTML 요소에 웹툰 작가 업데이트
       document.getElementById('webtoon-author').textContent = docData.anthor;
-      console.log(webtoonID)
-      console.log(docData.anthor)
     } else {
       console.log('No document matching the webtoonID.');
     }

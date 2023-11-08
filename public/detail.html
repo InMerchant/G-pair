@@ -30,7 +30,7 @@
     <!-- Page Content-->
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
-            <div class="col-lg-3"><img class="img-fluid rounded mb-4 mb-lg-0" src="image/image1.PNG" alt="..." /></div>
+            <div class="col-lg-3"><img class="img-fluid rounded mb-4 mb-lg-0" alt="..." /></div>
             <div class="col-lg-5">
                 <h1 id="webtoon-title" class="font-weight-light"></h1> <!-- 웹툰 제목 위치 -->
                 <p id="webtoon-description"></p>  <!-- 웹툰 설명 위치 -->
@@ -181,6 +181,7 @@
         <!-- 페이지 로드 시 함수 호출 -->
         <script type="module">
             import { updateWebtoonTitle, updateWebtoonDescription, updateWebtoonAuthor } from './js/upload,loading/updateWebtoonInfo.js';
+            import { loadSignImages } from './js/upload,loading/imageLoad.js';
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const webtoonID = urlParams.get("name");
@@ -188,6 +189,7 @@
                 updateWebtoonTitle(webtoonID);
                 updateWebtoonDescription(webtoonID);
                 updateWebtoonAuthor(webtoonID);
+                loadSignImages(webtoonID);
             };
         </script>
 
