@@ -39,7 +39,7 @@
         </div>
         <!-- Call to Action-->
         <div class="card text-white bg-secondary my-5 py-4 text-center">
-            <div class="card-body"><p class="text-white m-0"> 태그: 일상, 개그, 코믹...</p></div>
+            <div class="card-body"><p id="tag" class="text-white m-0"> 태그: </p></div>
         </div>
         <!-- 아코디언 부분 -->
         <div class="accordion" id="accordionExample">
@@ -175,23 +175,37 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 
         <script src="js/datatables-simple-demo.js"></script>
-        <script type="module" src="js/firebase.js"></script>
-
         
         <!-- 페이지 로드 시 함수 호출 -->
         <script type="module">
             import { updateWebtoonTitle, updateWebtoonDescription, updateWebtoonAuthor } from './js/upload,loading/updateWebtoonInfo.js';
             import { loadSignImages } from './js/upload,loading/imageLoad.js';
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+            import { app } from "./js/firebase.js";
+
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const webtoonID = urlParams.get("name");
+            const auth = getAuth(app);
+
             window.onload = function() {
                 updateWebtoonTitle(webtoonID);
                 updateWebtoonDescription(webtoonID);
                 updateWebtoonAuthor(webtoonID);
                 loadSignImages(webtoonID);
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                      console.log(`Current user ID is ${user.uid}`);
+                      // user.uid를 사용하여 무언가를 할 수 있습니다.
+                    } else {
+                      console.log("No user is currently logged in.");
+                      // 로그인 페이지로 리다이렉션할 수 있습니다.
+                    }
+                  });
             };
         </script>
+
+
 
         
     </body>
