@@ -40,7 +40,7 @@ const createCard = (data) => {
                 <!-- Product actions-->
                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                     <div class="text-center">
-                        <a class="btn btn-outline-dark mt-auto" href="/detail?name=${data.webtoonID}">접속</a>
+                        <a class="btn btn-outline-dark mt-auto" href="${data.detailUrl}">접속</a>
                     </div>
                 </div>
             </div>
@@ -57,4 +57,5 @@ const renderCards = (dataList) => {
     });
 };
 
+// 페이지가 로드되면 Firestore에서 데이터를 가져와서 카드를 렌더링
 window.onload = fetchDataFromFirstCollection;
