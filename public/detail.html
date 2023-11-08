@@ -26,118 +26,133 @@
             </div>
         </div>
     </nav>
+    
     <!-- Page Content-->
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
             <div class="col-lg-3"><img class="img-fluid rounded mb-4 mb-lg-0" src="image/image1.PNG" alt="..." /></div>
             <div class="col-lg-5">
-                <h1 class="font-weight-light">[웹툰 제목]</h1>
-                <p>[웹툰 설명]</p>
-                <span>[작가]</span>
+                <h1 id="webtoon-title" class="font-weight-light"></h1> <!-- 웹툰 제목 위치 -->
+                <p id="webtoon-description"></p>  <!-- 웹툰 설명 위치 -->
+                <span id="webtoon-author"></span> <!-- 웹툰 작가 이름 위치 -->
             </div>
         </div>
         <!-- Call to Action-->
         <div class="card text-white bg-secondary my-5 py-4 text-center">
             <div class="card-body"><p class="text-white m-0"> 태그: 일상, 개그, 코믹...</p></div>
         </div>
-        <!-- Content Row-->
-        <div class="row gx-4 gx-lg-5">
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h2 class="card-title">긍정</h2>
-                        <img class="img-fluid rounded mb-4 mb-lg-0" src="image/chart1.PNG" alt="..." style="width: 200px;height: 180px;" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h2 class="card-title">태그 성향</h2>
-                        <img class="img-fluid rounded mb-4 mb-lg-0" src="image/chart2.PNG" alt="..." style="width: 200px;height: 180px;" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h2 class="card-title">부정</h2>
-                        <img class="img-fluid rounded mb-4 mb-lg-0" src="image/chart3.PNG" alt="..." style="width: 200px;height: 180px;" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                목차
-                            </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>화수</th>
-                                            <th>제목</th>
-                                            <th>태그</th>
-                                            <th>장면 검색수</th>
-                                            <th>업로드</th>
-                                            <th>추천</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1화</td>
-                                            <td>소제목</td>
-                                            <td>개그:90%...</td>
-                                            <td>61</td>
-                                            <td>2023/10/16</td>
-                                            <td>100</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2화</td>
-                                            <td>소제목</td>
-                                            <td>개그:90%...</td>
-                                            <td>63</td>
-                                            <td>2023/10/23</td>
-                                            <td>90</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3화</td>
-                                            <td>소제목</td>
-                                            <td>개그:90%...</td>
-                                            <td>66</td>
-                                            <td>2023/10/30</td>
-                                            <td>95</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4화</td>
-                                            <td>소제목</td>
-                                            <td>개그:90%...</td>
-                                            <td>22</td>
-                                            <td>2023/11/06</td>
-                                            <td>105</td>
-                                        </tr>
-                                        <tr>
-                                            <td>5화</td>
-                                            <td>소제목</td>
-                                            <td>개그:90%...</td>
-                                            <td>33</td>
-                                            <td>2023/11/13</td>
-                                            <td>120</td>
-                                        </tr>
-                                        <tr>
-                                            <td>6화 </td>
-                                            <td>소제목</td>
-                                            <td>개그:90%...</td>
-                                            <td>61</td>
-                                            <td>2023/11/20</td>
-                                            <td>106</td>
-                                        </tr>
-                                      </tbody>
-                                </table>
+        <!-- 아코디언 부분 -->
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  펼쳐보기
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <!-- Content Row-->
+                    <div class="row gx-4 gx-lg-5">
+                        <div class="col-md-4 mb-5">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h2 class="card-title">긍정</h2>
+                                    <img class="img-fluid rounded mb-4 mb-lg-0" src="image/chart1.PNG" alt="..." style="width: 200px;height: 180px;" />
+                                </div>
                             </div>
                         </div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h2 class="card-title">태그 성향</h2>
+                                    <img class="img-fluid rounded mb-4 mb-lg-0" src="image/chart2.PNG" alt="..." style="width: 200px;height: 180px;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-5">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h2 class="card-title">부정</h2>
+                                    <img class="img-fluid rounded mb-4 mb-lg-0" src="image/chart3.PNG" alt="..." style="width: 200px;height: 180px;" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 화수 별 데이터 테이블 -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            목차
+                        </div>
+                        <div class="card-body">
+                            <table id="datatablesSimple">
+                                <thead>
+                                    <tr>
+                                        <th>화수</th>
+                                        <th>제목</th>
+                                        <th>태그</th>
+                                        <th>장면 검색수</th>
+                                        <th>업로드</th>
+                                        <th>추천</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1화</td>
+                                        <td>소제목</td>
+                                        <td>개그:90%...</td>
+                                        <td>61</td>
+                                        <td>2023/10/16</td>
+                                        <td>100</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2화</td>
+                                        <td>소제목</td>
+                                        <td>개그:90%...</td>
+                                        <td>63</td>
+                                        <td>2023/10/23</td>
+                                        <td>90</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3화</td>
+                                        <td>소제목</td>
+                                        <td>개그:90%...</td>
+                                        <td>66</td>
+                                        <td>2023/10/30</td>
+                                        <td>95</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4화</td>
+                                        <td>소제목</td>
+                                        <td>개그:90%...</td>
+                                        <td>22</td>
+                                        <td>2023/11/06</td>
+                                        <td>105</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5화</td>
+                                        <td>소제목</td>
+                                        <td>개그:90%...</td>
+                                        <td>33</td>
+                                        <td>2023/11/13</td>
+                                        <td>120</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6화 </td>
+                                        <td>소제목</td>
+                                        <td>개그:90%...</td>
+                                        <td>61</td>
+                                        <td>2023/11/20</td>
+                                        <td>106</td>
+                                    </tr>
+                                  </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+    </div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
@@ -158,9 +173,24 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+
         <script src="js/datatables-simple-demo.js"></script>
         <script type="module" src="js/firebase.js"></script>
-        <script type="module" src="js/test/database_fetch.js"></script>
+        <!--<script type="module" src="js/test/database_fetch.js"></script>-->
         <!--<script type="module" src="js/test/uplode_image.js"></script>-->
+
+        
+        <!-- 페이지 로드 시 함수 호출 -->
+        <script type="module">
+            import { updateWebtoonTitle, updateWebtoonDescription, updateWebtoonAuthor } from './js/upload,loading/updateWebtoonInfo.js';
+            // 페이지가 로드되면 함수 호출
+            window.onload = function() {
+                updateWebtoonTitle("ASD");
+                updateWebtoonDescription("ASD");
+                updateWebtoonAuthor("ASD");
+            };
+        </script>
+
+        
     </body>
 </html>
