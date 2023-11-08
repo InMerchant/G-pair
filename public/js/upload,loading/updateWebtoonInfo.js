@@ -3,7 +3,6 @@ import { collection, getDocs, doc, query, where } from 'https://www.gstatic.com/
 
 //웹툰 제목 불러오기
 export async function updateWebtoonTitle(webtoonID) {
-    console.log(webtoonID)
     try {
       // 'webtoonDATA' 컬렉션에 대한 참조
       const webtoonCollectionRef = collection(db, "webtoonDATA");
