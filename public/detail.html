@@ -181,11 +181,13 @@
         <!-- 페이지 로드 시 함수 호출 -->
         <script type="module">
             import { updateWebtoonTitle, updateWebtoonDescription, updateWebtoonAuthor } from './js/upload,loading/updateWebtoonInfo.js';
-            // 페이지가 로드되면 함수 호출
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const webtoonID = urlParams.get("name");
             window.onload = function() {
-                updateWebtoonTitle("ASD");
-                updateWebtoonDescription("ASD");
-                updateWebtoonAuthor("ASD");
+                updateWebtoonTitle(webtoonID);
+                updateWebtoonDescription(webtoonID);
+                updateWebtoonAuthor(webtoonID);
             };
         </script>
 
