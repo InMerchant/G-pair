@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-// public 폴더 내에 정적 파일(static files) 서빙 설정
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 각 페이지 라우트 설정
