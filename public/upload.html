@@ -18,7 +18,7 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">웹툰</a>
+                <a class="navbar-brand" href="index.html">웹툰</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -41,38 +41,20 @@
                 </div>
             </div>
         </nav>
-        <input type="file" id="fileInput" />
+        <section>
+            <input type="file" id="fileInput" />
+            <img id="uploadedImage" src="" alt="Uploaded image will be displayed here" />
+        </section>
         <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-storage.js"></script>
-
-        <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyDHDLToy27276ecWXRitLxjG12_U4Qpn7Y",
-            authDomain: "look-b1624.firebaseapp.com",
-            databaseURL: "https://look-b1624-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "look-b1624",
-            storageBucket: "look-b1624.appspot.com",
-            messagingSenderId: "118997797112",
-            appId: "1:118997797112:web:c3c5fabf767d0d620ad30d",
-            measurementId: "G-H6ZHRY2DV2"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        var storage = firebase.storage();
-
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            var file = e.target.files[0];
-            var storageRef = storage.ref('images/' + file.name);
-            storageRef.put(file).then(function(snapshot) {
-            console.log('Uploaded a blob or file!');
-            });
-        });
-        </script>
-
+        <section id="imageListSection">
+            <button id="loadImagesButton">이미지 가져오기</button>
+            <div id="imageList"></div>
+        </section>       
         <!-- Header-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/scripts.js"></script>
+        <script type="module" src="js/upload,loading/upload.js"></script>
+        <Script type="module" src="js/upload,loading/imageload.js"></Script>
     </body>
 </html>
