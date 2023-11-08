@@ -1,4 +1,4 @@
-import { db } from './firebase.js';
+import { db } from '../firebase.js';
 import { collection, getDocs, doc, query, where } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js'; // Firebase Firestore 모듈 가져오기
 
 ///webtoonDATA/webtoonDATA/Episode/Episode임시데이터/Tags/episodeID/BAD tags/BAD tags
