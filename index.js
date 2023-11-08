@@ -1,18 +1,44 @@
 const express = require('express');
-const multer = require('multer');
+const path = require('path');
 const app = express();
 const port = 3000;
-const upload = multer({ dest: 'uploads/' });
 
+// public 폴더 내에 정적 파일(static files) 서빙 설정
+app.use(express.static(path.join(__dirname, 'public')));
 
-// 'public' 폴더를 정적 파일로 서빙하는 데 사용
-app.use(express.static('public'));
-app.post('/upload', upload.single('file'), function (req, res) {
-  // 파일 처리 로직
-  console.log(req.file); // 업로드된 파일 정보
-  // ... Firebase에 파일 업로드 로직을 추가
-  res.send('File uploaded successfully.');
+// 각 페이지 라우트 설정
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+app.get('/detail', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'detail.html'));
+});
+
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/membership', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'membership.html'));
+});
+
+app.get('/setting', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'setting.html'));
+});
+
+app.get('/search', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'search.html'));
+});
+app.get('/tables', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'tables.html'));
+});
+
+app.get('/upload', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'upload.html'));
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
