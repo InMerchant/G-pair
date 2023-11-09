@@ -39,7 +39,7 @@
         </div>
         <!-- Call to Action-->
         <div class="card text-white bg-secondary my-5 py-4 text-center">
-            <div class="card-body"><p id="tag" class="text-white m-0"> 태그: </p></div>
+            <div class="card-body"><p id="webtoon-tag" class="text-white m-0"> 태그: </p></div>
         </div>
         <!-- 아코디언 부분 -->
         <div class="accordion" id="accordionExample">
@@ -178,7 +178,7 @@
         
         <!-- 페이지 로드 시 함수 호출 -->
         <script type="module">
-            import { updateWebtoonTitle, updateWebtoonDescription, updateWebtoonAuthor } from './js/upload,loading/updateWebtoonInfo.js';
+            import { updateWebtoonTitle, updateWebtoonDescription, updateWebtoonAuthor, updateWebtoonTag } from './js/upload,loading/updateWebtoonInfo.js';
             import { loadSignImages } from './js/upload,loading/imageLoad.js';
             import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
             import { app } from "./js/firebase.js";
@@ -193,6 +193,7 @@
                 updateWebtoonDescription(webtoonID);
                 updateWebtoonAuthor(webtoonID);
                 loadSignImages(webtoonID);
+                updateWebtoonTag(webtoonID);
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                       console.log(`Current user ID is ${user.uid}`);
