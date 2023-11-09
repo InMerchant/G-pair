@@ -15,6 +15,9 @@ app.get('/detail', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'detail.html'));
 });
 
+app.get('/dashboarddetail', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'detail.html'));
+});
 
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));

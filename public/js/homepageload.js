@@ -41,6 +41,12 @@ const fetchDataFromFirstCollection = async () => {
 
 // 각 데이터 항목에 대해 카드 HTML 구조를 생성하는 함수
 const createCard = (data) => {
+    // pathname에서 마지막 부분을 추출합니다.
+    const lastSegment = window.location.pathname.split("/").pop();
+
+    // href에 마지막 부분만 추가합니다.
+    const newHref = `/detail${lastSegment}?name=${data.webtoonID}`;
+
     return `
         <div class="col mb-5">
             <div class="card h-100">
@@ -58,14 +64,13 @@ const createCard = (data) => {
                 <!-- Product actions-->
                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                     <div class="text-center">
-                        <a class="btn btn-outline-dark mt-auto" href="/detail?name=${data.webtoonID}">접속</a>
+                        <a class="btn btn-outline-dark mt-auto" href="${newHref}">접속</a>
                     </div>
                 </div>
             </div>
         </div>
     `;
 };
-
 // 카드를 웹 페이지의 DOM에 렌더링하는 함수
 const renderCards = (dataList) => {
     const container = document.getElementById('cardsContainer');

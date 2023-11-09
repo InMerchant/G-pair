@@ -45,3 +45,28 @@ flex-grow: 1;
 background-color: #4CAF50;
 color: white;
 }
+#board {
+    display: flex;
+    flex-direction: row; /* 가로로 정렬하기 위해 flex-direction을 row로 설정합니다. */
+    justify-content: space-around; /* 각 요소 주변에 동일한 공간을 두어 균등하게 분포시킵니다. */
+    align-items: center; /* 세로 축 중앙 정렬 */
+    text-align: center;
+  }
+  
+  
+  .ranking {
+    margin: 0 20px; /* 요소들 사이에 적당한 간격을 추가합니다. */
+  }
+  
+  .first {
+    order: 2;
+  }
+  
+  .second {
+    order: 1;
+  }
+  
+  .third {
+    order: 3;
+  }
+  
