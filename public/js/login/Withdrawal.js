@@ -1,4 +1,3 @@
-// Withdrawal.js
 
 import { auth } from '../firebase.js'; // 실제 경로로 변경해주세요.
 import { db } from '../firebase.js'; // 실제 경로로 변경해주세요.
@@ -50,3 +49,6 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
     alert("로그인 정보가 올바르지 않습니다.");
   }
 });
+
+
+
