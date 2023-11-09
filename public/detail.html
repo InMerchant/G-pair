@@ -146,11 +146,10 @@
             const webtoonID = urlParams.get("name");
             const auth = getAuth(app);
 
+            //목차 테이블 호출
             window.addEventListener('DOMContentLoaded', event => {
-                // Simple-DataTables 초기화 코드와 데이터 로딩 함수를 포함합니다.
                 loadDataAndInitializeTable(webtoonID);
             });
-            
 
             window.onload = function() {
                 updateWebtoonTitle(webtoonID);          //타이틀업로드

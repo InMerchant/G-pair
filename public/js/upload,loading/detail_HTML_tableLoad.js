@@ -1,7 +1,7 @@
 import { db } from '../firebase.js';
 import { collection, query, where, getDocs, orderBy } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 
-//detail.html 부분 테이블 로딩하는 코드
+//목차 테이블 로딩하는 코드
 export async function loadEpisodesToTable(webtoonID) {
     try {
       const webtoonCollectionRef = collection(db, "webtoonDATA");
