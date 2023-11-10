@@ -59,6 +59,8 @@ function addRowClickEvent() {
         row.addEventListener('click', function() {
             const rowIndex = this.dataset.index; // 'data-index' 값을 가져옵니다.
             console.log(`Row with data-index ${rowIndex} clicked`);
+            const episodeId = this.cells[0].textContent;
+            console.log(`Clicked row episodeID: ${episodeId}`);
             // 여기에서 rowIndex를 기반으로 필요한 기능을 구현합니다.
         });
     });
