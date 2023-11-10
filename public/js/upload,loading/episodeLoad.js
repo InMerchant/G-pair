@@ -1,5 +1,6 @@
 import { getEpisodeImgData } from '../search_collection/episodeImgSearch.js';
 import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
+import { getEpisodeImgDocCount } from '../count/episodeImgDocCount.js';
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -16,23 +17,30 @@ const episodeID = extractNumberFromString(episodeStr); // 정수로 변환된 �
 const storage = getStorage();
 
 export async function episodeImgLoad() {
-    getEpisodeImgData(webtoonID, episodeID, 1).then(episodeImgData => {
-    if (episodeImgData) {
-        // 스토리지 참조 생성
-        const imageRef = ref(storage, episodeImgData.url);
-
-        // 다운로드 URL 얻기
-        getDownloadURL(imageRef).then((url) => {
-            document.getElementById('episodeImage').src = url;
-            
-        }).catch((error) => {
-            console.error("Error getting download URL: ", error);
-        });
-    } else {
-        console.log("Image data or URL is missing");
-    }
-    }).catch((error) => {
-        console.error("Error loading episode image data: ", error);
+    getEpisodeImgDocCount(webtoonID, episodeID).then(episodeImgCountData => {
+        if (episodeImgCountData) {
+            const count = episodeImgCountData
+            for (let i = 1; i < count + 1; i++) {
+                getEpisodeImgData(webtoonID, episodeID, i).then(episodeImgData => {
+                    if (episodeImgData) {
+                        // 스토리지 참조 생성
+                        const imageRef = ref(storage, episodeImgData.url);
+                
+                        // 다운로드 URL 얻기
+                        getDownloadURL(imageRef).then((url) => {
+                            document.getElementById('episodeImage').src = url;
+                
+                        }).catch((error) => {
+                            console.error("Error getting download URL: ", error);
+                        });
+                    } else {
+                        console.log("Image data or URL is missing");
+                    }
+                }).catch((error) => {
+                    console.error("Error loading episode image data: ", error);
+                });
+            }
+        }
     });
 }
 
