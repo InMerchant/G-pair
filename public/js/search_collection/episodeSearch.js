@@ -43,4 +43,4 @@ export async function getEpisodeData(webtoonID, episodeID) {
       console.error("Error fetching episode data: ", error);
       return null;
     }
-  }
+}

@@ -1,3 +1,5 @@
+import { getEpisodeImgData } from '../search_collection/episodeImgSearch.js';
+import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -10,7 +12,29 @@ function extractNumberFromString(str) {
 }
 const episodeID = extractNumberFromString(episodeStr); // 정수로 변환된 값 저장
 
-console.log(episodeID);
-console.log(webtoonID)
+// Firebase 스토리지 초기화
+const storage = getStorage();
 
+export async function episodeImgLoad() {
+    getEpisodeImgData(webtoonID, episodeID, 1).then(episodeImgData => {
+    if (episodeImgData) {
+        // 스토리지 참조 생성
+        const imageRef = ref(storage, episodeImgData.url);
+
+        // 다운로드 URL 얻기
+        getDownloadURL(imageRef).then((url) => {
+            document.getElementById('episodeImage').src = url;
+            
+        }).catch((error) => {
+            console.error("Error getting download URL: ", error);
+        });
+    } else {
+        console.log("Image data or URL is missing");
+    }
+    }).catch((error) => {
+        console.error("Error loading episode image data: ", error);
+    });
+}
+
+episodeImgLoad()
 

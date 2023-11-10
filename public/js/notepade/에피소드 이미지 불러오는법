@@ -1,0 +1,7 @@
+import { getEpisodeImgData } from '.js/search_collection/episodeImgSearch.js';
+
+getEpisodeImgData(webtoonID, episodeID, 1).then(episodeImgData => {
+    if (episodeImgData) {
+
+    }
+});

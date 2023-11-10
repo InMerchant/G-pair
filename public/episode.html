@@ -28,7 +28,7 @@
         </nav>
 
         <div class="container px-4 px-lg-5">
-
+            <img id="episodeImage">
         </div>
 
         <footer class="py-4 bg-light mt-auto">
@@ -49,10 +49,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 
-        <script type="module" src="./js/upload,loading/episodeLoad.js"></script>
+        <script type="module" src="js/upload,loading/episodeLoad.js"></script>
         <script type="module">
             import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
             import { app } from "./js/firebase.js";
+            const auth = getAuth(app);
 
             window.onload = function() {
                 onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
@@ -64,7 +65,6 @@
                       // 로그인 페이지로 리다이렉션할 수 있습니다.
                     }
                 });
-
             };
         </script>
     </body>
