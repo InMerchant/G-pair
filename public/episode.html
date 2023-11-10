@@ -28,7 +28,7 @@
         </nav>
 
         <div class="container px-4 px-lg-5">
-            
+
         </div>
 
         <footer class="py-4 bg-light mt-auto">
@@ -50,5 +50,22 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 
         <script type="module" src="./js/upload,loading/episodeLoad.js"></script>
+        <script type="module">
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+            import { app } from "./js/firebase.js";
+
+            window.onload = function() {
+                onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
+                    if (user) {
+                      console.log(`Current user ID is ${user.uid}`);
+                      // user.uid를 사용하여 무언가를 할 수 있습니다.
+                    } else {
+                      console.log("No user is currently logged in.");
+                      // 로그인 페이지로 리다이렉션할 수 있습니다.
+                    }
+                });
+
+            };
+        </script>
     </body>
 </html>

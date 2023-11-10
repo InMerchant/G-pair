@@ -1,5 +1,3 @@
-//import { webtoonIDInfo } from './detail_HTML_tableLoad.js'
-//import { getEpisodeData } from './episodeSearch.js'
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
