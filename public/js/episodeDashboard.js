@@ -1,19 +1,137 @@
 import { db } from './firebase.js'; // Firestore 인스턴스를 가져옵니다.
 import { collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
+import { getEpisodeImgData } from './search_collection/episodeImgSearch.js';
+import { getEpisodeImgDocCount } from './count/episodeImgDocCount.js';
+
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const webtoonID = urlParams.get('webtoonID'); // URL에서 'webtoonID' 값을 가져옵니다.
-const episodeID= urlParams.get('name'); // URL에서 'name' 값을 가져옵니다.
+const episodeID = urlParams.get('name'); // URL에서 'name' 값을 가져옵니다.
 const episodeNumber = parseInt(episodeID, 10);
 
-const UserGender=async()=>{
-    const userCollectionRef=collection(db,'USER');
-    const userSanp=await getDocs(userCollectionRef);
-    const data = userSanp.docs.map(doc => ({
+function updateCounts(상황Count, 대사Count, episodeImgData) {
+    // 상황 카운트 업데이트
+    const 상황Values = Object.entries(episodeImgData)
+        .filter(([key, value]) => key.startsWith("상황") && typeof value === 'boolean');
+    상황Values.forEach(([key, value]) => {
+        if (value) {
+            const 상황Type = key.split(' ')[1].replace(/[()]/g, '');
+            if (상황Count.hasOwnProperty(상황Type)) {
+                상황Count[상황Type]++;
+            }
+        }
+    });
+
+    // 대사 카운트 업데이트
+    const 대사Values = Object.entries(episodeImgData)
+        .filter(([key, value]) => key.startsWith("대사") && typeof value === 'boolean');
+    대사Values.forEach(([key, value]) => {
+        if (value) {
+            const 대사Type = key.split(' ')[1].replace(/[()]/g, '');
+            if (대사Count.hasOwnProperty(대사Type)) {
+                대사Count[대사Type]++;
+            }
+        }
+    });
+}
+
+function drawChart(data, elementId) {
+    var ctx = document.getElementById(elementId).getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: Object.keys(data),
+            datasets: [{
+                data: Object.values(data),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)',
+                    'rgba(199, 199, 199, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(199, 199, 199, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+getEpisodeImgDocCount(webtoonID, episodeNumber).then(episodeImgCountData => {
+    if (episodeImgCountData) {
+        let 상황Count = {
+            'ABUSE': 0,
+            'CENSURE': 0,
+            'VIOLENCE': 0,
+            'SEXUAL': 0,
+            'CRIME': 0,
+            'DISCRIMINATION': 0,
+            'HATE': 0
+        };
+        let 대사Count = {
+            'ABUSE': 0,
+            'CENSURE': 0,
+            'VIOLENCE': 0,
+            'SEXUAL': 0,
+            'CRIME': 0,
+            'DISCRIMINATION': 0,
+            'HATE': 0
+        };
+
+        // 프로미스 배열을 생성합니다.
+        let promises = [];
+        for (let i = 1; i <= episodeImgCountData; i++) {
+            promises.push(getEpisodeImgData(webtoonID, episodeNumber, i));
+        }
+
+        // 모든 프로미스가 완료되면, 차트를 그립니다.
+        Promise.all(promises).then(results => {
+            results.forEach(episodeImgData => {
+                if (episodeImgData) {
+                    updateCounts(상황Count, 대사Count, episodeImgData);
+                }
+            });
+
+            // 모든 비동기 작업이 완료된 후에 차트를 그립니다.
+            drawChart(대사Count, 'dialogueChart');
+            drawChart(상황Count, 'situationChart');
+        }).catch(error => {
+            console.error("Error in data fetching: ", error);
+        });
+    }
+}).catch(error => {
+    console.error("Error in getting document count: ", error);
+});
+
+async function UserGender() {
+    const userCollectionRef = collection(db, 'USER');
+    const userSnap = await getDocs(userCollectionRef);
+    const data = userSnap.docs.map(doc => ({
         gender: doc.data().gender,
         age: doc.data().ageGroup
     }));
-      
+
     return data;
 }
-const userData=await UserGender();
+
+// 사용자 데이터를 가져오는 부분
+UserGender().then(userData => {
+    console.log(userData);
+    // 사용자 데이터를 이용한 추가 로직이 필요하다면 여기에 작성
+}).catch(error => {
+    console.error("Error in getting user data: ", error);
+});
