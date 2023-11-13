@@ -2,7 +2,7 @@ import { db } from './firebase.js'; // Firestore 인스턴스를 가져옵니다
 import { collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 import { getEpisodeImgData } from './search_collection/episodeImgSearch.js';
 import { getEpisodeImgDocCount } from './count/episodeImgDocCount.js';
-import {drawChart} from './chart/drawChart.js';
+import {barChart, drawChart,updateIconHeight} from './chart/drawChart.js';
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -94,11 +94,16 @@ async function UserGender() {
     const userSnap = await getDocs(userCollectionRef);
 
     // 나이와 성별에 대한 초기 집계 객체를 생성합니다.
-    const ageGroups = {};
+    const ageGroups = {
+        teens:0,
+        twenties:0,
+        thirties:0,
+        forties:0,
+        others:0
+    };
     const genderCount = {
         male: 0,
-        female: 0,
-        undefined: 0
+        female: 0
     };
 
     // 각 문서에 대해 나이 그룹과 성별을 집계합니다.
@@ -107,9 +112,9 @@ async function UserGender() {
         const gender = doc.data().gender;
 
         // 나이 그룹에 대한 카운트
-        if (ageGroups[ageGroup]) {
+        if (ageGroups[ageGroup]&&ageGroup) {
             ageGroups[ageGroup]++;
-        } else {
+        } else if(ageGroup){
             ageGroups[ageGroup] = 1;
         }
 
@@ -118,15 +123,12 @@ async function UserGender() {
             genderCount.male++;
         } else if (gender === 'female') {
             genderCount.female++;
-        } else {
-            genderCount.undefined++;
         }
     });
-
-    // 결과 출력
-    console.log('Age Groups:', ageGroups);
-    console.log('Gender Count:', genderCount);
-    drawChart(genderCount,'genderChart')
+    var totalGenderCount = genderCount.male + genderCount.female;
+    var malePercentage = (genderCount.male / totalGenderCount) * 100;
+    var femalePercentage = (genderCount.female / totalGenderCount) * 100
+    updateIconHeight(malePercentage, femalePercentage);
     drawChart(ageGroups,'ageChart')
 }
 

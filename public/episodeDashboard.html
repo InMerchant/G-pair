@@ -11,6 +11,7 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <link href="css/styles02.css" rel="stylesheet" />
+        <link href="css/genderChart.css" rel="stylesheet"/>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <style>
             #dialogueChart {
@@ -48,14 +49,25 @@
                         </div>
                         <div class="card mb-4">
                             <div class="card-body" style="display: flex;">
-                                <div style="flex:1;">
-                                    <canvas id="genderChart"></canvas>
+                                <!-- 컨테이너 추가 (두 개의 아이콘을 묶음) -->
+                                <div style="flex: 1; display: flex;">
+                                    <!-- 여성 아이콘 컨테이너 -->
+                                    <div class="icon-container" style="flex: 1;"  id="female-icon-container">
+                                        <div class="filled-icon" id="femaleFilledIcon"></div>
+                                    </div>
+
+                                    <!-- 남성 아이콘 컨테이너 -->
+                                    <div class="male-icon-container" style="flex: 1;">
+                                        <div class="male-filled-icon" id="maleFilledIcon"></div>
+                                    </div>
                                 </div>
-                                <div style="flex:1;">
+                                
+                                <!-- 그래프를 나타내는 부분 -->
+                                <div style="flex: 1;">
                                     <canvas id="ageChart"></canvas>
                                 </div>
                             </div>
-                        </div>
+                        </div>                                            
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">

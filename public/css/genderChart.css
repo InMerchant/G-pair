@@ -1,0 +1,36 @@
+.icon-container {
+    position: relative;
+    background-image: url('../image/stat_female.png'); /* 실루엣을 가진 PNG 이미지 경로 */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden; /* 이 부분이 중요합니다 */
+  }
+  .male-icon-container {
+    position: relative;
+    background-image: url('../image/stat_male.png'); /* 실루엣을 가진 PNG 이미지 경로 */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden; /* 이 부분이 중요합니다 */
+  }
+  .filled-icon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-image: url('../image/stat_female_on.png'); /* 배경색을 가진 PNG 이미지 경로 */
+    background-repeat: no-repeat;
+    background-position: center bottom; /* 아래쪽 정렬로 변경 */
+    background-size: cover;
+  }
+  .male-filled-icon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-image: url('../image/stat_male_on.png'); /* 배경색을 가진 PNG 이미지 경로 */
+    background-repeat: no-repeat;
+    background-position: center bottom; /* 아래쪽 정렬로 변경 */
+    background-size: cover;
+  }
