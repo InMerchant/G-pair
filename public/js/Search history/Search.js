@@ -6,7 +6,7 @@ const index = client.initIndex('webtoonDATASEARCH');
 
 // 검색 버튼과 입력 필드를 가져옵니다.
 const searchButton = document.querySelector('.btn-primary');
-const searchInput = document.getElementById('email'); // 검색 입력란 ID 확인 필요
+const searchInput = document.getElementById('email');
 const resultsContainer = document.querySelector('.card-body');
 
 // 검색 버튼에 이벤트 리스너를 추가합니다.
@@ -15,7 +15,6 @@ searchButton.addEventListener('click', () => {
 
     index.search(query).then(({ hits }) => {
         if (hits.length === 0) {
-            // 검색 결과가 없을 경우
             resultsContainer.innerHTML = '<div>검색 결과가 없습니다.</div>';
         } else {
             // 검색 결과 처리
@@ -29,7 +28,9 @@ searchButton.addEventListener('click', () => {
                         const relevantLines = hit[key].filter(line => line.includes(query));
 
                         if (relevantLines.length > 0) {
-                            matchedContent += `<div><strong>${hit.title}</strong> - ${episodeNumber}화 ${key.includes('대사') ? '대사' : '상황'}: ${relevantLines.join(', ')}</div>`;
+                            matchedContent += `<div class="search-result-item" data-webtoon-id="${hit.webtoonID}" data-episode-number="${episodeNumber}">
+                                <strong>${hit.title}</strong> - ${episodeNumber}화 ${key.includes('대사') ? '대사' : '상황'}: ${relevantLines.join(', ')}
+                            </div>`;
                         }
                     }
                 }
@@ -37,8 +38,16 @@ searchButton.addEventListener('click', () => {
                 return matchedContent;
             }).join('');
 
+            // 각 검색 결과 항목에 클릭 이벤트 추가
+            document.querySelectorAll('.search-result-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const webtoonID = this.dataset.webtoonId;
+                    const episodeNumber = this.dataset.episodeNumber;
+                    window.location.href = `episode.html?webtoonID=${webtoonID}&id=${episodeNumber}`;
+                });
+            });
+
             if (!resultsContainer.innerHTML) {
-                // 검색어가 포함된 대사나 상황이 없는 경우
                 resultsContainer.innerHTML = '<div>검색 결과가 없습니다.</div>';
             }
         }
