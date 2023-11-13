@@ -40,6 +40,12 @@ app.get('/episode', (req, res) => {
 app.get('/episodedashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'episodeDashboard.html'));
 });
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+app.get('/detailDashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'detailDashboard.html'));
+});
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
