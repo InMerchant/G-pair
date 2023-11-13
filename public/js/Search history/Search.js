@@ -7,7 +7,6 @@ const searchButton = document.querySelector('.btn-primary');
 const searchInput = document.getElementById('searchQuery');
 const searchTypeSelect = document.getElementById('searchType');
 const resultsContainer = document.querySelector('.card-body');
-
 // 검색 버튼에 이벤트 리스너를 추가합니다.
 searchButton.addEventListener('click', () => {
     const query = searchInput.value;
