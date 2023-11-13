@@ -70,7 +70,7 @@ function addRowClickEvent(webtoonID) {
         row.addEventListener('click', function() {
             let episodeId = this.cells[0].textContent;
             episodeId = episodeId.replace('화', '');
-            window.location.href=`episodeDashboard.html?name=${episodeId}&webtoonID=${webtoonID}`;
+            window.location.href=`episodeDashboard?name=${episodeId}&webtoonID=${webtoonID}`;
         });
     });
 }

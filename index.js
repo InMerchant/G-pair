@@ -35,10 +35,10 @@ app.get('/upload', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'upload.html'));
 });
 app.get('/episode', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'upload.html'));
+  res.sendFile(path.join(__dirname, 'public', 'episode.html'));
 });
 app.get('/episodedashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'upload.html'));
+  res.sendFile(path.join(__dirname, 'public', 'episodeDashboard.html'));
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
