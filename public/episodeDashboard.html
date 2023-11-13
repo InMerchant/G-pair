@@ -26,7 +26,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">대시보드</a>
+            <a class="navbar-brand ps-3" href="/">대시보드</a>
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_content">
@@ -47,9 +47,13 @@
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                </table>
+                            <div class="card-body" style="display: flex;">
+                                <div style="flex:1;">
+                                    <canvas id="genderChart"></canvas>
+                                </div>
+                                <div style="flex:1;">
+                                    <canvas id="ageChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>

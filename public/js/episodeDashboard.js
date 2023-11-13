@@ -2,6 +2,7 @@ import { db } from './firebase.js'; // Firestore 인스턴스를 가져옵니다
 import { collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 import { getEpisodeImgData } from './search_collection/episodeImgSearch.js';
 import { getEpisodeImgDocCount } from './count/episodeImgDocCount.js';
+import {drawChart} from './chart/drawChart.js';
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -20,6 +21,9 @@ function updateCounts(상황Count, 대사Count, episodeImgData) {
                 상황Count[상황Type]++;
             }
         }
+        else{
+            상황Count['비난X']++;
+        }
     });
 
     // 대사 카운트 업데이트
@@ -32,41 +36,8 @@ function updateCounts(상황Count, 대사Count, episodeImgData) {
                 대사Count[대사Type]++;
             }
         }
-    });
-}
-
-function drawChart(data, elementId) {
-    var ctx = document.getElementById(elementId).getContext('2d');
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: Object.keys(data),
-            datasets: [{
-                data: Object.values(data),
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(54, 162, 235, 0.5)',
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(75, 192, 192, 0.5)',
-                    'rgba(153, 102, 255, 0.5)',
-                    'rgba(255, 159, 64, 0.5)',
-                    'rgba(199, 199, 199, 0.5)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(199, 199, 199, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
+        else{
+            대사Count['비난X']++;
         }
     });
 }
@@ -80,7 +51,8 @@ getEpisodeImgDocCount(webtoonID, episodeNumber).then(episodeImgCountData => {
             'SEXUAL': 0,
             'CRIME': 0,
             'DISCRIMINATION': 0,
-            'HATE': 0
+            'HATE': 0,
+            '비난X':0
         };
         let 대사Count = {
             'ABUSE': 0,
@@ -89,9 +61,9 @@ getEpisodeImgDocCount(webtoonID, episodeNumber).then(episodeImgCountData => {
             'SEXUAL': 0,
             'CRIME': 0,
             'DISCRIMINATION': 0,
-            'HATE': 0
+            'HATE': 0,
+            '비난X':0
         };
-
         // 프로미스 배열을 생성합니다.
         let promises = [];
         for (let i = 1; i <= episodeImgCountData; i++) {
@@ -120,13 +92,44 @@ getEpisodeImgDocCount(webtoonID, episodeNumber).then(episodeImgCountData => {
 async function UserGender() {
     const userCollectionRef = collection(db, 'USER');
     const userSnap = await getDocs(userCollectionRef);
-    const data = userSnap.docs.map(doc => ({
-        gender: doc.data().gender,
-        age: doc.data().ageGroup
-    }));
 
-    return data;
+    // 나이와 성별에 대한 초기 집계 객체를 생성합니다.
+    const ageGroups = {};
+    const genderCount = {
+        male: 0,
+        female: 0,
+        undefined: 0
+    };
+
+    // 각 문서에 대해 나이 그룹과 성별을 집계합니다.
+    userSnap.docs.forEach(doc => {
+        const ageGroup = doc.data().ageGroup;
+        const gender = doc.data().gender;
+
+        // 나이 그룹에 대한 카운트
+        if (ageGroups[ageGroup]) {
+            ageGroups[ageGroup]++;
+        } else {
+            ageGroups[ageGroup] = 1;
+        }
+
+        // 성별에 대한 카운트
+        if (gender === 'male') {
+            genderCount.male++;
+        } else if (gender === 'female') {
+            genderCount.female++;
+        } else {
+            genderCount.undefined++;
+        }
+    });
+
+    // 결과 출력
+    console.log('Age Groups:', ageGroups);
+    console.log('Gender Count:', genderCount);
+    drawChart(genderCount,'genderChart')
+    drawChart(ageGroups,'ageChart')
 }
+
 
 // 사용자 데이터를 가져오는 부분
 UserGender().then(userData => {
