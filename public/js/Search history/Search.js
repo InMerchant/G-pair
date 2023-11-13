@@ -41,18 +41,23 @@ searchButton.addEventListener('click', () => {
 
 // 검색 결과 항목 생성 함수
 function createSearchResultItem(hit, episodeNumber, key, type, query) {
-    // hit[key]가 배열인지 확인하고, 배열이 아닌 경우 빈 배열로 처리
     const lines = Array.isArray(hit[key]) ? hit[key] : [];
     const filteredLines = lines.filter(line => line.includes(query));
     const content = filteredLines.map(line => `<div>${line}</div>`).join('');
 
-    // 제목과 작가 모두 표시
-    return `<div class="search-result-item" data-webtoon-id="${hit.webtoonID}" data-episode-number="${episodeNumber}" data-search-type="${type}">
-        <strong>${hit.title}</strong> - 작가: ${hit.author} - ${episodeNumber ? episodeNumber + '화 ' : ''}${type}: ${content}
+    // 이미지 URL 구성
+    const imageUrl = `https://firebasestorage.googleapis.com/v0/b/look-b1624.appspot.com/o/${encodeURIComponent(hit.webtoonID)}%2Fsign.png?alt=media`;
+
+    return `
+    <div class="card search-result-item mb-3" data-webtoon-id="${hit.webtoonID}" data-episode-number="${episodeNumber}" data-search-type="${type}">
+        <img src="${imageUrl}" class="card-img-top" alt="${hit.title}" style="height: 200px; object-fit: contain; width: 100%;">
+        <div class="card-body">
+            <h5 class="card-title">${hit.title}</h5>
+            <p class="card-text">작가: ${hit.author}</p>
+            <p class="card-text">${episodeNumber ? episodeNumber + '화 ' : ''}${type}: ${content}</p>
+        </div>
     </div>`;
 }
-
-
 
 // 검색 결과 항목에 클릭 이벤트 추가 함수
 function addClickEventToSearchResults() {
