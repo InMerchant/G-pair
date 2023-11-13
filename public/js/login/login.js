@@ -10,7 +10,7 @@ function loginUser(email, password) {
       // 로그인 후 처리할 코드
       console.log(`Logged in as: ${user.email}`);
       // 로그인 성공 후 페이지 리다이렉션
-      window.location.href = 'index.html'; // 로그인 후 이동할 페이지
+      window.location.href = '/'; // 로그인 후 이동할 페이지
     })
     .catch((error) => {
       // 로그인 실패

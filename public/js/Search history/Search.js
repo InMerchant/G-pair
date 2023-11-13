@@ -4,7 +4,7 @@ const index = client.initIndex('webtoonDATASEARCH');
 
 // 검색 버튼과 입력 필드를 가져옵니다.
 const searchButton = document.querySelector('.btn-primary');
-const searchInput = document.getElementById('email');
+const searchInput = document.getElementById('searchQuery');
 const searchTypeSelect = document.getElementById('searchType');
 const resultsContainer = document.querySelector('.card-body');
 
