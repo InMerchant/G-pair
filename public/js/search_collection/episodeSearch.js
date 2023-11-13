@@ -29,7 +29,9 @@ export async function getEpisodeData(webtoonID, episodeID) {
         if (!episodeQuerySnapshot.empty) {
           // 에피소드 데이터 반환
           const episodeData = episodeQuerySnapshot.docs[0].data();
-          const documentID = episodeQuerySnapshot.docs[0].id;       //찾은 에피소드 화수 ex) 1화
+
+          //예시이니까 나중에 필요할 때 사용
+          //const documentID = episodeQuerySnapshot.docs[0].id;       //찾은 에피소드 화수 ex) 1화
           return episodeData;
         } else {
           console.log(`No episode matching episodeID ${episodeID}`);
