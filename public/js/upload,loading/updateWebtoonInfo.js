@@ -76,7 +76,7 @@ export async function updateWebtoonAuthor(webtoonID) {
       const docData = querySnapshot.docs[0].data();
 
       // HTML 요소에 웹툰 작가 업데이트
-      document.getElementById('webtoon-author').textContent = docData.anthor;
+      document.getElementById('webtoon-author').textContent = docData.author;
     } else {
       console.log('No document matching the webtoonID.');
     }
