@@ -4,7 +4,6 @@
 
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            const webtoonID = urlParams.get("name");
             const auth = getAuth(app);
 
             window.onload = function() {

@@ -1,6 +1,5 @@
 import { getEpisodeDocData, getEpisodeData } from "./search_collection/episodeSearch.js"
 import { getDoc, updateDoc, increment, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
-import { updateRecommendCount } from "./upload,loading/recommendCount.js"
 
 export async function recommend(webtoonID, episodeID, userUID) {
     const episodeDocRef = await getEpisodeDocData(webtoonID, episodeID);

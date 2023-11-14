@@ -22,3 +22,10 @@
     border-radius: 5px;
     display: block;
 }
+.button-container {
+    text-align: center; /* 버튼을 중앙으로 정렬 */
+}
+
+#liveToastBtn {
+    padding: 20px 20px; /* 상하 패딩 10px, 좌우 패딩 20px */
+}

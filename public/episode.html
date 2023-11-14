@@ -29,11 +29,15 @@
         </nav>
         <!-- 만화 이미지 나오는 곳 -->
         <div class="container px-4 px-lg-5" id="imgContainer"></div>
-
+        <br>
+        <br>
+        <br>
         <!-- 추천 버튼 위치 -->
-        <button type="button" class="btn btn-primary" id="liveToastBtn">
-            추천 <span class="badge text-bg-secondary" id="recommendCount"></span>
-        </button>
+        <div class="button-container">
+            <button type="button" class="btn btn-primary" id="liveToastBtn">
+                추천 <span class="badge text-bg-secondary" id="recommendCount"></span>
+            </button>
+        </div>
         <!-- 토스트 메시지 부분 -->
         <div class="toast-container position-fixed top-50 start-50 translate-middle-x p-3">
             <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -52,6 +56,8 @@
 
         <!-- 최하단 이동 버튼 -->
         <button id="scrollToBottomBtn" onclick="scrollToBottom()">▽</button>
+        <br>
+        <hr>
 
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
@@ -75,5 +81,29 @@
         <script src="js/scrollButton.js"></script>
         <script type="module" src="js/upload,loading/episodeLoad.js"></script>
         <script type="module" src="js/upload,loading/recommendCount.js"></script>
+        <script type="module" src="js/episode_userUID_update_DB.js"></script>
+        <script type="module">
+            import { updateUserUID } from "./js/episode_userUID_update_DB.js"
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+            import { app } from "./js/firebase.js";
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const webtoonID = urlParams.get("webtoonID");
+            const episodeStr = urlParams.get("id");
+            const auth = getAuth(app);
+
+            function extractNumberFromString(str) {
+                const matches = str.match(/\d+/); // 숫자가 하나 이상 연속되는 부분을 찾기
+                return matches ? parseInt(matches[0], 10) : null; // 찾은 숫자를 정수로 변환
+            }
+            const episodeID = extractNumberFromString(episodeStr); // 정수로 변환된 값 저장
+
+            onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
+                if (user) {
+                    updateUserUID(webtoonID, episodeID, user.uid)
+                }
+            });
+        </script>
     </body>
 </html>

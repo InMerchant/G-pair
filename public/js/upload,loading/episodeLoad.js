@@ -51,6 +51,7 @@ export async function episodeImgLoad() {
                             // 이미지를 감싸는 div 생성
                             const imageContainer = document.createElement('div');
                             imageContainer.className = 'episode-image-container';
+                            imageContainer.style.textAlign = 'center';
 
                             // HTML 엘리먼트 생성 및 설정
                             const imgElement = document.createElement('img');
@@ -59,7 +60,7 @@ export async function episodeImgLoad() {
 
                             // 이미지 로드 후 크기 조정
                             imgElement.onload = function () {
-                                imgElement.style.width = '100%'; // 이미지 가로 크기를 100%로 지정
+                                imgElement.style.width = '50%'; // 이미지 가로 크기를 100%로 지정
                                 imgElement.style.height = 'auto'; // 이미지 세로 크기는 원본 비율 유지
                             };
 
