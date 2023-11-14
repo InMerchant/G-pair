@@ -60,7 +60,7 @@ export async function episodeImgLoad() {
 
                             // 이미지 로드 후 크기 조정
                             imgElement.onload = function () {
-                                imgElement.style.width = '50%'; // 이미지 가로 크기를 100%로 지정
+                                imgElement.style.width = '50%';
                                 imgElement.style.height = 'auto'; // 이미지 세로 크기는 원본 비율 유지
                             };
 
@@ -75,12 +75,10 @@ export async function episodeImgLoad() {
                             console.error("Error getting download URL: ", error);
                         });
                     } else {
-                        console.log("Image data or URL is missing");
                         // 다음 이미지를 처리하기 위해 재귀 호출
                         processImage(index + 1);
                     }
                 }).catch((error) => {
-                    console.error("Error loading episode image data: ", error);
                     // 다음 이미지를 처리하기 위해 재귀 호출
                     processImage(index + 1);
                 });
