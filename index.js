@@ -49,6 +49,9 @@ app.get('/dashboard', (req, res) => {
 app.get('/detailDashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'detailDashboard.html'));
 });
+app.get('/board', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'board.html'));
+});
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
