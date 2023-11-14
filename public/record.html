@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,13 +29,12 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">웹툰 <sup>서비스</sup></div>
             </a>
-
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -59,14 +56,14 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="setting.html">
+                <a class="nav-link" href="/setting">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>유저 설정</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="record.html">
+                <a class="nav-link" href="/record">
                     <i class="fas fa-fw fa-table"></i>
                     <span>검색 기록</span></a>
             </li>
@@ -104,6 +101,8 @@
                                     <h6 class="m-0 font-weight-bold text-primary">회원 정보</h6>
                                 </div>
                                 <div class="card-body">
+                                    <ul id="searchHistoryList"></ul> <!-- 검색 기록을 표시할 목록 -->
+                                    <button class="btn btn-danger" id="clearSearchHistoryButton">전체 삭제</button>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +110,8 @@
             </div>
         </div>
     </div>
+<script src="js/Search history/record.js" type="module"></script>
+
 </body>
 
 </html>

@@ -18,9 +18,6 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 </head>
-
-
-
 <body id="page-top">
 
         <div id="content-wrapper" class="d-flex flex-column">
@@ -55,13 +52,19 @@
                 <div class="container-fluid">
 
 <br>
-                    <div class="row input-group-newsletter">
-                        <div class="col"><input class="form-control" id="email" type="email" placeholder="검색어를 입력해주세요" aria-label="Enter email address..." data-sb-validations="required,email" /></div>
-                        <button class="btn btn-primary" type="button">
-                            검색!
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
+<div class="row input-group-newsletter">
+    <div class="col">
+        <select id="searchType" class="form-control">
+            <option value="all">선택하세요!</option>
+            <option value="dialogue">대사</option>
+            <option value="situation">상황</option>
+            <option value="title">제목</option>
+            <option value="author">작가</option>
+        </select>
+    </div>
+    <div class="col"><input class="form-control" id="searchQuery" type="text" placeholder="검색어를 입력해주세요" /></div>
+    <div class="col"><button class="btn btn-primary" type="button">검색!</button></div>
+</div>
                     <hr>
 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-12 mb-1">
@@ -77,9 +80,7 @@
                          </div>
                       </div>
                 </div>
-                
         <script src="js/Search history/Search.js" type="module"></script>
-
+        <script src="js/Search history/Search history.js" type="module"></script>
 </body>
-
 </html>

@@ -9,7 +9,7 @@
         <title>웹툰-상세페이지-웹툰 에피소드</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles02.css" rel="stylesheet" />
-        <link  href="css/scrollButtonStyles.css" rel="stylesheet" />
+        <link  href="css/episodeHTML.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body>
@@ -27,15 +27,30 @@
                 </div>
             </div>
         </nav>
-
+        <!-- 만화 이미지 나오는 곳 -->
         <div class="container px-4 px-lg-5" id="imgContainer"></div>
-        <button type="button" class="btn btn-primary">
+
+        <!-- 추천 버튼 위치 -->
+        <button type="button" class="btn btn-primary" id="liveToastBtn">
             추천 <span class="badge text-bg-secondary">4</span>
         </button>
-        <!-- 최상단 이동 -->
+        <!-- 토스트 메시지 부분 -->
+        <div class="toast-container position-fixed top-50 start-50 translate-middle-x p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">안내 메세지</strong>
+                    <small class="text-muted"></small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastBody">
+                    <!-- 로그인 여부에 따라 텍스트 변동 -->
+                </div>
+            </div>
+        </div>
+        <!-- 최상단 이동 버튼 -->
         <button id="scrollToTopBtn" onclick="scrollToTop()">△</button>
 
-        <!-- 최하단 이동 -->
+        <!-- 최하단 이동 버튼 -->
         <button id="scrollToBottomBtn" onclick="scrollToBottom()">▽</button>
 
         <footer class="py-4 bg-light mt-auto">
@@ -56,24 +71,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 
+        <script type="module" src="js/upload,loading/toastLoad.js"></script>
         <script src="js/scrollButton.js"></script>
         <script type="module" src="js/upload,loading/episodeLoad.js"></script>
-        <script type="module">
-            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-            import { app } from "./js/firebase.js";
-            const auth = getAuth(app);
-
-            window.onload = function() {
-                onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
-                    if (user) {
-                      console.log(`Current user ID is ${user.uid}`);
-                      // user.uid를 사용하여 무언가를 할 수 있습니다.
-                    } else {
-                      console.log("No user is currently logged in.");
-                      // 로그인 페이지로 리다이렉션할 수 있습니다.
-                    }
-                });
-            };
-        </script>
     </body>
 </html>
