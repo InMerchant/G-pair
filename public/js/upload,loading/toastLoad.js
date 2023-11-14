@@ -23,13 +23,18 @@ if (toastTrigger && toastLiveExample) {
             const toast = new bootstrap.Toast(toastLiveExample);
 
             if (user && user.uid) {
-                const result = recommend(webtoonID, episodeID, user.uid) //나중에 함수 이름 변경
-                if(result) {
-                    showToast("추천 하였습니다.");
-                }
-                else {
-                    showToast("추천을 해제했습니다..");
-                }
+                recommend(webtoonID, episodeID, user.uid).then(result => {
+                    if (result) {
+                        if(result == '1') {
+                            showToast("추천 하였습니다.");
+                        }
+                        else {
+                            showToast("추천을 해제했습니다.");
+                        }
+                    }
+                });
+                
+                
             } else {
                 showToast("로그인 후 다시 추천 버튼을 눌러주세요.");
             }
