@@ -1,8 +1,9 @@
 import { db } from './firebase.js'; // Firestore 인스턴스를 가져옵니다.
-import { collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
+import { collection, getDocs, query, getDoc,doc} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 import { getEpisodeImgData } from './search_collection/episodeImgSearch.js';
 import { getEpisodeImgDocCount } from './count/episodeImgDocCount.js';
 import {barChart, drawChart,updateIconHeight} from './chart/drawChart.js';
+import {getEpisodeData} from './search_collection/episodeSearch.js'
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -89,54 +90,56 @@ getEpisodeImgDocCount(webtoonID, episodeNumber).then(episodeImgCountData => {
     console.error("Error in getting document count: ", error);
 });
 
-async function UserGender() {
-    const userCollectionRef = collection(db, 'USER');
-    const userSnap = await getDocs(userCollectionRef);
+getEpisodeData(webtoonID,episodeNumber).then(episodeData=>{
+    const ReadUser=episodeData.readUser
+    UserGender(ReadUser)
+})
 
+async function UserGender(userDocIds) {
     // 나이와 성별에 대한 초기 집계 객체를 생성합니다.
     const ageGroups = {
-        teens:0,
-        twenties:0,
-        thirties:0,
-        forties:0,
-        others:0
+        teens: 0,
+        twenties: 0,
+        thirties: 0,
+        forties: 0,
+        others: 0
     };
     const genderCount = {
         male: 0,
         female: 0
     };
 
-    // 각 문서에 대해 나이 그룹과 성별을 집계합니다.
-    userSnap.docs.forEach(doc => {
-        const ageGroup = doc.data().ageGroup;
-        const gender = doc.data().gender;
-
-        // 나이 그룹에 대한 카운트
-        if (ageGroups[ageGroup]&&ageGroup) {
-            ageGroups[ageGroup]++;
-        } else if(ageGroup){
-            ageGroups[ageGroup] = 1;
+    for (const docId of userDocIds) {
+        const docRef = doc(db, 'USER', docId);
+        try {
+            const docSnapshot = await getDoc(docRef);
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data();
+                // 나이 그룹과 성별에 따라 데이터를 집계합니다.
+                const { ageGroup, gender } = data;
+                if (ageGroups.hasOwnProperty(ageGroup)) {
+                    ageGroups[ageGroup]++;
+                } 
+                if (gender === 'male') {
+                    genderCount.male++;
+                } else if (gender === 'female') {
+                    genderCount.female++;
+                }
+            } else {
+                console.log(`No document found with ID: ${docId}`);
+            }
+        } catch (error) {
+            console.error("Error fetching document:", error);
         }
+    }
 
-        // 성별에 대한 카운트
-        if (gender === 'male') {
-            genderCount.male++;
-        } else if (gender === 'female') {
-            genderCount.female++;
-        }
-    });
-    var totalGenderCount = genderCount.male + genderCount.female;
-    var malePercentage = (genderCount.male / totalGenderCount) * 100;
-    var femalePercentage = (genderCount.female / totalGenderCount) * 100
+    // 집계한 데이터를 기반으로 계산을 수행합니다.
+    const totalGenderCount = genderCount.male + genderCount.female;
+    const malePercentage = (genderCount.male / totalGenderCount) * 100;
+    const femalePercentage = (genderCount.female / totalGenderCount) * 100;
+
+    // 결과를 업데이트하는 함수를 호출합니다.
     updateIconHeight(malePercentage, femalePercentage);
-    barChart(ageGroups,'ageChart')
+    barChart(ageGroups, 'ageChart');
 }
 
-
-// 사용자 데이터를 가져오는 부분
-UserGender().then(userData => {
-    console.log(userData);
-    // 사용자 데이터를 이용한 추가 로직이 필요하다면 여기에 작성
-}).catch(error => {
-    console.error("Error in getting user data: ", error);
-});
