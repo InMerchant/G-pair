@@ -101,10 +101,7 @@
 
             onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
                 if (user) {
-                    console.log(`Current user ID is ${user.uid}`);
                     updateUserUID(webtoonID, episodeID, user.uid)
-                } else {
-                    console.log("No user is currently logged in.");
                 }
             });
         </script>
