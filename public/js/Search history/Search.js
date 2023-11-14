@@ -1,4 +1,7 @@
 // Algolia 클라이언트 설정
+import { updateDoc, doc, increment } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+
+
 const client = algoliasearch('TOBZK90LFP', '7e6fca838d4c8a9dc0bee205f5a7a380');
 const index = client.initIndex('webtoonDATASEARCH');
 
@@ -59,14 +62,50 @@ function createSearchResultItem(hit, episodeNumber, key, type, query) {
     </div>`;
 }
 
+
+
+async function updateSearchCount(webtoonID, episodeNumber) {
+    // 'webtoonDATA' 컬렉션에서 'webtoonID' 필드가 일치하는 문서 찾기
+    const webtoonRef = collection(db, "webtoonDATA");
+    const q = query(webtoonRef, where("webtoonID", "==", webtoonID));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+        // 첫 번째 일치하는 문서의 문서 ID를 사용
+        const docId = querySnapshot.docs[0].id;
+
+        // 해당 문서의 'Episode' 서브 컬렉션 내의 에피소드 문서 참조
+        const episodeDocRef = doc(db, "webtoonDATA", docId, "Episode", episodeNumber + "화");
+
+        try {
+            // 해당 에피소드 문서의 'imgSearchCount' 필드 업데이트
+            await updateDoc(episodeDocRef, {
+                imgSearchCount: increment(1)
+            });
+            console.log("검색 횟수 업데이트 성공");
+        } catch (error) {
+            console.error("검색 횟수 업데이트 실패", error);
+        }
+    } else {
+        console.log("일치하는 문서 없음");
+    }
+}
+
+
 // 검색 결과 항목에 클릭 이벤트 추가 함수
 function addClickEventToSearchResults() {
     document.querySelectorAll('.search-result-item').forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', async function() { // async 함수로 변경
             const webtoonID = this.dataset.webtoonId;
             const episodeNumber = this.dataset.episodeNumber;
             const searchType = this.dataset.searchType;
 
+            if (searchType === 'dialogue' || searchType === 'situation') {
+                // 업데이트가 완료될 때까지 기다림
+                await updateSearchCount(webtoonID, episodeNumber);
+            }
+
+            // 페이지 이동
             if (searchType === 'title' || searchType === 'author') {
                 window.location.href = `/detail?name=${webtoonID}`;
             } else {

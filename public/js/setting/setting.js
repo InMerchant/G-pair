@@ -19,3 +19,16 @@ onAuthStateChanged(auth, (user) => {
     if(loginButton) loginButton.style.display = 'block';
   }
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // 버튼 요소 찾기
+  const withdrawalButton = document.getElementById('withdrawal-button');
+
+  // 버튼에 클릭 이벤트 리스너 추가
+  withdrawalButton.addEventListener('click', function() {
+      // '/Withdrawal' 페이지로 이동
+      window.location.href = '/Withdrawal';
+  });
+});
