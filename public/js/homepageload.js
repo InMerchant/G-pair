@@ -22,16 +22,21 @@ const fetchDataFromFirstCollection = async () => {
         const firstQuerySnapshot = await getDocs(firstCollectionRef);
 
         const allData = [];
-        for (const doc of firstQuerySnapshot.docs) { // forEach 대신 for...of 사용하여 비동기 처리
+        for (const doc of firstQuerySnapshot.docs) {
             const data = doc.data();
-            data.id = doc.id; // 문서 ID를 데이터 객체에 추가
-            // 이미지 URL 가져오기
+            data.id = doc.id;
             data.imageUrl = await getImageUrl(data.webtoonID);
             allData.push(data);
         }
 
-        // 카드를 웹 페이지에 렌더링
-        renderCards(allData);
+        // 각 요일에 따라 카드를 렌더링합니다.
+        const days = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'];
+        days.forEach(day => {
+            // 각 요일에 맞는 데이터를 필터링합니다.
+            const dayData = allData.filter(d => d.day.includes(day));
+            // 필터링된 데이터로 카드를 렌더링합니다.
+            renderCards(dayData, day);
+        });
 
     } catch (error) {
         console.error("Error fetching data from Firestore: ", error);
@@ -48,7 +53,7 @@ const createCard = (data) => {
     const newHref = `/detail${lastSegment}?name=${data.webtoonID}`;
 
     return `
-        <div class="col mb-5">
+        <div class="col-12 mb-5">
             <div class="card h-100">
                 <!-- Product image-->
                 <img class="card-img-top" src="${data.imageUrl}" alt="...">
@@ -71,14 +76,16 @@ const createCard = (data) => {
         </div>
     `;
 };
-// 카드를 웹 페이지의 DOM에 렌더링하는 함수
-const renderCards = (dataList) => {
-    const container = document.getElementById('cardsContainer');
+const renderCards = (dataList, day) => {
+    // 요일에 맞는 컨테이너 ID를 생성합니다.
+    const containerId = `cardsContainer${day}`;
+    const container = document.getElementById(containerId);
     container.innerHTML = ''; // 기존의 카드들을 초기화
     dataList.forEach(data => {
         container.innerHTML += createCard(data); // 새로운 카드를 추가
     });
 };
+
 const auth = getAuth(app);
 
 const initialize = () => {
