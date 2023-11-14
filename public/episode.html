@@ -81,5 +81,32 @@
         <script src="js/scrollButton.js"></script>
         <script type="module" src="js/upload,loading/episodeLoad.js"></script>
         <script type="module" src="js/upload,loading/recommendCount.js"></script>
+        <script type="module" src="js/episode_userUID_update_DB.js"></script>
+        <script type="module">
+            import { updateUserUID } from "./js/episode_userUID_update_DB.js"
+            import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+            import { app } from "./js/firebase.js";
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const webtoonID = urlParams.get("webtoonID");
+            const episodeStr = urlParams.get("id");
+            const auth = getAuth(app);
+
+            function extractNumberFromString(str) {
+                const matches = str.match(/\d+/); // 숫자가 하나 이상 연속되는 부분을 찾기
+                return matches ? parseInt(matches[0], 10) : null; // 찾은 숫자를 정수로 변환
+            }
+            const episodeID = extractNumberFromString(episodeStr); // 정수로 변환된 값 저장
+
+            onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
+                if (user) {
+                    console.log(`Current user ID is ${user.uid}`);
+                    updateUserUID(webtoonID, episodeID, user.uid)
+                } else {
+                    console.log("No user is currently logged in.");
+                }
+            });
+        </script>
     </body>
 </html>
