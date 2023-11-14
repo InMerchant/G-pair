@@ -129,7 +129,7 @@ async function UserGender() {
     var malePercentage = (genderCount.male / totalGenderCount) * 100;
     var femalePercentage = (genderCount.female / totalGenderCount) * 100
     updateIconHeight(malePercentage, femalePercentage);
-    drawChart(ageGroups,'ageChart')
+    barChart(ageGroups,'ageChart')
 }
 
 

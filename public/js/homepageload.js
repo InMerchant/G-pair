@@ -58,7 +58,7 @@ const createCard = (data) => {
                         <!-- Product name-->
                         <h5 class="fw-bolder">${data.title}</h5>
                         <!-- Product subtitle-->
-                        ${data.anthor}
+                        ${data.author}
                     </div>
                 </div>
                 <!-- Product actions-->

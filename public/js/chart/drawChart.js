@@ -98,8 +98,6 @@ export function barChart(data, elementId) {
 }
 
 export function updateIconHeight(malePercentage, femalePercentage) {
-    var maleIconContainer = document.getElementById('male-icon-container'); // 남성 아이콘 컨테이너 선택
-    var femaleIconContainer = document.getElementById('female-icon-container'); // 여성 아이콘 컨테이너 선택
     var maleFilledIcon = document.getElementById('maleFilledIcon'); // 남성 채워진 아이콘 선택
     var femaleFilledIcon = document.getElementById('femaleFilledIcon'); // 여성 채워진 아이콘 선택
 
