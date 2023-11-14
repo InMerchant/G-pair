@@ -10,17 +10,17 @@
 }
 
 .filled-icon, .male-filled-icon {
-  margin-left: 105px;
-  max-width: 150px;
+  max-width: 150px; /* 필요하다면 두 클래스의 max-width 값을 조정 */
   position: absolute;
   bottom: 0;
-  left: 0;
-  flex:1;
+  left: 50%; /* 중앙 정렬을 위해 변경 */
+  transform: translateX(-50%); /* 중앙 정렬을 위해 추가 */
+  flex: 1;
   width: 100%;
-  max-height: 300px;
+  max-height: 300px; /* 필요하다면 두 클래스의 max-height 값을 조정 */
   background-repeat: no-repeat;
   background-position: center bottom;
-  background-size: cover; /* 변경된 부분 */
+  background-size: cover; /* cover 대신 contain으로 변경하거나 필요에 따라 특정 px 값으로 설정 */
 }
 
 
