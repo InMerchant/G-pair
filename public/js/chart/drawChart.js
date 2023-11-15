@@ -100,14 +100,17 @@ export function barChart(data, elementId) {
 export function updateIconHeight(malePercentage, femalePercentage) {
     var maleFilledIcon = document.getElementById('maleFilledIcon'); // 남성 채워진 아이콘 선택
     var femaleFilledIcon = document.getElementById('femaleFilledIcon'); // 여성 채워진 아이콘 선택
+    var malePercentageText = document.getElementById('malePercentageText'); // 남성 퍼센테이지 텍스트 선택
+    var femalePercentageText = document.getElementById('femalePercentageText'); // 여성 퍼센테이지 텍스트 선택
 
     // 남성 아이콘의 채워진 높이 계산
     var maleIconHeight = malePercentage + '%'; // 남성 아이콘 채워진 높이
     maleFilledIcon.style.height = maleIconHeight; // 남성 채워진 아이콘 높이 설정
-
+    malePercentageText.innerText = `남성: ${malePercentage}%`;
     // 여성 아이콘의 채워진 높이 계산
     var femaleIconHeight = femalePercentage + '%'; // 여성 아이콘 채워진 높이
     femaleFilledIcon.style.height = femaleIconHeight; // 여성 채워진 아이콘 높이 설정
+    femalePercentageText.innerText = `여성: ${femalePercentage}%`;
 }
 
 

@@ -8,6 +8,14 @@
   background-size: contain; /* 변경된 부분 */
   overflow: visible; /* 필요에 따라 변경된 부분 */
 }
+.text {
+  margin-top:20px;
+  position:absolute;
+  bottom:0;
+  left: 50%; /* 왼쪽에서 50%의 위치에 배치 */
+  transform: translateX(-50%); /* X축으로 -50% 만큼 이동하여 가운데 정렬 */
+  text-align: center;
+}
 
 .filled-icon, .male-filled-icon {
   max-width: 150px; /* 필요하다면 두 클래스의 max-width 값을 조정 */
