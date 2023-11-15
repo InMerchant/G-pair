@@ -43,37 +43,29 @@ export async function episodeImgLoad() {
 
                 getEpisodeImgData(webtoonID, episodeID, index).then(episodeImgData => {
                     if (episodeImgData) {
-                        // 스토리지 참조 생성
-                        const imageRef = ref(storage, episodeImgData.url);
-                        
-                        // 다운로드 URL 얻기
-                        getDownloadURL(imageRef).then((url) => {
-                            // 이미지를 감싸는 div 생성
-                            const imageContainer = document.createElement('div');
-                            imageContainer.className = 'episode-image-container';
-                            imageContainer.style.textAlign = 'center';
+                        // 이미지를 감싸는 div 생성
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = 'episode-image-container';
+                        imageContainer.style.textAlign = 'center';
 
-                            // HTML 엘리먼트 생성 및 설정
-                            const imgElement = document.createElement('img');
-                            imgElement.id = 'episodeImage' + index;
-                            imgElement.src = url;
+                        // HTML 엘리먼트 생성 및 설정
+                        const imgElement = document.createElement('img');
+                        imgElement.id = 'episodeImage' + index;
+                        imgElement.src = episodeImgData.url; // Firestore에서 직접 URL 사용
 
-                            // 이미지 로드 후 크기 조정
-                            imgElement.onload = function () {
-                                imgElement.style.width = '50%';
-                                imgElement.style.height = 'auto'; // 이미지 세로 크기는 원본 비율 유지
-                            };
+                        // 이미지 로드 후 크기 조정
+                        imgElement.onload = function () {
+                            imgElement.style.width = '50%';
+                            imgElement.style.height = 'auto'; // 이미지 세로 크기는 원본 비율 유지
+                        };
 
-                            // 이미지를 div에 추가
-                            imageContainer.appendChild(imgElement);
-                            // div를 원하는 div에 추가
-                            targetDiv.appendChild(imageContainer);
+                        // 이미지를 div에 추가
+                        imageContainer.appendChild(imgElement);
+                        // div를 원하는 div에 추가
+                        targetDiv.appendChild(imageContainer);
 
-                            // 다음 이미지를 처리하기 위해 재귀 호출
-                            processImage(index + 1);
-                        }).catch((error) => {
-                            console.error("Error getting download URL: ", error);
-                        });
+                        // 다음 이미지를 처리하기 위해 재귀 호출
+                        processImage(index + 1);
                     } else {
                         // 다음 이미지를 처리하기 위해 재귀 호출
                         processImage(index + 1);
