@@ -1,5 +1,4 @@
 import { getEpisodeImgData } from '../search_collection/episodeImgSearch.js';
-import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
 import { getEpisodeImgDocCount } from '../count/episodeImgDocCount.js';
 
 const queryString = window.location.search;
@@ -12,9 +11,6 @@ function extractNumberFromString(str) {
     return matches ? parseInt(matches[0], 10) : null; // 찾은 숫자를 정수로 변환
 }
 const episodeID = extractNumberFromString(episodeStr); // 정수로 변환된 값 저장
-
-// Firebase 스토리지 초기화
-const storage = getStorage();
 
 
 // 원하는 div의 ID를 지정합니다.
