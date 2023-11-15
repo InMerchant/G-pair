@@ -4,23 +4,17 @@ import { getWebtoonCollectionData } from "../search_collection/webtoonDATA_Searc
 
 //웹툰 표지 불러오는 함수
 export function loadSignImages(webtoonID) {
-  //이미지 url이 위치한 스토리지 불러오기
+  // Firestore에서 웹툰 데이터를 가져옴
   getWebtoonCollectionData(webtoonID).then(docData => {
-    if(docData) {
-      const imageRef = ref(storage, docData.thumbnail);
+    if(docData && docData.thumbnail) {
+      // 이미지 컨테이너를 찾음
+      const imageContainer = document.querySelector('.col-lg-3 img.img-fluid');
+      if (!imageContainer) return; // 요소가 존재하는지 확인
 
-      //다운로드 URL 얻기
-      getDownloadURL(imageRef).then((url) => {
-        // Get the image container
-        const imageContainer = document.querySelector('.col-lg-3 img.img-fluid');
-        if (!imageContainer) return; // Ensure the element exists
-
-        // Set the image source to the URL
-        imageContainer.src = url;
-
-      }).catch((error) => {
-        console.error("Error getting document:", error);
-      });
+      // 이미지 소스를 thumbnail URL로 설정
+      imageContainer.src = docData.thumbnail;
     }
-  })
+  }).catch((error) => {
+    console.error("Error getting document:", error);
+  });
 }
