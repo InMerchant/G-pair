@@ -2,8 +2,6 @@ import { storage } from '../firebase.js';
 import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
 import { getWebtoonCollectionData } from "../search_collection/webtoonDATA_Search.js"
 
-//웹툰 이미지 불러오는 js
-
 //웹툰 표지 불러오는 함수
 export function loadSignImages(webtoonID) {
   //이미지 url이 위치한 스토리지 불러오기
