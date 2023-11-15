@@ -1,20 +1,6 @@
 import { db ,storage,app} from './firebase.js';
-import { getStorage, ref, getDownloadURL,listAll ,} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
 import { collection, getDocs, doc, query, where } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js'; 
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-// Firebase Storage에서 특정 webtoonID에 해당하는 이미지 URL을 가져오는 함수
-const getImageUrl = async (webtoonID) => {
-    const storage = getStorage();
-    const imageRef = ref(storage, `${webtoonID}/sign.png`); // Storage의 경로를 webtoonID에 맞게 지정
-
-    try {
-        const url = await getDownloadURL(imageRef);
-        return url;
-    } catch (error) {
-        console.error('Error fetching image from Firebase Storage: ', error);
-        return ''; // 오류가 발생하면 빈 문자열을 반환
-    }
-};
 
 const fetchDataFromFirstCollection = async () => {
     try {
@@ -25,7 +11,6 @@ const fetchDataFromFirstCollection = async () => {
         for (const doc of firstQuerySnapshot.docs) {
             const data = doc.data();
             data.id = doc.id;
-            data.imageUrl = await getImageUrl(data.webtoonID);
             allData.push(data);
         }
 
@@ -56,7 +41,7 @@ const createCard = (data) => {
         <div class="col-12 mb-5">
             <div class="card h-100">
                 <!-- Product image-->
-                <img class="card-img-top" src="${data.imageUrl}" alt="...">
+                <img class="card-img-top" src="${data.thumbnail}" alt="...">
                 <!-- Product details-->
                 <div class="card-body p-4">
                     <div class="text-center">
