@@ -1,5 +1,3 @@
-import { storage } from '../firebase.js';
-import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
 import { getWebtoonCollectionData } from "../search_collection/webtoonDATA_Search.js"
 
 //웹툰 표지 불러오는 함수
