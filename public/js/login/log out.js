@@ -6,7 +6,7 @@ logoutButton.addEventListener('click', () => {
   signOut(auth).then(() => {
     // 로그아웃 성공 시 처리
     console.log('User signed out.');
-    window.location.href = 'login.html';
+    window.location.href = '/login';
   }).catch((error) => {
     // 로그아웃 실패 시 처리
     console.error('Sign out error', error);
