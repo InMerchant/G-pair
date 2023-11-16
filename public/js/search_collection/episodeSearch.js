@@ -1,7 +1,7 @@
 import { db } from '../firebase.js';
 import { collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 
-// 특정 웹툰 ID와 에피소드 ID에 해당하는 에피소드 데이터를 가져오는 함수
+// 특정 웹툰 ID와 에피소드 ID에 해당하는 에피소드 데이터를 가져오는 함수(읽기용)
 export async function getEpisodeData(webtoonID, episodeID) {
     try {
       // 'webtoonDATA' 컬렉션에 대한 참조
@@ -45,7 +45,7 @@ export async function getEpisodeData(webtoonID, episodeID) {
     }
 }
 
-// 특정 웹툰 ID와 에피소드 ID에 해당하는 문서를 가져오는 함수
+// 특정 웹툰 ID와 에피소드 ID에 해당하는 문서를 가져오는 함수(쓰기용)
 export async function getEpisodeDocData(webtoonID, episodeID) {
   try {
     // 'webtoonDATA' 컬렉션에 대한 참조
