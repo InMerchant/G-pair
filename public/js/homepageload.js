@@ -86,9 +86,11 @@ const initialize = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log(`Current user ID is ${user.uid}`);
+        document.getElementById('uploadNavItem').style.display = 'block';
         // user.uid를 사용하여 무언가를 할 수 있습니다.
       } else {
         console.log("No user is currently logged in.");
+        document.getElementById('uploadNavItem').style.display = 'none';
         // 로그인 페이지로 리다이렉션할 수 있습니다.
       }
     });
