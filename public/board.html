@@ -46,41 +46,90 @@
                     <input type="text" class="form-control" id="author" placeholder="작가이름">
                 </div>
                 <hr>
+                <div class="mb-3">
+                    <label class="form-label">연재 요일 선택</label>
+                    <div>
+                        <!-- form-check-inline 클래스를 사용하여 라디오 버튼을 가로로 배열 -->
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="day" value="월요일" id="monday">
+                            <label class="form-check-label" for="monday">월요일</label>
+                        </div>
+                        <!-- 나머지 요일에 대해서도 동일하게 적용 -->
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="day" value="화요일" id="tuesday">
+                            <label class="form-check-label" for="tuesday">화요일</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="day" value="수요일" id="wensday">
+                            <label class="form-check-label" for="wensday">수요일</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="day" value="목요일" id="thursday">
+                            <label class="form-check-label" for="thursday">목요일</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="day" value="금요일" id="friday">
+                            <label class="form-check-label" for="tuesday">금요일</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="day" value="토요일" id="saturday">
+                            <label class="form-check-label" for="saturday">토요일</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="day" value="일요일" id="sunday">
+                            <label class="form-check-label" for="sunday">일요일</label>
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <!-- 장르 선택 체크박스 -->
                 <div class="mb-3">
                     <label class="form-label">장르 선택</label>
                     <div class="row">
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="comedy" id="comedy">
+                                <input class="form-check-input" type="checkbox" value="코미디" id="comedy">
                                 <label class="form-check-label" for="comedy">코미디</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="drama" id="drama">
+                                <input class="form-check-input" type="checkbox" value="드라마" id="drama">
                                 <label class="form-check-label" for="drama">드라마</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="action" id="action">
+                                <input class="form-check-input" type="checkbox" value="액션" id="action">
                                 <label class="form-check-label" for="action">액션</label>
                             </div>
-                            <!-- 새로 추가 예정 지금 당장 장르 생각 안나 -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="판타지" id="fantasy">
+                                <label class="form-check-label" for="fantasy">판타지</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="일상" id="dayLife">
+                                <label class="form-check-label" for="dayLife">일상</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="로맨스" id="romance">
+                                <label class="form-check-label" for="romance">로맨스</label>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <hr>
                 <div class="mb-3">
-                    <label for="subtitle" class="form-label">부제목</label>
+                    <label for="subtitle" class="form-label">웹툰 설명</label>
                     <textarea class="form-control" id="subtitle" rows="3"></textarea>
                 </div>
                 <hr>
                 <div class="mb-3">
-                    <label for="formFile" class="form-label">페이지 그림</label>
+                    <label for="formFile" class="form-label">썸네일</label>
                     <input class="form-control" type="file" id="formFile">
                     <div class="text-center mt-4">
-                        <button type="button" class="btn btn-info">제출</button>
+                        <button type="button" class="btn btn-info" id="submitbutton">제출</button>
                     </div>
                 </div>
             </div>
@@ -88,6 +137,6 @@
     </div>
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../public/js/board/board.js"></script>
+    <script type="module" src="./js/board/board.js"></script>
 </body>
 </html>
