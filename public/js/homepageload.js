@@ -43,11 +43,14 @@ const createCard = (data) => {
                 <!-- Product image-->
                 <img class="card-img-top" src="${data.thumbnail}" alt="...">
                 <!-- Product details-->
-                <div class="card-body p-4">
-                    <div class="text-center">
-                        <!-- Product name-->
+                <div class="card-body p-1 d-flex flex-column justify-content-between">
+                    <div class="text-center mt-3">
+                        <!-- 상단에 위치할 제품 이름 -->
                         <h5 class="fw-bolder">${data.title}</h5>
-                        <!-- Product subtitle-->
+                    </div>
+                    
+                    <div class="text-center mb-3">
+                        <!-- 하단에 위치할 제품 부제목 -->
                         ${data.author}
                     </div>
                 </div>
