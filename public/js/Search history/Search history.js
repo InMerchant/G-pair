@@ -2,7 +2,6 @@ import { db } from '../firebase.js'; // 경로는 실제 설정에 맞게 조정
 import { collection, addDoc, serverTimestamp, doc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
-// ... 나머지 코드는 동일합니다 ...
 const searchButton = document.querySelector('.btn-primary');
 const searchInput = document.getElementById('searchQuery');
 const auth = getAuth();
