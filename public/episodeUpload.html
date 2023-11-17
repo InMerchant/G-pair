@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="author" content="" />
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/episodeUpload.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">웹툰</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="/search">검색</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tables.html">대시보드</a></li>
+                </ul>
+                <form class="d-flex">
+                    <a class="btn btn-outline-dark" href="/setting">mypage</a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="mb-4">웹툰 에피소드 추가</h2>
+
+                <!-- 웹툰 선택 드롭다운 -->
+                <div class="mb-3">
+                    <label for="webtoonSelect" class="form-label">웹툰 선택</label>
+                    <select class="form-control" id="webtoonSelect">
+                        <option selected>웹툰을 선택하세요</option>
+                        <!-- 웹툰 목록 데이터를 여기에 추가 -->
+                    </select>
+                </div>
+
+                <!-- 에피소드 제목 입력 -->
+                <div class="mb-3">
+                    <label for="episodeNumber" class="form-label">화수</label>
+                    <input type="text" class="form-control" id="episodeNumber" placeholder="1,2 숫자로 입력해주시면 됩니다.">
+                </div>
+                <div class="mb-3">
+                    <label for="episodeNumber" class="form-label">부제목</label>
+                    <input type="text" class="form-control" id="subTitle" placeholder="부제목 입니다!">
+                </div>
+
+                <!-- 드래그 앤 드롭 이미지 업로드 -->
+                <form>
+                    <input type="file" id="file" multiple style="display: none;">
+                    <div class="drop-zone">
+                        <label for="file" style="cursor: pointer;">또는 파일을 여기로 드래그하세요.</label>
+                    </div>
+                </form>
+
+                <!-- 제출 버튼 -->
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-info" id="submitEpisode">에피소드 업로드</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/board/dragDrop.js"></script>
+    <script type="module" src="./js/board/episodeUpload.js"></script>
+</body>
+</html>
