@@ -13,16 +13,20 @@
     </head>
     <body>
         <!-- 네비 바 -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-5">
                 <a class="navbar-brand" href="/">웹툰</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/search">검색</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" id="navbarDropdown" href="" role="button" aria-expanded="false">대시보드 상태 해제</a>
+                        </li>                      
                     </ul>
+                    <form class="d-flex">
+                        <a class="btn btn-outline-dark" href="/setting">mypage</a>
+                    </form>
                 </div>
             </div>
         </nav>
@@ -127,6 +131,20 @@
                     }
                 });
             };
+        </script>
+        <script>
+            // 문서가 로드되면 실행
+            document.addEventListener('DOMContentLoaded', function() {
+                // 현재 URL에서 'name' 파라미터의 값을 가져옵니다.
+                const params = new URLSearchParams(window.location.search);
+                const name = params.get('name');
+        
+                // 'navbarDropdown' 요소의 href를 업데이트합니다.
+                if (name) {
+                    const linkElement = document.getElementById('navbarDropdown');
+                    linkElement.href = `/detail?name=${name}`;
+                }
+            });
         </script>
     </body>
 </html>

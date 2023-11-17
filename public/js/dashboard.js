@@ -39,13 +39,20 @@ export async function loadEpisodesToTable(webtoonID) {
 }
 
 // Timestamp 객체에서 yy-mm-dd 형식의 날짜 문자열을 생성하는 함수
-function formatDate(timestamp) {
-    const date = new Date(timestamp.seconds * 1000); // Firestore의 Timestamp에서 JavaScript의 Date 객체 생성
-    const year = date.getFullYear().toString().substr(-2); // 연도의 뒤 두 자리
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월 (getMonth()는 0부터 시작하므로 1을 더합니다)
-    const day = date.getDate().toString().padStart(2, '0'); // 일
+function formatDate(dateStr) {
+    // 정규식을 사용하여 날짜 정보 추출
+    const regex = /(\d{4})년 (\d{1,2})월 (\d{1,2})일/;
+    const matches = dateStr.match(regex);
 
-    return `${year}-${month}-${day}`; // 포맷에 맞게 반환
+    if (matches) {
+        const year = matches[1].substr(-2); // 연도의 뒤 두 자리
+        const month = matches[2].padStart(2, '0'); // 월
+        const day = matches[3].padStart(2, '0'); // 일
+
+        return `${year}-${month}-${day}`; // 포맷에 맞게 반환
+    } else {
+        return 'Invalid Date'; // 일치하는 날짜 정보가 없는 경우
+    }
 }
 
 export async function loadDataAndInitializeTable(webtoonID) {
