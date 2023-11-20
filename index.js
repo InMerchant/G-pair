@@ -58,3 +58,19 @@ app.get('/Withdrawal', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+
+
+app.get('/runPython', (req, res) => {
+  const pythonProcess = spawn('python', ['./ai/img_run.py']);
+
+  pythonProcess.stdout.on('data', (data) => {
+      console.log(`Python Output: ${data}`);
+      res.send(data);
+  });
+
+  pythonProcess.stderr.on('data', (data) => {
+      console.error(`Python Error: ${data}`);
+      res.status(500).send('Error executing Python script.');
+  });
+});
