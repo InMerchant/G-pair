@@ -1,7 +1,7 @@
 // register.js
 
-import { auth } from '../firebase.js'; 
-import { db } from '../firebase.js'; 
+import { auth } from '../firebase.js'; // 경로는 실제 상황에 맞게 조정해야 합니다.
+import { db } from '../firebase.js'; // 경로는 실제 상황에 맞게 조정해야 합니다.
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
