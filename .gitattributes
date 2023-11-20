@@ -1,4 +1,0 @@
-# Auto detect text files and perform LF normalization
-* text=auto
-epoch_4_evalAcc_64.pth filter=lfs diff=lfs merge=lfs -text
-'*.pth' !text !filter !merge !diff
