@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const port = 3000;
-
+const { spawn } = require('child_process');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -57,4 +57,19 @@ app.get('/Withdrawal', (req, res) => {
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+});
+
+
+app.get('/runPython', (req, res) => {
+  const pythonProcess = spawn('python', ['run_python.py']);
+
+  pythonProcess.stdout.on('data', (data) => {
+      console.log(`Python Output: ${data}`);
+      res.send(data);
+  });
+
+  pythonProcess.stderr.on('data', (data) => {
+      console.error(`Python Error: ${data}`);
+      res.status(500).send('Error executing Python script.');
+  });
 });

@@ -2,10 +2,8 @@
 import { collection, query, where, getDocs, updateDoc, doc, increment } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 import { db } from '../firebase.js'; 
 
-
 const client = algoliasearch('TOBZK90LFP', '7e6fca838d4c8a9dc0bee205f5a7a380');
 const index = client.initIndex('webtoonDATASEARCH');
-
 const searchButton = document.querySelector('.btn-primary');
 const searchInput = document.getElementById('searchQuery');
 const searchTypeSelect = document.getElementById('searchType');

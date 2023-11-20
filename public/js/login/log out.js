@@ -12,3 +12,5 @@ logoutButton.addEventListener('click', () => {
     console.error('Sign out error', error);
   });
 });
+
+
