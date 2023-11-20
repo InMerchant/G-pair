@@ -53,9 +53,6 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
     });
 
     try {
-        const response = await fetch(`/js/board/${webtoonID}/${episodeNumber}.json`);
-        const jsonData = await response.json();
-        console.log(jsonData);
         const filesData = await Promise.all(uploadPromises);
         const timestamp = getCurrentTimestamp();
         const epsiodeData={
@@ -63,7 +60,7 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
             uploadDate:timestamp,
             episodeID:parseInt(episodeNumber,10)
         }
-        await updateOrCreateEpisode(webtoonID, epsiodeData, episodeNumber,filesData,jsonData);
+        await updateOrCreateEpisode(webtoonID, epsiodeData, episodeNumber,filesData);
         console.log('All image documents created in the Image collection.');
 
     } catch (error) {
@@ -71,20 +68,18 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
     }
 }
 
-var fileInput = document.getElementById("file");
-var uploadButton = document.getElementById("submitEpisode");
-uploadButton.addEventListener("click", function() {
-    // 클릭 이벤트 핸들러 내용
+// 드래그 앤 드랍 이벤트 리스너
+var dropZone = document.querySelector(".drop-zone");
+dropZone.addEventListener("drop", function(e) {
+    e.preventDefault();
+    var files = e.dataTransfer.files;
     var webtoonID = document.getElementById('webtoonSelect').value;
     var episodeNumber = document.getElementById('episodeNumber').value;
     var episodeSubtitle = document.getElementById('subTitle').value;
-    var files = fileInput.files;
-
-    if (webtoonID && episodeNumber && episodeSubtitle && files.length > 0) {
-        
+    if (files.length > 0 && webtoonID&&episodeNumber&&episodeSubtitle) {
         uploadFiles(files, webtoonID,episodeNumber,episodeSubtitle);
     } else {
-        console.log('No webtoon selected, missing episode information, or no files selected.');
+        console.log('No files dropped or no webtoon selected.');
     }
 });
   
