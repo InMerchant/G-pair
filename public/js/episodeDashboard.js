@@ -7,9 +7,9 @@ import {getEpisodeData} from './search_collection/episodeSearch.js'
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-const webtoonID = urlParams.get('webtoonID'); // URL에서 'webtoonID' 값을 가져옵니다.
+const webtoonID = urlParams.get('name'); // URL에서 'webtoonID' 값을 가져옵니다.
 const episodeID = urlParams.get('name'); // URL에서 'name' 값을 가져옵니다.
-const episodeNumber = parseInt(episodeID, 10);
+const episodeNumber = parseInt(1, 10);
 
 function updateCounts(상황Count, 대사Count, episodeImgData) {
     // 상황 카운트 업데이트
