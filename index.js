@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { spawn } = require('child_process'); // 'spawn' 함수를 임포트합니다.
 const app = express();
 const port = 3000;
 
@@ -59,14 +60,14 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 
-
-
 app.get('/runPython', (req, res) => {
-  const pythonProcess = spawn('python', ['./ai/img_run.py']);
+  // 쿼리 매개변수로부터 값 가져오기
+  const { webtoonID,episodeNumber} = req.query;
+  // Python 스크립트 실행
+  const pythonProcess = spawn('python', ['./ai/test.py', webtoonID,episodeNumber]);
 
   pythonProcess.stdout.on('data', (data) => {
-      console.log(`Python Output: ${data}`);
-      res.send(data);
+      res.send(data.toString());
   });
 
   pythonProcess.stderr.on('data', (data) => {

@@ -28,7 +28,6 @@ const fetchDataFromAllCollections = async () => {
 const updateSelectOptions = (titlesAndIds) => {
     const select = document.getElementById('webtoonSelect');
     select.innerHTML = ''; // 이전에 추가된 옵션들을 초기화합니다.
-
     titlesAndIds.forEach(item => {
         const option = document.createElement('option');
         option.value = item.id;
@@ -51,7 +50,7 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
           });
         });
     });
-
+    
     try {
         const response = await fetch(`/js/board/${webtoonID}/${episodeNumber}.json`);
         const jsonData = await response.json();
@@ -61,7 +60,9 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
         const epsiodeData={
             subTitle:subTitle,
             uploadDate:timestamp,
-            episodeID:parseInt(episodeNumber,10)
+            episodeID:parseInt(episodeNumber,10),
+            recommend:0,
+            imgSearchCount:0
         }
         await updateOrCreateEpisode(webtoonID, epsiodeData, episodeNumber,filesData,jsonData);
         console.log('All image documents created in the Image collection.');
