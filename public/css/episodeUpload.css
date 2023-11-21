@@ -13,3 +13,38 @@
     margin: 0; /* 문단 여백 제거 */
     font-size: 1rem; /* 글자 크기 */
 }
+
+.spinner-container {
+    position: fixed; /* 고정된 위치 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    background: rgba(255, 255, 255, 0.8); /* 반투명 배경 */
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    z-index: 1000; /* 다른 요소들 위에 표시 */
+}
+
+.spinner {
+    position: fixed; /* 고정된 위치 */
+    top: 50%; /* 화면 상단에서 50% 떨어진 위치에 */
+    left: 50%; /* 화면 왼쪽에서 50% 떨어진 위치에 */
+    transform: translate(-50%, -50%); /* 스피너를 가운데로 이동 */
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

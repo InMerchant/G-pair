@@ -32,8 +32,6 @@ document.getElementById('submit-button').addEventListener('click', async functio
             const docRef = await db.collection('webtoonDATA').add(webtoonData);
             console.log('Document written with ID: ', docRef.id);
 
-            // 성공 메시지 표시 또는 페이지 리다이렉트
-            // ...
 
         } catch (error) {
             console.error('Error during the upload or database save', error);
