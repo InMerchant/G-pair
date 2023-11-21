@@ -65,6 +65,16 @@
                             <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item">Dashboard</a></li>
                             </ol>
+                            <!-- 드롭다운 위치 -->
+                            <div class="dropdown" style="text-align: right; margin-bottom: 20px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dashboardDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    선택
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dashboardDropdown">
+                                    <li><a class="dropdown-item" href="#">전체 통계</a></li>
+                                    <!-- 동적으로 추가될 옵션들 -->
+                                </ul>
+                            </div>
                             <div class="card mb-4">
                                 <div class="card-body" style="display: flex;">
 
@@ -137,6 +147,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>     
         <script type="module" src="js/episodeDashboard.js"></script>
+        <script type="module" src="js/dashboard_addDropdown.js"></script>
 
         <!-- 페이지 로드 시 함수 호출 -->
         <script type="module">
