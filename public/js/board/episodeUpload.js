@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
 
-    await waitForFileCreation(webtoonID, episodeNumber);
 
     const filesArray = Array.from(files);
     const uploadPromises = filesArray.map(file => {
@@ -53,6 +52,7 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
           });
         });
     });
+    await waitForFileCreation(webtoonID, episodeNumber);
     const response = await fetch(`/js/board/${webtoonID}/${episodeNumber}.json`);
     try {
         const jsonData = await response.json();
@@ -104,7 +104,6 @@ uploadButton.addEventListener("click", function() {
     var files = fileInput.files;
 
     if (webtoonID && episodeNumber && episodeSubtitle && files.length > 0) {
-        
         uploadFiles(files, webtoonID,episodeNumber,episodeSubtitle);
     } else {
         console.log('No webtoon selected, missing episode information, or no files selected.');
