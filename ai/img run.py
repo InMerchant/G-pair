@@ -8,7 +8,7 @@ from PIL import Image
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from tqdm import tqdm
 import time
-
+import json
 
 # 명령줄 인수로 웹툰 ID와 에피소드 번호를 받음
 if len(sys.argv) >= 3:
@@ -144,6 +144,7 @@ translator = Translator()
 input_csv_file_path = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황.csv'
 
 
+
 # 번역 함수
 def translate_text(text, target_lang):
     try:
@@ -176,7 +177,6 @@ if translated_data:
 else:
     print("번역된 내용이 없습니다.")
     
-import csv
 
 # 기존 CSV 파일 경로 및 새로 저장할 CSV 파일 경로
 csv_path = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황.csv'
@@ -366,4 +366,29 @@ print(f"경과 시간: {end - start}초")
     #"['CRIME'범죄]": 6,
     #"['IMMORAL_NONE']": 7,
     
+
+
+def csv_to_json_and_save(csv_file, json_file):
+    data = []
+    
+    # CSV 파일 읽기
+    with open(csv_file, 'r', encoding='utf-8') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            data.append(row)
+    
+    # JSON 형식으로 변환
+    json_data = json.dumps(data, ensure_ascii=False, indent=4)
+    
+    # JSON 파일로 저장
+    with open(json_file, 'w', encoding='utf-8') as output_file:
+        output_file.write(json_data)
+
+# CSV 파일 경로와 저장할 JSON 파일 경로
+csv_filename = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.csv'
+json_filename = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.json'
+
+# CSV를 JSON으로 변환하고 JSON 파일로 저장
+csv_to_json_and_save(csv_filename, json_filename)
+print(f'변환된 데이터를 {json_filename}으로 저장했습니다.')
     
