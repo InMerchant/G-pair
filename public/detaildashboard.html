@@ -6,10 +6,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>웹툰-웹툰 제목</title>
+        <title>웹툰-세부페이지(대시보드 버전)</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles02.css" rel="stylesheet" />
+        <link href="css/genderChart.css" rel="stylesheet"/>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <style>
+            #dialogueChart {
+            max-height: 400px; /* 적절한 최대 높이 값으로 설정 */
+            width: 100%; /* 부모 컨테이너에 맞게 너비를 조정 */
+            }
+            #situationChart {
+            max-height: 400px; /* 적절한 최대 높이 값으로 설정 */
+            width: 100%; /* 부모 컨테이너에 맞게 너비를 조정 */
+            }
+        </style>
     </head>
     <body>
         <!-- 네비 바 -->
@@ -44,37 +57,74 @@
             <div class="card text-white bg-secondary my-5 py-4 text-center">
                 <div class="card-body"><p id="webtoon-tag" class="text-white m-0"> 태그: </p></div>
             </div>
-            <!-- 아코디언 부분 -->
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
+            <div id="layoutSidenav">
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid px-4">
+                            <h1 class="mt-4">Tables</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item">Dashboard</a></li>
+                            </ol>
+                            <!-- 드롭다운 위치 -->
+                            <div class="dropdown" style="text-align: right; margin-bottom: 20px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dashboardDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    선택
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dashboardDropdown">
+                                    <li><a class="dropdown-item">전체 통계</a></li>
+                                    <!-- 동적으로 추가될 옵션들 -->
+                                </ul>
+                            </div>
                             <div class="card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-table me-1"></i>
-                                    목차
-                                </div>
-                                <div class="card-body">
-                                    <table id="datatablesSimple">
-                                        <thead>
-                                            <tr>
-                                                <th>화수</th>
-                                                <th>제목</th>
-                                                <th>태그</th>
-                                                <th>장면 검색수</th>
-                                                <th>업로드</th>
-                                                <th>추천</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                <div class="card-body" style="display: flex;">
+
                                 </div>
                             </div>
+                            <div class="card mb-4">
+                                <div class="card-body" style="display: flex;">
+                                    <div style="flex: 1;">
+                                        <canvas id="dialogueChart" width="100" height="100"></canvas>
+                                        <h3 style="align-items: center;">대사</h3>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <canvas id="situationChart" width="100" height="100"></canvas>
+                                        <h3 style="align-items: center;">상황</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-4">
+                                <div class="card-body" style="display: flex;">
+                                    <!-- 컨테이너 추가 (두 개의 아이콘을 묶음) -->
+                                    <div style="flex: 1; display: flex;">
+                                        <!-- 여성 아이콘 컨테이너 -->
+                                        <div class="icon-container" id="female-icon-container">
+                                            <div class="filled-icon" id="femaleFilledIcon"></div>
+                                            <div id="femalePercentageText" class="text">여성: 0%</div>
+                                        </div>
+                                        
+    
+                                        <!-- 남성 아이콘 컨테이너 -->
+                                        <div class="male-icon-container">
+                                            <div class="male-filled-icon" id="maleFilledIcon"></div>
+                                            <div id="malePercentageText" class="text">남성: 0%</div>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <!-- 그래프를 나타내는 부분 -->
+                                    <div style="flex: 1;">
+                                        <canvas id="ageChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>                                            
                         </div>
-                    </div>
+                    </main>
+                    <footer class="py-4 bg-light mt-auto">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center justify-content-between small">
+                            </div>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </div>
@@ -96,24 +146,20 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>     
-        
+        <script type="module" src="js/dashboard_addDropdown.js"></script>
+        <script type="module" src="js/episodeDashboard.js"></script>
+
         <!-- 페이지 로드 시 함수 호출 -->
         <script type="module">
             import { updateWebtoonTitle, updateWebtoonDescription, updateWebtoonAuthor, updateWebtoonTag } from './js/upload,loading/updateWebtoonInfo.js';
             import { loadSignImages } from './js/upload,loading/thumbnailLoad.js';
             import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
             import { app } from "./js/firebase.js";
-            import { loadDataAndInitializeTable } from './js/dashboard.js';
 
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const webtoonID = urlParams.get("name");
             const auth = getAuth(app);
-
-            //목차 테이블 호출
-            window.addEventListener('DOMContentLoaded', event => {
-                loadDataAndInitializeTable(webtoonID);
-            });
 
             window.onload = function() {
                 updateWebtoonTitle(webtoonID);          //타이틀업로드
@@ -121,15 +167,6 @@
                 updateWebtoonAuthor(webtoonID);         //작가이름업로드
                 loadSignImages(webtoonID);              //타이틀이미지업로드
                 updateWebtoonTag(webtoonID);            //태그업로드
-                onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
-                    if (user) {
-                      console.log(`Current user ID is ${user.uid}`);
-                      // user.uid를 사용하여 무언가를 할 수 있습니다.
-                    } else {
-                      console.log("No user is currently logged in.");
-                      // 로그인 페이지로 리다이렉션할 수 있습니다.
-                    }
-                });
             };
         </script>
         <script>
