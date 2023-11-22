@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { spawn } = require('child_process');
 const app = express();
 const port = 3000;
 
@@ -59,18 +60,23 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 
-
-
 app.get('/runPython', (req, res) => {
-  const pythonProcess = spawn('python', ['./ai/img_run.py']);
+  const { webtoonID, episodeNumber } = req.query;
+  const pythonProcess = spawn('python', ['./ai/img run.py', webtoonID, episodeNumber]);
+
+  const responseData = []; // 데이터를 저장할 배열
 
   pythonProcess.stdout.on('data', (data) => {
-      console.log(`Python Output: ${data}`);
-      res.send(data);
+    responseData.push(data.toString()); // 데이터를 배열에 추가
   });
 
   pythonProcess.stderr.on('data', (data) => {
-      console.error(`Python Error: ${data}`);
-      res.status(500).send('Error executing Python script.');
+    console.error(`Python Error: ${data}`);
+    responseData.push(`Python Error: ${data}`); // 오류도 배열에 추가
+  });
+
+  pythonProcess.on('close', () => {
+    // Python 스크립트 실행이 완료된 후 데이터를 클라이언트에게 한 번에 응답
+    res.send(responseData.join('\n')); // 배열을 문자열로 변환하여 응답
   });
 });

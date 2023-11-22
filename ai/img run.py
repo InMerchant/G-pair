@@ -1,8 +1,59 @@
-# 1. 이미지 넘버링
 import os
+import sys
+import firebase_admin
+from firebase_admin import credentials, storage
+import requests
+import csv
+from PIL import Image
+from transformers import BlipProcessor, BlipForConditionalGeneration
+from tqdm import tqdm
+import time
+import json
+# 명령줄 인수로 웹툰 ID와 에피소드 번호를 받음
+if len(sys.argv) >= 3:
+    webtoon_id = sys.argv[1]
+    episode_number = sys.argv[2]
+else:
+    print("No Webtoon ID or Episode Number received")
+    sys.exit(1)
+
+# Firebase 설정 파일 경로
+cred_path = 'C:\\Users\\leekj\\OneDrive\\바탕 화면\\G-pair\\firebasekey.json'
+cred = credentials.Certificate(cred_path)
+
+# Firebase 앱 초기화
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'look-b1624.appspot.com'
+})
+
+# Firebase 스토리지 버킷 접근
+bucket = storage.bucket()
+
+# Firebase 스토리지 내 특정 폴더의 모든 파일을 나열
+folder_path = f'{webtoon_id}/{episode_number}/'  # 웹툰 ID와 에피소드 번호를 기반으로 경로 설정
+blobs = bucket.list_blobs(prefix=folder_path)  # 해당 폴더 내 모든 파일을 가져옴
+
+# 로컬에 저장할 폴더 경로 설정
+local_folder_path = f'public\\js\\board\\{webtoon_id}\\{episode_number}'
+
+# 해당 로컬 폴더가 존재하는지 확인하고, 없으면 생성
+if not os.path.exists(local_folder_path):
+    os.makedirs(local_folder_path)
+
+
+# 폴더 내의 모든 파일을 다운로드
+for blob in blobs:
+    # 파일 이름 추출
+    file_name = blob.name.split('/')[-1]
+
+    # 로컬 파일 경로 설정
+    local_file_path = os.path.join(local_folder_path, file_name)
+
+    # 파일 다운로드
+    blob.download_to_filename(local_file_path)
 
 # 이미지 파일들이 있는 폴더 경로
-folder_path = r'C:\Users\ska0047\MStudy\vitImg'
+folder_path = local_folder_path
 
 # 폴더 내의 모든 파일 목록 가져오기
 file_list = os.listdir(folder_path)
@@ -22,21 +73,31 @@ for i, file_name in enumerate(png_files, start=1):
     os.rename(os.path.join(folder_path, file_name), os.path.join(folder_path, new_file_name))
 print("넘버링 완료")
 #2. 이미지 캡션 생성 후 번역 후 정제
-import os
-import requests
-import csv
-from PIL import Image
-from transformers import BlipProcessor, BlipForConditionalGeneration
-from tqdm import tqdm
-import time
+
+# 'vitImg'와 'vitCsv' 폴더 경로
+vit_img_path = os.path.join(local_folder_path, 'vitImg')
+vit_csv_path = os.path.join(local_folder_path, 'vitCsv')
+
+# 폴더 생성 함수
+def create_directory(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+        print(f"Created directory: {path}")
+    else:
+        print(f"Directory already exists: {path}")
+
+# 'vitImg'와 'vitCsv' 폴더 생성
+create_directory(vit_img_path)
+create_directory(vit_csv_path)
+
 
 # Blip 모델과 프로세서 불러오기
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
 # 이미지가 있는 디렉토리와 CSV 파일을 저장할 디렉토리 경로 설정
-image_dir = r'C:\Users\ska0047\MStudy\vitImg'
-csv_dir = r'C:\Users\ska0047\MStudy\vitCsv'
+image_dir = local_folder_path
+csv_dir = vit_csv_path
 csv_filename = '상황.csv'
 
 # 이미지 파일 목록 가져오기
@@ -79,7 +140,9 @@ from googletrans import Translator
 translator = Translator()
 
 # 입력 CSV 파일 경로
-input_csv_file_path = r'C:\Users\ska0047\MStudy\vitCsv\상황.csv'
+input_csv_file_path = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황.csv'
+
+
 
 # 번역 함수
 def translate_text(text, target_lang):
@@ -102,7 +165,7 @@ with open(input_csv_file_path, 'r', newline='', encoding='utf-8') as csvfile:
             translated_data.append([image_name, translated_sentence])
 
 # 번역된 내용을 CSV 파일에 저장
-translated_csv_file_path = r'C:\Users\ska0047\MStudy\vitCsv\상황.csv'
+translated_csv_file_path = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황.csv'
 
 with open(translated_csv_file_path, 'w', newline='', encoding='utf-8') as csvfile:
     csvwriter = csv.writer(csvfile)
@@ -113,11 +176,10 @@ if translated_data:
 else:
     print("번역된 내용이 없습니다.")
     
-import csv
 
 # 기존 CSV 파일 경로 및 새로 저장할 CSV 파일 경로
-csv_path = r'C:\Users\ska0047\MStudy\vitCsv\상황.csv'
-new_csv_path = r'C:\Users\ska0047\MStudy\vitCsv\정제된상황.csv'
+csv_path = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황.csv'
+new_csv_path = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\정제된상황.csv'
 
 # 삭제할 단어들 리스트로 지정
 delete_words = ["그림", "만화", "클로즈업", "애니메이션", "이미지", "아라페드", "캐릭터", "포스터", ]  # 삭제할 단어들을 여기에 추가
@@ -147,7 +209,7 @@ import easyocr
 from tqdm import tqdm
 
 # 폴더 내 이미지 파일 목록 얻기
-image_folder = r'C:\Users\ska0047\MStudy\vitImg'
+image_folder =local_folder_path
 image_files = [f for f in os.listdir(image_folder) if f.endswith('.png')]
 
 # 정규 표현식 패턴 설정
@@ -157,7 +219,7 @@ pattern = re.compile(r'[^A-Za-z0-9가-힣\s]')
 reader = easyocr.Reader(['ko', 'en'], gpu=False)
 
 # 결과를 저장할 CSV 파일 열기
-csv_file = open(r'C:\Users\ska0047\MStudy\vitCsv\대사.csv', 'w', newline='', encoding='utf-8')
+csv_file = open(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\대사.csv', 'w', newline='', encoding='utf-8')
 csv_writer = csv.writer(csv_file)
 
 for image_file in tqdm(image_files, desc="OCR Progress", ncols=50):
@@ -181,17 +243,17 @@ print("OCR 처리 및 CSV 파일 저장 완료")
 import csv
 
 # 첫 번째 CSV 파일 읽기
-with open(r'C:\Users\ska0047\MStudy\vitCsv\정제된상황.csv', 'r', newline='', encoding='utf-8') as csv_file1:
+with open( f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\정제된상황.csv', 'r', newline='', encoding='utf-8') as csv_file1:
     csv_reader1 = csv.reader(csv_file1)
     data1 = list(csv_reader1)
 
 # 두 번째 CSV 파일 읽기
-with open(r'C:\Users\ska0047\MStudy\vitCsv\대사.csv', 'r', newline='', encoding='utf-8') as csv_file2:
+with open(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\대사.csv', 'r', newline='', encoding='utf-8') as csv_file2:
     csv_reader2 = csv.reader(csv_file2)
     data2 = list(csv_reader2)
 
 # 새로운 CSV 파일 생성 및 쓰기
-with open(r'C:\Users\ska0047\MStudy\vitCsv\상황과 대사.csv', 'w', newline='', encoding='utf-8') as merged_csv_file:
+with open(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사.csv', 'w', newline='', encoding='utf-8') as merged_csv_file:
     csv_writer = csv.writer(merged_csv_file)
 
     # 데이터 병합하여 쓰기
@@ -206,7 +268,7 @@ print("두 개의 CSV 파일이 합쳐졌습니다.")
 import csv
 
 # CSV 파일 열기
-file_path = r'C:\Users\ska0047\MStudy\vitCsv\상황과 대사.csv'
+file_path = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사.csv'
 with open(file_path, newline='', encoding='utf-8') as csvfile:
     reader = csv.reader(csvfile)
     data = list(reader)
@@ -230,7 +292,7 @@ from tqdm import tqdm
 import time
 
 def classify_sentence(sentence):
-    model_path = "epoch_4_evalAcc_64.pth"
+    model_path = "C:/Users/leekj/OneDrive/바탕 화면/G-pair/ai/epoch_4_evalAcc_64.pth"
     tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
     config = BertConfig.from_pretrained('bert-base-multilingual-cased', num_labels=8)
     model = BertForSequenceClassification(config)
@@ -258,7 +320,7 @@ def classify_sentence(sentence):
     return predicted_class
 
 # csv 파일 불러오기
-df = pd.read_csv('C:\\Users\\ska0047\\MStudy\\vitCsv\\상황과 대사.csv', header=None)
+df = pd.read_csv(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사.csv', header=None)
 
 # 새로운 데이터프레임 생성
 new_df = pd.DataFrame()
@@ -280,18 +342,17 @@ end = time.time()
 
 
 # 새로운 csv 파일로 저장
-new_df.to_csv('C:\\Users\\ska0047\\MStudy\\vitCsv\\상황과 대사_윤리검증.csv', index=False)
+new_df.to_csv(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.csv', index=False)
 
 
 # 파일 읽기
-df = pd.read_csv('C:\\Users\\ska0047\\MStudy\\vitCsv\\상황과 대사_윤리검증.csv')
+df = pd.read_csv(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.csv')
 
 # '.0'을 제거하고 숫자로 변환한 후 다시 문자열로 변환
 df['문장1의 분류 라벨링'] = df['문장1의 분류 라벨링'].astype(float).astype('Int64').astype(str)
 df['문장2의 분류 라벨링'] = df['문장2의 분류 라벨링'].astype(float).astype('Int64').astype(str)
-
 # 결과를 새로운 파일에 저장
-df.to_csv('C:\\Users\\ska0047\\MStudy\\vitCsv\\상황과 대사_윤리검증.csv', index=False)
+df.to_csv(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.csv', index=False)
 
 print(f"경과 시간: {end - start}초")
     #"['CENSURE'비난]": 0,
@@ -303,4 +364,29 @@ print(f"경과 시간: {end - start}초")
     #"['CRIME'범죄]": 6,
     #"['IMMORAL_NONE']": 7,
     
+
+
+def csv_to_json_and_save(csv_file, json_file):
+    data = []
+    
+    # CSV 파일 읽기
+    with open(csv_file, 'r', encoding='utf-8') as file:
+        csv_reader = csv.DictReader(file)
+        for row in csv_reader:
+            data.append(row)
+    
+    # JSON 형식으로 변환
+    json_data = json.dumps(data, ensure_ascii=False, indent=4)
+    
+    # JSON 파일로 저장
+    with open(json_file, 'w', encoding='utf-8') as output_file:
+        output_file.write(json_data)
+
+# CSV 파일 경로와 저장할 JSON 파일 경로
+csv_filename = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.csv'
+json_filename = f'public\\js\\board\\{webtoon_id}\\{episode_number}.json'
+
+# CSV를 JSON으로 변환하고 JSON 파일로 저장
+csv_to_json_and_save(csv_filename, json_filename)
+print(f'변환된 데이터를 {json_filename}으로 저장했습니다.')
     
