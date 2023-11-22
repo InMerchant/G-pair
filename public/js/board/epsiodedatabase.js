@@ -12,6 +12,7 @@ export async function updateOrCreateEpisode(webtoonID, episodeData, episodeNumbe
       await setDoc(episodeDocRef, episodeData,);
       filesData.forEach(async (fileData, index) => {
         const jsonData = response.find(item => item['파일 이름'] === fileData.name);
+        console.log(jsonData);
         const imageDocRef = doc(collection(episodeDocRef, "Image"), `image${index + 1}`);
         await setDoc(imageDocRef, {
           url: fileData.url, 

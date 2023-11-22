@@ -9,7 +9,6 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 from tqdm import tqdm
 import time
 import json
-
 # 명령줄 인수로 웹툰 ID와 에피소드 번호를 받음
 if len(sys.argv) >= 3:
     webtoon_id = sys.argv[1]
@@ -19,7 +18,7 @@ else:
     sys.exit(1)
 
 # Firebase 설정 파일 경로
-cred_path = 'C:\\Users\\WIN10\\Desktop\\G-pair\\firebasekey.json'
+cred_path = 'C:\\Users\\leekj\\OneDrive\\바탕 화면\\G-pair\\firebasekey.json'
 cred = credentials.Certificate(cred_path)
 
 # Firebase 앱 초기화
@@ -293,7 +292,7 @@ from tqdm import tqdm
 import time
 
 def classify_sentence(sentence):
-    model_path = "C:/Users/WIN10/Desktop/G-pair/ai/epoch_4_evalAcc_64.pth"
+    model_path = "C:/Users/leekj/OneDrive/바탕 화면/G-pair/ai/epoch_4_evalAcc_64.pth"
     tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
     config = BertConfig.from_pretrained('bert-base-multilingual-cased', num_labels=8)
     model = BertForSequenceClassification(config)
@@ -352,7 +351,6 @@ df = pd.read_csv(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\�
 # '.0'을 제거하고 숫자로 변환한 후 다시 문자열로 변환
 df['문장1의 분류 라벨링'] = df['문장1의 분류 라벨링'].astype(float).astype('Int64').astype(str)
 df['문장2의 분류 라벨링'] = df['문장2의 분류 라벨링'].astype(float).astype('Int64').astype(str)
-
 # 결과를 새로운 파일에 저장
 df.to_csv(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.csv', index=False)
 
@@ -386,7 +384,7 @@ def csv_to_json_and_save(csv_file, json_file):
 
 # CSV 파일 경로와 저장할 JSON 파일 경로
 csv_filename = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.csv'
-json_filename = f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사_윤리검증.json'
+json_filename = f'public\\js\\board\\{webtoon_id}\\{episode_number}.json'
 
 # CSV를 JSON으로 변환하고 JSON 파일로 저장
 csv_to_json_and_save(csv_filename, json_filename)

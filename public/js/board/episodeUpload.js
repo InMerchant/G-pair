@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
 
-
     const filesArray = Array.from(files);
     const uploadPromises = filesArray.map(file => {
         const storageRef = ref(storage, `${webtoonID}/${episodeNumber}/${file.name}`);
@@ -56,7 +55,7 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
     const response = await fetch(`/js/board/${webtoonID}/${episodeNumber}.json`);
     try {
         const jsonData = await response.json();
-        console.log(jsonData);
+        console.log(jsonData)
         const filesData = await Promise.all(uploadPromises);
         const timestamp = getCurrentTimestamp();
         const epsiodeData={
