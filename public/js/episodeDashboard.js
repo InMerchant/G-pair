@@ -31,6 +31,7 @@ let allEpisodesData = {
     }
 };
 
+//드롭아웃 추가
 fetchEpisodesAndAddToDropdown(webtoonID);
 
 //드롭아웃 이벤트 추가 코드
@@ -46,8 +47,7 @@ dropdownMenu.addEventListener('click', function(event) {
 
         // "전체 통계"가 선택된 경우 특정 동작을 수행
         if (selectedText === "전체 통계") {
-            // "전체 통계"에 대한 처리를 여기에 추가합니다.
-            console.log("전체 통계가 선택되었습니다.");
+            selectTotalDropdown()
         } else {
             // 다른 항목이 선택된 경우 숫자를 추출합니다.
             const episodeNumber = selectedText.match(/\d+/) ? selectedText.match(/\d+/)[0] : null;
@@ -55,7 +55,7 @@ dropdownMenu.addEventListener('click', function(event) {
             // 추출된 숫자를 episodeID 변수에 저장합니다.
             if (episodeNumber) {
                 episodeID = parseInt(episodeNumber, 10);
-                console.log("선택된 에피소드 ID:", episodeID);
+                selectEachDropdown(episodeID)
             }
         }
     }
@@ -177,9 +177,80 @@ for (let episode = 1; episode <= updateDropdownItemCount() - 1; episode++) {
     }
 }
 
+//대시보드 통계용 라벨링
+let 상황Count = {
+    'ABUSE': 0,
+    'CENSURE': 0,
+    'VIOLENCE': 0,
+    'SEXUAL': 0,
+    'CRIME': 0,
+    'DISCRIMINATION': 0,
+    'HATE': 0,
+    '비난X':0
+};
+let 대사Count = {
+    'ABUSE': 0,
+    'CENSURE': 0,
+    'VIOLENCE': 0,
+    'SEXUAL': 0,
+    'CRIME': 0,
+    'DISCRIMINATION': 0,
+    'HATE': 0,
+    '비난X':0
+};
 
+//드롭다운 선택시 실행코드(전체 통계)
+function selectTotalDropdown() {
+    // 라벨과 배열 인덱스의 매핑
+    const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '비난X'];
 
-// 각 에피소드별 데이터와 모든 에피소드 데이터의 사용 예
-console.log("에피소드별 데이터:", individualEpisodeData);
+    // situationLabelingCount 배열의 값을 상황Count 객체에 할당
+    labels.forEach((label, index) => {
+        상황Count[label] = allEpisodesData.situationLabelingCount[index];
+    });
+
+    // sentenceLabelingCount 배열의 값을 대사Count 객체에 할당
+    labels.forEach((label, index) => {
+        대사Count[label] = allEpisodesData.sentenceLabelingCount[index];
+    });
+
+    // 집계한 데이터를 기반으로 계산을 수행
+    const totalGenderCount = allEpisodesData.genderCount.male + allEpisodesData.genderCount.female;
+    const malePercentage = (allEpisodesData.genderCount.male / totalGenderCount) * 100;
+    const femalePercentage = (allEpisodesData.genderCount.female / totalGenderCount) * 100;
+
+    // 차트 생성 함수 호출
+    drawChart(대사Count, 'dialogueChart');
+    drawChart(상황Count, 'situationChart');
+    updateIconHeight(malePercentage, femalePercentage);
+    barChart(allEpisodesData.ageGroups, 'ageChart');
+}
+
+//드롭다운 선택시 실행코드(에피소드별 통계)
+function selectEachDropdown(episodeID) {
+    // 라벨과 배열 인덱스의 매핑
+    const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '비난X'];
+
+    // situationLabelingCount 배열의 값을 상황Count 객체에 할당
+    labels.forEach((label, index) => {
+        상황Count[label] = individualEpisodeData[episodeID].situationLabelingCount[index];
+    });
+
+    // sentenceLabelingCount 배열의 값을 대사Count 객체에 할당
+    labels.forEach((label, index) => {
+        대사Count[label] = individualEpisodeData[episodeID].sentenceLabelingCount[index];
+    });
+
+    // 집계한 데이터를 기반으로 계산을 수행
+    const totalGenderCount = individualEpisodeData[episodeID].genderCount.male + individualEpisodeData[episodeID].genderCount.female;
+    const malePercentage = (individualEpisodeData[episodeID].genderCount.male / totalGenderCount) * 100;
+    const femalePercentage = (individualEpisodeData[episodeID].genderCount.female / totalGenderCount) * 100;
+
+    // 차트 생성 함수 호출
+    drawChart(대사Count, 'dialogueChart');
+    drawChart(상황Count, 'situationChart');
+    updateIconHeight(malePercentage, femalePercentage);
+    barChart(individualEpisodeData[episodeID].ageGroups, 'ageChart');
+}
+
 //console.log("에피소드별 데이터:", individualEpisodeData[2]);
-console.log("모든 에피소드 데이터 합계:", allEpisodesData);

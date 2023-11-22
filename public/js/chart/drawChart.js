@@ -106,11 +106,11 @@ export function updateIconHeight(malePercentage, femalePercentage) {
     // 남성 아이콘의 채워진 높이 계산
     var maleIconHeight = malePercentage + '%'; // 남성 아이콘 채워진 높이
     maleFilledIcon.style.height = maleIconHeight; // 남성 채워진 아이콘 높이 설정
-    malePercentageText.innerText = `남성: ${malePercentage}%`;
+    malePercentageText.innerText = `남성: ${malePercentage.toFixed(1)}%`;
     // 여성 아이콘의 채워진 높이 계산
     var femaleIconHeight = femalePercentage + '%'; // 여성 아이콘 채워진 높이
     femaleFilledIcon.style.height = femaleIconHeight; // 여성 채워진 아이콘 높이 설정
-    femalePercentageText.innerText = `여성: ${femalePercentage}%`;
+    femalePercentageText.innerText = `여성: ${femalePercentage.toFixed(1)}%`;
 }
 
 
