@@ -7,7 +7,7 @@ const webtoonID = urlParams.get("name");
 
 let episodes = [];
 
-async function fetchEpisodesAndAddToDropdown(webtoonID) {
+export async function fetchEpisodesAndAddToDropdown(webtoonID) {
     try {
         // webtoonDATA 컬렉션에서 첫 번째 문서 참조 가져오기
         const docRef = await getWebtoonCollectionDocData(webtoonID);
@@ -36,9 +36,9 @@ function addDropdownOption(episodeText) {
     const dropdownButton = document.getElementById('dashboardDropdown');
     const dropdownMenu = dropdownButton.nextElementSibling;
     const newOption = document.createElement('li');
-    newOption.innerHTML = `<a class="dropdown-item" href="#">${episodeText}</a>`;
+    newOption.innerHTML = `<a class="dropdown-item">${episodeText}</a>`;
     dropdownMenu.appendChild(newOption);
 }
 
 // 페이지 로드 시 함수 호출
-fetchEpisodesAndAddToDropdown(webtoonID);
+//fetchEpisodesAndAddToDropdown(webtoonID);
