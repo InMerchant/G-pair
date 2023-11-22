@@ -29,3 +29,19 @@
 #liveToastBtn {
     padding: 20px 20px; /* 상하 패딩 10px, 좌우 패딩 20px */
 }
+
+.comment-container {
+    max-width: 600px; /* 댓글 섹션의 최대 너비 */
+    margin: 0 auto; /* 상하 마진 0, 좌우 마진 자동으로 중앙 정렬 */
+    padding: 20px; /* 내부 여백 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+#commentInput {
+    width: 100%; /* 입력 필드 너비를 컨테이너 너비에 맞춤 */
+    margin-bottom: 10px; /* 입력 필드 아래 여백 */
+}
+
+#commentList {
+    text-align: left; /* 댓글 목록은 왼쪽 정렬 */
+}
