@@ -253,4 +253,5 @@ function selectEachDropdown(episodeID) {
     barChart(individualEpisodeData[episodeID].ageGroups, 'ageChart');
 }
 
-//console.log("에피소드별 데이터:", individualEpisodeData[2]);
+//웹에 전체 통계 대시보드 표시
+selectTotalDropdown()
