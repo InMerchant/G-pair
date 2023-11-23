@@ -12,10 +12,11 @@ const fetchDataFromAllCollections = async () => {
         const titlesAndIds = [];
         for (const doc of firstQuerySnapshot.docs) {
             const data = doc.data();
-            if (data.title) { // 'title' 필드가 있는 경우에만 추가
+            if (data.title) {
                 titlesAndIds.push({
                     title: data.title,
-                    id: data.webtoonID
+                    id: data.webtoonID,
+                    author:data.author
                 });
             }
         }
@@ -32,6 +33,7 @@ const updateSelectOptions = (titlesAndIds) => {
         const option = document.createElement('option');
         option.value = item.id;
         option.textContent = item.title;
+        option.author=item.author;
         select.appendChild(option); 
     });
 };
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchDataFromAllCollections();
 });
 
-async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
+async function uploadFiles(files, webtoonID,episodeNumber,subTitle,webtoonTitle,webtoonAuthor) {
 
     const filesArray = Array.from(files);
     const uploadPromises = filesArray.map(file => {
@@ -66,7 +68,7 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
             imgSearchCount:0
         }
         await updateOrCreateEpisode(webtoonID, epsiodeData, episodeNumber,filesData,jsonData);
-        await updateSearch (webtoonID, episodeNumber,filesData,jsonData);
+        await updateSearch (webtoonID, episodeNumber,filesData,jsonData,webtoonTitle,webtoonAuthor);
 
         console.log(filesData)
         console.log(jsonData)
@@ -105,9 +107,11 @@ uploadButton.addEventListener("click", function() {
     var episodeNumber = document.getElementById('episodeNumber').value;
     var episodeSubtitle = document.getElementById('subTitle').value;
     var files = fileInput.files;
+    var webtoonTitle=document.getElementById('webtoonSelect').textContent
+    var webtoonAuthor=document.getElementById('webtoonSelect').authro
 
     if (webtoonID && episodeNumber && episodeSubtitle && files.length > 0) {
-        uploadFiles(files, webtoonID,episodeNumber,episodeSubtitle);
+        uploadFiles(files, webtoonID,episodeNumber,episodeSubtitle,webtoonTitle,webtoonAuthor);
     } else {
         console.log('No webtoon selected, missing episode information, or no files selected.');
     }

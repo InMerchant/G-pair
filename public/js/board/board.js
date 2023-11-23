@@ -42,8 +42,12 @@ document.getElementById('submitbutton').addEventListener('click', async function
             thumbnail: imageUrl,
             webtoonID: webtoonID
         };
+        const webtoonSearch={
+            제목: titleInput,
+            작가: authorInput,
+        }
         await addDoc(collection(db, 'webtoonDATA'), webtoonData);
-        await addDoc(collection(db, 'Search'), webtoonData);
+        await addDoc(collection(db, 'Search'), webtoonSearch);
         window.location.href="/"
 
     } catch (error) {

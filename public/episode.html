@@ -91,7 +91,9 @@
         <script type="module" src="js/upload,loading/episodeLoad.js"></script>
         <script type="module" src="js/upload,loading/recommendCount.js"></script>
         <script type="module" src="js/episode_userUID_update_DB.js"></script>
+        <script type="module" src="js/comment/comment.js"></script>
         <script type="module">
+            import {commentSave} from "./js/comment/comment.js"
             import { updateUserUID } from "./js/episode_userUID_update_DB.js"
             import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
             import { app } from "./js/firebase.js";
@@ -110,9 +112,14 @@
 
             onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
                 if (user) {
-                    updateUserUID(webtoonID, episodeID, user.uid)
+                    updateUserUID(webtoonID, episodeID, user.uid)//추천 기능용
+                    document.getElementById("submitComment").addEventListener("click",function(){
+                        var comment=document.getElementById("commentInput").value;
+                        commentSave(webtoonID,episodeStr,user.uid,comment);
+                        document.getElementById("commentInput").value = "";
+                    })
                 }
-            });
+            });;
         </script>
         <script>
             // 문서가 로드되면 실행

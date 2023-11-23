@@ -1,5 +1,5 @@
 import { db } from '../firebase.js';
-import { collection, getDocs, query, where,doc,setDoc,updateDoc,arrayUnion} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
+import { collection, getDocs, query, where,doc,setDoc,updateDoc,arrayUnion,addDoc} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 
 export async function updateOrCreateEpisode(webtoonID, episodeData, episodeNumber,filesData,response) {
   try {
@@ -31,33 +31,32 @@ export async function updateOrCreateEpisode(webtoonID, episodeData, episodeNumbe
   }
 }
 
-export async function updateSearch(webtoonID,episodeNumber,filesData,response){
+export async function updateSearch(webtoonID,episodeNumber,filesData,response,webtoonTitle,webtoonAuthor){
   try {
     const searchCollectionRef = collection(db, "Search");
-    const q = query(searchCollectionRef, where("webtoonID", "==", webtoonID));
-    const querySnapshot = await getDocs(q);
-    if(!querySnapshot.empty){
-      let situations = [];
-      let sentences = [];
-      let imageURLs = [];
+    let situations = [];
+    let sentences = [];
+    let imageURLs = [];
 
-      filesData.forEach((fileData) => {
-        const jsonData = response.find(item => item['파일 이름'] === fileData.name);
-        situations.push(jsonData['문장1']); // 상황
-        sentences.push(jsonData['문장2']); // 문장
-        imageURLs.push(fileData.url); // 이미지 URL
-      });
-      const episodeField = `${episodeNumber}화 URL`;
-      const situationsField = `${episodeNumber}화 상황`;
-      const sentencesField = `${episodeNumber}화 문장`;
-      const docRef = querySnapshot.docs[0].ref;
+    filesData.forEach((fileData) => {
+      const jsonData = response.find(item => item['파일 이름'] === fileData.name);
+      situations.push(jsonData['문장1']); // 상황
+      sentences.push(jsonData['문장2']); // 문장
+      imageURLs.push(fileData.url); // 이미지 URL
+    });
+    const episodeField = `${episodeNumber}화 URL`;
+    const situationsField = `${episodeNumber}화 상황`;
+    const sentencesField = `${episodeNumber}화 문장`;
+    await addDoc(searchCollectionRef, {
+      [situationsField]: arrayUnion(...situations),
+      [sentencesField]: arrayUnion(...sentences),
+      [episodeField]: arrayUnion(...imageURLs),
+      webtoonID:webtoonID,
+      title:webtoonTitle,
+      episodeNumber:episodeNumber,
+      author:webtoonAuthor
+    });
 
-      await updateDoc(docRef, {
-        [situationsField]: arrayUnion(...situations),
-        [sentencesField]: arrayUnion(...sentences),
-        [episodeField]: arrayUnion(...imageURLs)
-      });
-    }
   } catch (error) {
     console.error("Error with Episode collection in Firestore: ", error);
   }
