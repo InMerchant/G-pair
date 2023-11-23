@@ -67,6 +67,10 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle) {
         }
         await updateOrCreateEpisode(webtoonID, epsiodeData, episodeNumber,filesData,jsonData);
         await updateSearch (webtoonID, episodeNumber,filesData,jsonData);
+
+        console.log(filesData)
+        console.log(jsonData)
+
         document.getElementById('loadingSpinner').style.display = 'none';
         //window.location.href="/"
     } catch (error) {
