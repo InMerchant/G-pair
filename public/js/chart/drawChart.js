@@ -128,14 +128,21 @@ export function barChart(data, elementId) {
     if (charts[elementId]) {
         charts[elementId].destroy();
     }
+
     var ctx = document.getElementById(elementId).getContext('2d');
+
+    // 데이터의 총합 계산
+    var total = Object.values(data).reduce((sum, value) => sum + value, 0);
+    // 데이터를 백분율로 변환
+    var percentageData = Object.values(data).map(value => (value / total) * 100);
+
     charts[elementId] = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: translate2(Object.keys(data)),
             datasets: [{
                 label: "나이 통계",
-                data: Object.values(data),
+                data: percentageData,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.5)',
                     'rgba(54, 162, 235, 0.5)',
@@ -161,7 +168,20 @@ export function barChart(data, elementId) {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    min: 0, // y축 최소값을 0%로 설정
+                    max: 100, // y축 최대값을 항상 100%로 설정
+                    ticks: {
+                        stepSize: 10, // y축 눈금 간격을 10%로 설정
+                        callback: function(value) {
+                            return value + '%'; // y축 값에 % 추가
+                        }
+                    }
+                }
+            }
         }
     });
 }
