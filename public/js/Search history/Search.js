@@ -16,27 +16,20 @@ const resultsContainer = document.querySelector('.card-body');
 searchButton.addEventListener('click', () => {
     const query = searchInput.value;
     const searchType = searchTypeSelect.value;
-    const selectedWebtoon = webtoonNameSelect.value; // 선택된 웹툰 이름
+    const selectedWebtoon = webtoonNameSelect.value;
 
     index.search(query).then(({ hits }) => {
         let searchResults = '';
 
         hits.forEach(hit => {
             if (selectedWebtoon !== 'all' && hit.title !== selectedWebtoon) {
-                return; // 선택된 웹툰 이름과 일치하지 않으면 생략
+                return;
             }
 
             for (let key in hit) {
-                if (searchType === 'dialogue' && key.includes('문장') && hit[key].some(line => line.includes(query))) {
+                if (searchType === 'dialogue' && key.includes('문장')) {
                     const episodeNumber = key.split('화')[0];
-                    searchResults += createSearchResultItem(hit, episodeNumber, key, '문장', query);
-                } else if (searchType === 'situation' && key.includes('상황') && hit[key].some(line => line.includes(query))) {
-                    const episodeNumber = key.split('화')[0];
-                    searchResults += createSearchResultItem(hit, episodeNumber, key, '상황', query);
-                } else if (searchType === 'title' && key === 'title' && hit[key].includes(query)) {
-                    searchResults += createSearchResultItem(hit, null, key, 'title', query);
-                } else if (searchType === 'author' && key === 'author' && hit[key].includes(query)) {
-                    searchResults += createSearchResultItem(hit, null, key, 'author', query);
+                    searchResults += createSearchResultItem(hit, episodeNumber, query);
                 }
             }
         });
@@ -49,35 +42,40 @@ searchButton.addEventListener('click', () => {
     });
 });
 
-function createSearchResultItem(hit, episodeNumber, key, type, query) {
-    const dialogueOrSituationLines = Array.isArray(hit[key]) ? hit[key] : [];
-    const episodeImageUrlKey = episodeNumber + '화 url';
-    const episodeImageUrls = hit[episodeImageUrlKey] || [];
-    const defaultImageUrl = `https://firebasestorage.googleapis.com/v0/b/look-b1624.appspot.com/o/${encodeURIComponent(hit.webtoonID)}%2Fsign.png?alt=media`;
+function createSearchResultItem(hit, episodeNumber, query) {
+    const dialogueKey = episodeNumber + '화 문장';
+    const dialogueLines = hit[dialogueKey];
+    const episodeImageUrls = hit[episodeNumber + '화 URL'] || [];
 
-    const content = dialogueOrSituationLines.map((line, index) => {
-        // 해당 순서의 이미지 URL 가져오기
-        const imageUrl = episodeImageUrls.length > index ? episodeImageUrls[index] : defaultImageUrl;
-        const imageElement = line.includes(query) ? `<img src="${imageUrl}" class="search-result-image" alt="Episode Image">` : '';
-        
-        return imageElement ? `
-            <div class="search-result-content">
-                ${imageElement}
-                <div>${line}</div>
-            </div>` : '';
-    }).join('');
+    const filteredContent = dialogueLines
+        .map((line, index) => ({
+            line: line,
+            imageUrl: episodeImageUrls[index] || ''
+        }))
+        .filter(item => item.line.includes(query));
+
+    let contentHtml = '';
+
+    if (filteredContent.length > 0) {
+        contentHtml = filteredContent.map((item) => {
+            return `
+                <div class="search-result-content">
+                    ${item.imageUrl ? `<img src="${item.imageUrl}" class="search-result-image" alt="Episode Image">` : ''}
+                
+                    <div>${item.line}</div>
+                </div>`;
+        }).join('');
+    }
 
     return `
-    <div class="card search-result-item mb-3" data-webtoon-id="${hit.webtoonID}" data-episode-number="${episodeNumber}" data-search-type="${type}">
-        <div class="card-body">
-            <h5 class="card-title">${hit.title}</h5>
-            <p class="card-text">작가: ${hit.author}</p>
-            <p class="card-text">${episodeNumber ? episodeNumber + '화 ' : ''}${type}: ${content}</p>
-        </div>
-    </div>`;
+     <div class="card search-result-item mb-3" data-webtoon-id="${hit.webtoonID}" data-episode-number="${episodeNumber}">
+            <div class="card-body">
+                  <h5 class="card-title">${hit.title}</h5>
+                  <p class="card-text">작가: ${hit.author}</p>
+                    ${contentHtml}
+                </div>
+</div>`;
 }
-
-
 
 
 
