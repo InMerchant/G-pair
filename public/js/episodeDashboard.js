@@ -34,6 +34,12 @@ let allEpisodesData = {
 //드롭아웃 추가
 fetchEpisodesAndAddToDropdown(webtoonID);
 
+// 대사 차트와 상황 차트의 컨테이너를 가져옵니다
+var lineChartContainer = document.querySelector('#lineChartCard')
+
+// 대시보드를 만드는 동안 로딩창이 나오도록 함
+document.getElementById('loadingSpinner').style.display = 'block';
+
 //드롭아웃 이벤트 추가 코드
 const dropdownMenu = document.querySelector('.dropdown-menu');
 dropdownMenu.addEventListener('click', function(event) {
@@ -55,6 +61,8 @@ dropdownMenu.addEventListener('click', function(event) {
             // 추출된 숫자를 episodeID 변수에 저장합니다.
             if (episodeNumber) {
                 episodeID = parseInt(episodeNumber, 10);
+                // 라인 차트 숨기기
+                lineChartContainer.style.display = 'none';
                 selectEachDropdown(episodeID)
             }
         }
@@ -220,7 +228,9 @@ let sentenceLineData = {
 
 //드롭다운 선택시 실행코드(전체 통계)
 function selectTotalDropdown() {
-    
+    // 라인 차트 보이기
+    lineChartContainer.style.display = 'block';
+
     // 라벨과 배열 인덱스의 매핑
     const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '해당없음'];
     const labels2 = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE'];
@@ -263,10 +273,13 @@ function selectTotalDropdown() {
     drawChart(상황Count, 'situationChart');
     updateIconHeight(malePercentage, femalePercentage);
     barChart(allEpisodesData.ageGroups, 'ageChart');
+    // 로딩 완료시 스피너 제거
+    document.getElementById('loadingSpinner').style.display = 'none';
 }
 
 //드롭다운 선택시 실행코드(에피소드별 통계)
 function selectEachDropdown(episodeID) {
+
     // 라벨과 배열 인덱스의 매핑
     const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '해당없음'];
     
@@ -286,8 +299,6 @@ function selectEachDropdown(episodeID) {
     const femalePercentage = (individualEpisodeData[episodeID].genderCount.female / totalGenderCount) * 100;
 
     // 차트 생성 함수 호출
-    lineChart(sentenceLineData, 'dialogueLineChart');
-    lineChart(situationLineData, 'situationLineChart');
     drawChart(대사Count, 'dialogueChart');
     drawChart(상황Count, 'situationChart');
     updateIconHeight(malePercentage, femalePercentage);
