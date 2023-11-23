@@ -55,25 +55,6 @@ for blob in blobs:
 # 이미지 파일들이 있는 폴더 경로
 folder_path = local_folder_path
 
-# 폴더 내의 모든 파일 목록 가져오기
-file_list = os.listdir(folder_path)
-
-# PNG 파일만 골라내기
-png_files = [file for file in file_list if file.lower().endswith('.png')]
-
-# PNG 파일 수 확인
-num_png_files = len(png_files)
-
-# 새로운 파일 이름으로 파일들 이름 변경하기
-for i, file_name in enumerate(png_files, start=1):
-    # 번호의 자릿수에 맞게 포맷팅하여 새로운 파일 이름 생성
-    new_file_name = f'{i:0{len(str(num_png_files))}}.png'
-    
-    # 기존 파일을 새로운 이름으로 변경
-    os.rename(os.path.join(folder_path, file_name), os.path.join(folder_path, new_file_name))
-print("넘버링 완료")
-#2. 이미지 캡션 생성 후 번역 후 정제
-
 # 'vitImg'와 'vitCsv' 폴더 경로
 vit_img_path = os.path.join(local_folder_path, 'vitImg')
 vit_csv_path = os.path.join(local_folder_path, 'vitCsv')
