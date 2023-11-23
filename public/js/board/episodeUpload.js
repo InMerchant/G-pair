@@ -8,11 +8,10 @@ const fetchDataFromAllCollections = async () => {
     try {
         const firstCollectionRef = collection(db, "webtoonDATA");
         const firstQuerySnapshot = await getDocs(firstCollectionRef);
-
         const titlesAndIds = [];
         for (const doc of firstQuerySnapshot.docs) {
             const data = doc.data();
-            if (data.title) {
+            if (data.title) { // 'title' 필드가 있는 경우에만 추가
                 titlesAndIds.push({
                     title: data.title,
                     id: data.webtoonID,
@@ -32,8 +31,9 @@ const updateSelectOptions = (titlesAndIds) => {
     titlesAndIds.forEach(item => {
         const option = document.createElement('option');
         option.value = item.id;
+        option.dataset.title=item.title;
+        option.dataset.author=item.author;
         option.textContent = item.title;
-        option.author=item.author;
         select.appendChild(option); 
     });
 };
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchDataFromAllCollections();
 });
 
-async function uploadFiles(files, webtoonID,episodeNumber,subTitle,webtoonTitle,webtoonAuthor) {
+async function uploadFiles(files, webtoonID,episodeNumber,subTitle,title,author) {
 
     const filesArray = Array.from(files);
     const uploadPromises = filesArray.map(file => {
@@ -65,13 +65,12 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle,webtoonTitle,
             uploadDate:timestamp,
             episodeID:parseInt(episodeNumber,10),
             recommend:0,
-            imgSearchCount:0
+            imgSearchCount:0,
+            comment:0
         }
         await updateOrCreateEpisode(webtoonID, epsiodeData, episodeNumber,filesData,jsonData);
-        await updateSearch (webtoonID, episodeNumber,filesData,jsonData,webtoonTitle,webtoonAuthor);
-
-        console.log(filesData)
-        console.log(jsonData)
+        console.log(title,author)
+        await updateSearch (webtoonID, episodeNumber,filesData,jsonData,title,author);
 
         document.getElementById('loadingSpinner').style.display = 'none';
         //window.location.href="/"
@@ -101,17 +100,16 @@ async function waitForFileCreation(webtoonID, episodeNumber) {
 var fileInput = document.getElementById("file");
 var uploadButton = document.getElementById("submitEpisode");
 uploadButton.addEventListener("click", function() {
-    // 클릭 이벤트 핸들러 내용
     document.getElementById('loadingSpinner').style.display = 'block';
     var webtoonID = document.getElementById('webtoonSelect').value;
     var episodeNumber = document.getElementById('episodeNumber').value;
     var episodeSubtitle = document.getElementById('subTitle').value;
     var files = fileInput.files;
-    var webtoonTitle=document.getElementById('webtoonSelect').textContent
-    var webtoonAuthor=document.getElementById('webtoonSelect').authro
-
+    var selectedOption = document.getElementById('webtoonSelect').selectedOptions[0];
+    var title = selectedOption.dataset.title;
+    var author = selectedOption.dataset.author;
     if (webtoonID && episodeNumber && episodeSubtitle && files.length > 0) {
-        uploadFiles(files, webtoonID,episodeNumber,episodeSubtitle,webtoonTitle,webtoonAuthor);
+        uploadFiles(files, webtoonID,episodeNumber,episodeSubtitle,title,author);
     } else {
         console.log('No webtoon selected, missing episode information, or no files selected.');
     }
