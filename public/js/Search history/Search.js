@@ -27,9 +27,9 @@ searchButton.addEventListener('click', () => {
             }
 
             for (let key in hit) {
-                if (searchType === 'dialogue' && key.includes('대사') && hit[key].some(line => line.includes(query))) {
+                if (searchType === 'dialogue' && key.includes('문장') && hit[key].some(line => line.includes(query))) {
                     const episodeNumber = key.split('화')[0];
-                    searchResults += createSearchResultItem(hit, episodeNumber, key, '대사', query);
+                    searchResults += createSearchResultItem(hit, episodeNumber, key, '문장', query);
                 } else if (searchType === 'situation' && key.includes('상황') && hit[key].some(line => line.includes(query))) {
                     const episodeNumber = key.split('화')[0];
                     searchResults += createSearchResultItem(hit, episodeNumber, key, '상황', query);

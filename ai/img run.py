@@ -18,7 +18,7 @@ else:
     sys.exit(1)
 
 # Firebase 설정 파일 경로
-cred_path = 'C:\\Users\\leekj\\OneDrive\\바탕 화면\\G-pair\\firebasekey.json'
+cred_path = 'C:\\Users\\WIN10\\Desktop\\G-pair\\firebasekey.json'
 cred = credentials.Certificate(cred_path)
 
 # Firebase 앱 초기화
@@ -292,7 +292,7 @@ from tqdm import tqdm
 import time
 
 def classify_sentence(sentence):
-    model_path = "C:/Users/leekj/OneDrive/바탕 화면/G-pair/ai/epoch_4_evalAcc_64.pth"
+    model_path = "C:\\Users\\WIN10\\Desktop\\G-pair\\ai\\epoch_4_evalAcc_64.pth"
     tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
     config = BertConfig.from_pretrained('bert-base-multilingual-cased', num_labels=8)
     model = BertForSequenceClassification(config)
