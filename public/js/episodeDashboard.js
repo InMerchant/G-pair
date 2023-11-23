@@ -1,7 +1,7 @@
 import { db } from './firebase.js';
 import { collection, getDocs, query, where, getDoc, doc } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 import { getEpisodeImgDocCount } from './count/episodeImgDocCount.js';
-import { barChart, drawChart,updateIconHeight } from './chart/drawChart.js';
+import { barChart, drawChart,updateIconHeight, lineChart } from './chart/drawChart.js';
 import { getEpisodeDocData, getEpisodeData } from './search_collection/episodeSearch.js'
 import { fetchEpisodesAndAddToDropdown } from './dashboard_addDropdown.js'
 
@@ -186,7 +186,7 @@ let 상황Count = {
     'CRIME': 0,
     'DISCRIMINATION': 0,
     'HATE': 0,
-    '비난X':0
+    '해당없음':0
 };
 let 대사Count = {
     'ABUSE': 0,
@@ -196,13 +196,50 @@ let 대사Count = {
     'CRIME': 0,
     'DISCRIMINATION': 0,
     'HATE': 0,
-    '비난X':0
+    '해당없음':0
+};
+
+let situationLineData = {
+    'ABUSE': [],
+    'CENSURE': [],
+    'VIOLENCE': [],
+    'SEXUAL': [],
+    'CRIME': [],
+    'DISCRIMINATION': [],
+    'HATE': [],
+};
+let sentenceLineData = {
+    'ABUSE': [],
+    'CENSURE': [],
+    'VIOLENCE': [],
+    'SEXUAL': [],
+    'CRIME': [],
+    'DISCRIMINATION': [],
+    'HATE': [],
 };
 
 //드롭다운 선택시 실행코드(전체 통계)
 function selectTotalDropdown() {
+    
     // 라벨과 배열 인덱스의 매핑
-    const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '비난X'];
+    const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '해당없음'];
+    const labels2 = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE'];
+    
+    // sentenceLabelingCount 배열의 값을 sentenceLineData 객체에 할당
+    labels2.forEach((label, index) => {
+        sentenceLineData[label] = [];
+        for (let episode = 0; episode < updateDropdownItemCount() - 1; episode++) {
+            sentenceLineData[label].push(individualEpisodeData[episode + 1].sentenceLabelingCount[index]);
+        }
+    })
+
+    // situationLabelingCount 배열의 값을 situationLineData 객체에 할당
+    labels2.forEach((label, index) => {
+        situationLineData[label] = [];
+        for (let episode = 0; episode < updateDropdownItemCount() - 1; episode++) {
+            situationLineData[label].push(individualEpisodeData[episode + 1].situationLabelingCount[index]);
+        }
+    })
 
     // situationLabelingCount 배열의 값을 상황Count 객체에 할당
     labels.forEach((label, index) => {
@@ -220,6 +257,8 @@ function selectTotalDropdown() {
     const femalePercentage = (allEpisodesData.genderCount.female / totalGenderCount) * 100;
 
     // 차트 생성 함수 호출
+    lineChart(sentenceLineData, 'dialogueLineChart');
+    lineChart(situationLineData, 'situationLineChart');
     drawChart(대사Count, 'dialogueChart');
     drawChart(상황Count, 'situationChart');
     updateIconHeight(malePercentage, femalePercentage);
@@ -229,8 +268,8 @@ function selectTotalDropdown() {
 //드롭다운 선택시 실행코드(에피소드별 통계)
 function selectEachDropdown(episodeID) {
     // 라벨과 배열 인덱스의 매핑
-    const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '비난X'];
-
+    const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '해당없음'];
+    
     // situationLabelingCount 배열의 값을 상황Count 객체에 할당
     labels.forEach((label, index) => {
         상황Count[label] = individualEpisodeData[episodeID].situationLabelingCount[index];
@@ -247,6 +286,8 @@ function selectEachDropdown(episodeID) {
     const femalePercentage = (individualEpisodeData[episodeID].genderCount.female / totalGenderCount) * 100;
 
     // 차트 생성 함수 호출
+    lineChart(sentenceLineData, 'dialogueLineChart');
+    lineChart(situationLineData, 'situationLineChart');
     drawChart(대사Count, 'dialogueChart');
     drawChart(상황Count, 'situationChart');
     updateIconHeight(malePercentage, femalePercentage);
