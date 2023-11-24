@@ -117,7 +117,7 @@
                     commentLoad(webtoonID,episodeStr)
                     document.getElementById("submitComment").addEventListener("click",function(){
                         var comment=document.getElementById("commentInput").value;
-                        commentSave(webtoonID,episodeStr,user.uid,comment);
+                        commentSave(webtoonID,episodeStr,user.uid,comment,episodeID);
                         document.getElementById("commentInput").value = "";
                     })
                 }

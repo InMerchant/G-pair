@@ -24,7 +24,7 @@ export async function loadEpisodesToTable(webtoonID) {
                 <tr>
                 <td>${episode.episodeID}화</td>
                 <td>${episode.subTitle}</td>
-                <td>${episode.test}</td>
+                <td>${episode.comment}</td>
                 <td>${episode.imgSearchCount}</td>
                 <td>${episode.recommend}</td>
                 <td>${formattedUploadDate}</td>

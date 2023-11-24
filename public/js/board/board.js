@@ -43,6 +43,7 @@ document.getElementById('submitbutton').addEventListener('click', async function
             webtoonID: webtoonID
         };
         const webtoonSearch={
+            webtoonID:webtoonID,
             제목: titleInput,
             작가: authorInput,
         }
