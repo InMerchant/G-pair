@@ -187,43 +187,43 @@ for (let episode = 1; episode <= updateDropdownItemCount() - 1; episode++) {
 
 //대시보드 통계용 라벨링
 let 상황Count = {
-    'ABUSE': 0,
     'CENSURE': 0,
-    'VIOLENCE': 0,
-    'SEXUAL': 0,
-    'CRIME': 0,
-    'DISCRIMINATION': 0,
     'HATE': 0,
+    'DISCRIMINATION': 0,
+    'SEXUAL': 0,
+    'ABUSE': 0,
+    'VIOLENCE': 0,
+    'CRIME': 0,
     '해당없음':0
 };
 let 대사Count = {
-    'ABUSE': 0,
     'CENSURE': 0,
-    'VIOLENCE': 0,
-    'SEXUAL': 0,
-    'CRIME': 0,
-    'DISCRIMINATION': 0,
     'HATE': 0,
+    'DISCRIMINATION': 0,
+    'SEXUAL': 0,
+    'ABUSE': 0,
+    'VIOLENCE': 0,
+    'CRIME': 0,
     '해당없음':0
 };
 
 let situationLineData = {
-    'ABUSE': [],
     'CENSURE': [],
-    'VIOLENCE': [],
-    'SEXUAL': [],
-    'CRIME': [],
-    'DISCRIMINATION': [],
     'HATE': [],
+    'DISCRIMINATION': [],
+    'SEXUAL': [],
+    'ABUSE': [],
+    'VIOLENCE': [],
+    'CRIME': [],
 };
 let sentenceLineData = {
-    'ABUSE': [],
     'CENSURE': [],
-    'VIOLENCE': [],
-    'SEXUAL': [],
-    'CRIME': [],
-    'DISCRIMINATION': [],
     'HATE': [],
+    'DISCRIMINATION': [],
+    'SEXUAL': [],
+    'ABUSE': [],
+    'VIOLENCE': [],
+    'CRIME': [],
 };
 
 //드롭다운 선택시 실행코드(전체 통계)
@@ -232,8 +232,8 @@ function selectTotalDropdown() {
     lineChartContainer.style.display = 'block';
 
     // 라벨과 배열 인덱스의 매핑
-    const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '해당없음'];
-    const labels2 = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE'];
+    const labels = ['CENSURE', 'HATE', 'DISCRIMINATION', 'SEXUAL', 'ABUSE', 'VIOLENCE', 'CRIME', '해당없음'];
+    const labels2 = ['CENSURE', 'HATE', 'DISCRIMINATION', 'SEXUAL', 'ABUSE', 'VIOLENCE', 'CRIME'];
     
     // sentenceLabelingCount 배열의 값을 sentenceLineData 객체에 할당
     labels2.forEach((label, index) => {
@@ -281,7 +281,7 @@ function selectTotalDropdown() {
 function selectEachDropdown(episodeID) {
 
     // 라벨과 배열 인덱스의 매핑
-    const labels = ['ABUSE', 'CENSURE', 'VIOLENCE', 'SEXUAL', 'CRIME', 'DISCRIMINATION', 'HATE', '해당없음'];
+    const labels = ['CENSURE', 'HATE', 'DISCRIMINATION', 'SEXUAL', 'ABUSE', 'VIOLENCE', 'CRIME', '해당없음'];
     
     // situationLabelingCount 배열의 값을 상황Count 객체에 할당
     labels.forEach((label, index) => {
@@ -304,6 +304,5 @@ function selectEachDropdown(episodeID) {
     updateIconHeight(malePercentage, femalePercentage);
     barChart(individualEpisodeData[episodeID].ageGroups, 'ageChart');
 }
-
 //웹에 전체 통계 대시보드 표시
 selectTotalDropdown()
