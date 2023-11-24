@@ -9,6 +9,7 @@
         <title>웹툰-상세페이지-웹툰 에피소드</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles02.css" rel="stylesheet" />
+        <link href="css/comment.css" rel="stylesheet" />
         <link  href="css/episodeHTML.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
@@ -114,7 +115,7 @@
             onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
                 if (user) {
                     updateUserUID(webtoonID, episodeID, user.uid)//추천 기능용
-                    commentLoad(webtoonID,episodeStr)
+                    commentLoad(webtoonID,episodeStr,episodeID,user.uid)
                     document.getElementById("submitComment").addEventListener("click",function(){
                         var comment=document.getElementById("commentInput").value;
                         commentSave(webtoonID,episodeStr,user.uid,comment,episodeID);
