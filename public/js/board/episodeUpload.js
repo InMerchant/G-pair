@@ -57,8 +57,8 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle,title,author)
     const response = await fetch(`/js/board/${webtoonID}/${episodeNumber}.json`);
     try {
         const jsonData = await response.json();
-        console.log(jsonData)
-        const filesData = await Promise.all(uploadPromises);
+        let filesData = await Promise.all(uploadPromises);
+        filesData.sort((a, b) => a.name.localeCompare(b.name));
         const timestamp = getCurrentTimestamp();
         const epsiodeData={
             subTitle:subTitle,
@@ -73,7 +73,7 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle,title,author)
         await updateSearch (webtoonID, episodeNumber,filesData,jsonData,title,author);
 
         document.getElementById('loadingSpinner').style.display = 'none';
-        //window.location.href="/"
+        window.location.href="/"
     } catch (error) {
         console.error("Error uploading files:", error);
     }
