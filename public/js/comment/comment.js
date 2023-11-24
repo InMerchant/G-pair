@@ -35,36 +35,45 @@ export async function commentLoad(webtoonID,episodeNumber,episodeID,UID){
     });
 }
 //댓글 출력
-function displayComments(comments, webtoonID, episodeNumber,episodeID,UID) {
+async function displayComments(comments, webtoonID, episodeNumber, episodeID, UID) {
     const commentsDiv = document.getElementById('comments');
-    commentsDiv.innerHTML = ''; // 기존 댓글을 지우고 새로 시작합니다.
+    commentsDiv.innerHTML = '';
 
-    comments.forEach((comment) => {
-        // 댓글을 담을 요소 생성
+    // `for...of` 루프를 사용하여 비동기 작업을 수행합니다.
+    for (const comment of comments) {
         const commentElement = document.createElement('div');
         commentElement.classList.add('comment-item');
+
+        // `getUserEmail` 함수로부터 이메일을 비동기적으로 조회합니다.
+        const userEmail = await getUserEmail(comment.userUid);
+
+        const userEmailElement = document.createElement('span');
+        userEmailElement.classList.add('user-email');
+        userEmailElement.textContent = obfuscateEmail(userEmail);
+        commentElement.appendChild(userEmailElement);
+
         const commentText = document.createElement('span');
         commentText.classList.add('comment-text');
-        commentText.textContent = comment.comment;
+        commentText.textContent = comment.comment; // 댓글 텍스트 설정
         commentElement.appendChild(commentText);
 
-        // 삭제 버튼을 담을 요소 생성
+        // 현재 사용자의 UID와 댓글 작성자의 UID가 일치하는 경우에만 삭제 버튼을 추가합니다.
         if (comment.userUid === UID) {
             const deleteButton = document.createElement('button');
             deleteButton.classList.add('delete-button');
             deleteButton.textContent = '삭제';
             deleteButton.addEventListener('click', function () {
-                console.log("Deleting comment:", comment);
-                deleteComment(webtoonID, episodeNumber, comment, episodeID,UID);
+                deleteComment(webtoonID, episodeNumber, comment, episodeID, UID);
             });
 
             commentElement.appendChild(deleteButton);
         }
 
-        // 댓글 요소를 댓글 목록에 추가
+        // 생성된 댓글 요소를 페이지에 추가합니다.
         commentsDiv.appendChild(commentElement);
-    });
+    }
 }
+
 
 //카운트
 async function commentCount(webtoonID,episodeID){
@@ -100,4 +109,36 @@ async function deleteComment(webtoonID, episodeNumber, commentToDelete,episodeID
     } catch (error) {
         console.error("Error deleting comment: ", error);
     }
+}
+
+async function getUserEmail(UID) {
+    const UserRef = doc(db, "USER", UID);
+
+    try {
+        const docSnap = await getDoc(UserRef);
+
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            console.log("User email is:", userData.email);
+            return userData.email; // 이메일 값을 반환합니다.
+        } else {
+            // 문서가 존재하지 않는 경우
+            console.log("No such document!");
+            return null; // 또는 적절한 에러 처리를 합니다.
+        }
+    } catch (error) {
+        console.error("Error getting document:", error);
+    }
+}
+
+function obfuscateEmail(email) {
+    if (!email) return '알 수 없는 사용자';
+    let parts = email.split('@');
+    if (parts.length !== 2) return email; // 이메일 형식이 아닐 경우, 그대로 반환
+
+    let username = parts[0];
+    let domain = parts[1];
+
+    let obfuscatedUsername = username.substring(0, 1) + '****'; // 첫 글자만 표시하고 나머지는 가립니다.
+    return obfuscatedUsername + '@' + domain;
 }
