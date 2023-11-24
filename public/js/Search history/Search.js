@@ -2,34 +2,45 @@
 import { collection, query, where, getDocs, updateDoc, doc, increment } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 import { db } from '../firebase.js'; 
 
-
 const client = algoliasearch('TOBZK90LFP', '7e6fca838d4c8a9dc0bee205f5a7a380');
 const index = client.initIndex('webtoonDATASEARCH');
 
 const searchButton = document.querySelector('.btn-primary');
 const searchInput = document.getElementById('searchQuery');
 const searchTypeSelect = document.getElementById('searchType');
-const webtoonNameSelect = document.getElementById('WebtoonID'); // 웹툰 이름 선택 필드
+const webtoonNameSelect = document.getElementById('WebtoonID'); 
 const resultsContainer = document.querySelector('.card-body');
 
-// 검색 버튼에 이벤트 리스너를 추가합니다.
+// 검색 버튼에 이벤트 리스너 추가
 searchButton.addEventListener('click', () => {
-    const query = searchInput.value;
+    const query = searchInput.value.trim(); // 공백 제거
     const searchType = searchTypeSelect.value;
-    const selectedWebtoon = webtoonNameSelect.value;
+
+    console.log("검색 쿼리:", query);
+    console.log("검색 유형:", searchType);
 
     index.search(query).then(({ hits }) => {
         let searchResults = '';
 
-        hits.forEach(hit => {
-            if (selectedWebtoon !== 'all' && hit.title !== selectedWebtoon) {
-                return;
-            }
+        console.log("검색 결과:", hits);
 
-            for (let key in hit) {
-                if (searchType === 'dialogue' && key.includes('문장')) {
-                    const episodeNumber = key.split('화')[0];
-                    searchResults += createSearchResultItem(hit, episodeNumber, query);
+        hits.forEach(hit => {
+            if (searchType === 'title' || searchType === 'author') {
+                const field = searchType === 'title' ? '제목' : '작가';
+                if (hit[field] && hit[field].includes(query)) {
+                    console.log("검색 일치:", hit[field]);
+                    searchResults += createSearchResultItem(hit, null, query, searchType);
+                }
+            } else {
+                // 다른 타입의 검색 처리 (대사, 상황)
+                for (let key in hit) {
+                    if (searchType === 'dialogue' && key.includes('문장')) {
+                        const episodeNumber = key.split('화')[0];
+                        searchResults += createSearchResultItem(hit, episodeNumber, query, 'dialogue');
+                    } else if (searchType === 'situation' && key.includes('상황')) {
+                        const episodeNumber = key.split('화')[0];
+                        searchResults += createSearchResultItem(hit, episodeNumber, query, 'situation');
+                    }
                 }
             }
         });
@@ -42,42 +53,63 @@ searchButton.addEventListener('click', () => {
     });
 });
 
-function createSearchResultItem(hit, episodeNumber, query) {
-    const dialogueKey = episodeNumber + '화 문장';
-    const dialogueLines = hit[dialogueKey];
-    const episodeImageUrls = hit[episodeNumber + '화 URL'] || [];
-
-    const filteredContent = dialogueLines
-        .map((line, index) => ({
-            line: line,
-            imageUrl: episodeImageUrls[index] || ''
-        }))
-        .filter(item => item.line.includes(query));
-
+function createSearchResultItem(hit, episodeNumber, query, type) {
     let contentHtml = '';
-
-    if (filteredContent.length > 0) {
-        contentHtml = filteredContent.map((item) => {
-            return `
-                <div class="search-result-content">
-                    ${item.imageUrl ? `<img src="${item.imageUrl}" class="search-result-image" alt="Episode Image">` : ''}
-                
-                    <div>${item.line}</div>
-                </div>`;
-        }).join('');
+    if (type === 'dialogue' || type === 'situation') {
+        const key = episodeNumber + '화 ' + (type === 'dialogue' ? '문장' : '상황');
+        const lines = hit[key];
+        const imageUrls = hit[episodeNumber + '화 URL'] || [];
+        contentHtml = lines
+            .map((line, index) => {
+                if (line.includes(query)) {
+                    return `<div class="search-result-content">
+                                ${imageUrls[index] ? `<img src="${imageUrls[index]}" class="search-result-image" alt="Episode Image">` : ''}
+                                <div>${line}</div>
+                            </div>`;
+                }
+            }).join('');
+    } else if (type === 'title' || type === 'author') {
+        const field = type === 'title' ? '제목' : '작가';
+        if (hit[field] && hit[field].includes(query)) {
+            contentHtml = `<div class="search-result-content">
+                                ${hit.thumbnail ? `<img src="${hit.thumbnail}" class="search-result-thumbnail" alt="Thumbnail">` : ''}
+                                <div>${hit[field]}</div>
+                            </div>`;
+        }
     }
 
-    return `
-     <div class="card search-result-item mb-3" data-webtoon-id="${hit.webtoonID}" data-episode-number="${episodeNumber}">
-            <div class="card-body">
-                  <h5 class="card-title">${hit.title}</h5>
-                  <p class="card-text">작가: ${hit.author}</p>
+    if (!contentHtml) return ''; // 결과가 없으면 빈 문자열 반환
+
+    return `<div class="card search-result-item mb-3" data-webtoon-id="${hit.webtoonID}" data-episode-number="${episodeNumber || ''}" data-search-type="${type}">
+                <div class="card-body">
+                    <h5 class="card-title">${hit['제목'] || hit.title || ''}</h5>
+                    <p class="card-text">${type === '작가' ? `작가: ${hit['작가'] || hit.author || ''}` : ''}</p>
                     ${contentHtml}
                 </div>
-</div>`;
+            </div>`;
 }
 
+function addClickEventToSearchResults() {
+    document.querySelectorAll('.search-result-item').forEach(item => {
+        item.addEventListener('click', async function() {
+            const webtoonID = this.dataset.webtoonId;
+            const episodeNumber = this.dataset.episodeNumber;
+            const searchType = this.dataset.searchType; // 'data-search-type' 속성을 올바르게 가져옵니다.
 
+            console.log("Clicked item search type:", searchType);
+
+            await updateSearchCount(webtoonID, episodeNumber, searchType);
+
+            if (searchType === 'title' || searchType === 'author') {
+                console.log("Redirecting to detail page");
+                window.location.href = `/detail?name=${webtoonID}`;
+            } else {
+                console.log("Redirecting to episode page");
+                window.location.href = `/episode.html?webtoonID=${webtoonID}&id=${episodeNumber}`;
+            }
+        });
+    });
+}
 
 async function updateSearchCount(webtoonID, episodeNumber) {
     try {
@@ -111,32 +143,9 @@ async function updateSearchCount(webtoonID, episodeNumber) {
     }
 }
 
-// 검색 결과 항목에 클릭 이벤트 추가 함수
-function addClickEventToSearchResults() {
-    document.querySelectorAll('.search-result-item').forEach(item => {
-        item.addEventListener('click', async function() { // async 함수로 변경
-
-            const webtoonID = this.dataset.webtoonId;
-            const episodeNumber = this.dataset.episodeNumber;
-            const searchType = this.dataset.searchType;
-
-                await updateSearchCount(webtoonID, episodeNumber);
-            
-
-            // 페이지 이동
-            if (searchType === 'title' || searchType === 'author') {
-                window.location.href = `/detail?name=${webtoonID}`;
-            } else {
-                window.location.href = `/episode.html?webtoonID=${webtoonID}&id=${episodeNumber}`;
-            }
-        });
-    });
-}
-
-
 // Firestore에서 Search 컬렉션의 데이터를 읽어와 드롭다운 초기화
 async function initializeWebtoonDropdown() {
-    const searchRef = collection(db, "Search"); // 'Search' 컬렉션 참조
+    const searchRef = collection(db, "webtoonDATA"); // 'Search' 컬렉션 참조
     const querySnapshot = await getDocs(searchRef); // 데이터 읽기
     const webtoonDropdown = document.getElementById('WebtoonID'); // 드롭다운 선택
 
