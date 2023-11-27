@@ -29,7 +29,7 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
               .then(() => {
                 console.log("User deleted from Authentication.");
                 alert("회원 탈퇴가 완료되었습니다.");
-                window.location.href = 'index.html'; // 메인 페이지로 리다이렉션
+                window.location.href = '/'; // 메인 페이지로 리다이렉션
               })
               .catch((error) => {
                 console.error("Error deleting user from Authentication: ", error);
