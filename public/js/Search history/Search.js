@@ -102,10 +102,10 @@ function addClickEventToSearchResults() {
 
             if (searchType === 'title' || searchType === 'author') {
                 console.log("Redirecting to detail page");
-               // window.location.href = `/detail?name=${webtoonID}`;
+               window.location.href = `/detail?name=${webtoonID}`;
             } else {
                 console.log("Redirecting to episode page");
-               // window.location.href = `/episode?webtoonID=${webtoonID}&id=${episodeNumber}`;
+               window.location.href = `/episode?webtoonID=${webtoonID}&id=${episodeNumber}`;
             }
         });
     });
