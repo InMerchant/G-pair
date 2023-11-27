@@ -98,14 +98,14 @@ function addClickEventToSearchResults() {
 
             console.log("Clicked item search type:", searchType);
 
-            await updateSearchCount(webtoonID, episodeNumber, searchType);
+            await updateSearchCount(webtoonID, episodeNumber);
 
             if (searchType === 'title' || searchType === 'author') {
                 console.log("Redirecting to detail page");
-                window.location.href = `/detail?name=${webtoonID}`;
+               // window.location.href = `/detail?name=${webtoonID}`;
             } else {
                 console.log("Redirecting to episode page");
-                window.location.href = `/episode.html?webtoonID=${webtoonID}&id=${episodeNumber}`;
+               // window.location.href = `/episode?webtoonID=${webtoonID}&id=${episodeNumber}`;
             }
         });
     });
@@ -125,7 +125,7 @@ async function updateSearchCount(webtoonID, episodeNumber) {
             // 첫 번째 일치하는 문서의 문서 ID를 사용
             const docId = querySnapshot.docs[0].id;
             // 해당 문서의 'Episode' 서브 컬렉션 내의 에피소드 문서 참조
-            const episodeDocRef = doc(db, "webtoonDATA", docId, "Episode", episodeNumber + "화");
+            const episodeDocRef = doc(db, "webtoonDATA", docId, "Episode", episodeNumber);
 
             // 해당 에피소드 문서의 'imgSearchCount' 필드 업데이트
             await updateDoc(episodeDocRef, {
