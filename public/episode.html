@@ -97,6 +97,9 @@
         <script type="module">
             import {commentSave,commentLoad} from "./js/comment/comment.js"
             import { updateUserUID } from "./js/episode_userUID_update_DB.js"
+
+            import { randomMakeUserUID } from "./js/randomADDUser.js" // 읽은 유저 랜덤 생성기
+            
             import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
             import { app } from "./js/firebase.js";
 
@@ -112,9 +115,13 @@
             }
             const episodeID = extractNumberFromString(episodeStr); // 정수로 변환된 값 저장
 
+            //랜덤으로 유저 생성기(1명밖에 안됨)
+            //let randomNum2 = (Math.floor(Math.random() * 20) + 1).toString();
+            //randomMakeUserUID(webtoonID, episodeID, randomNum2);
+
             onAuthStateChanged(auth, (user) => {    //유저id값 불러오기
                 if (user) {
-                    updateUserUID(webtoonID, episodeID, user.uid)//추천 기능용
+                    updateUserUID(webtoonID, episodeID, user.uid)//추천 기능용(읽은사람 체크)
                     commentLoad(webtoonID,episodeStr,episodeID,user.uid)
                     document.getElementById("submitComment").addEventListener("click",function(){
                         var comment=document.getElementById("commentInput").value;

@@ -56,6 +56,9 @@ app.get('/board', (req, res) => {
 app.get('/Withdrawal', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'Withdrawal.html'));
 });
+app.get('/episodeUpload', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'episodeUpload.html'));
+});
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
