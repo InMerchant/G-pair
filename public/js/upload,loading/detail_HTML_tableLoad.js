@@ -77,7 +77,7 @@ function addRowClickEvent(webtoonID) {
             const episodeId = this.cells[0].textContent;
 
             //각 에피소드로 이동하는 기능
-            window.location.href = `episode.html?webtoonID=${webtoonID}&id=${episodeId}`;
+            window.location.href = `episode?webtoonID=${webtoonID}&id=${episodeId}`;
         });
     });
 }

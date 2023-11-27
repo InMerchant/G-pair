@@ -59,6 +59,9 @@ app.get('/Withdrawal', (req, res) => {
 app.get('/episodeUpload', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'episodeUpload.html'));
 });
+app.get('/episode', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'episode.html'));
+});
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
