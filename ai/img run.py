@@ -1,5 +1,6 @@
 import os
 import sys
+import io
 import firebase_admin
 from firebase_admin import credentials, storage
 import requests
@@ -9,6 +10,10 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 from tqdm import tqdm
 import time
 import json
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
 # 명령줄 인수로 웹툰 ID와 에피소드 번호를 받음
 if len(sys.argv) >= 3:
     webtoon_id = sys.argv[1]
@@ -18,13 +23,17 @@ else:
     sys.exit(1)
 
 # Firebase 설정 파일 경로
-cred_path = 'C:\\Users\\WIN10\\Desktop\\G-pair\\firebasekey.json'
+cred_path = 'C:\\Users\\advan\\OneDrive\\바탕 화면\\mission\\git_repository\\G-pair\\firebasekey.json'
 cred = credentials.Certificate(cred_path)
 
 # Firebase 앱 초기화
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'look-b1624.appspot.com'
 })
+
+# 재시도 횟수 설정
+max_retries = 3
+retry_delay = 5  # 재시도 사이의 대기 시간 (초)
 
 # Firebase 스토리지 버킷 접근
 bucket = storage.bucket()
@@ -41,7 +50,7 @@ if not os.path.exists(local_folder_path):
     os.makedirs(local_folder_path)
 
 
-# 폴더 내의 모든 파일을 다운로드
+# 지정된 폴더 내의 모든 파일 다운로드
 for blob in blobs:
     # 파일 이름 추출
     file_name = blob.name.split('/')[-1]
@@ -49,8 +58,18 @@ for blob in blobs:
     # 로컬 파일 경로 설정
     local_file_path = os.path.join(local_folder_path, file_name)
 
-    # 파일 다운로드
-    blob.download_to_filename(local_file_path)
+    # 지정된 횟수만큼 다운로드 재시도
+    for attempt in range(max_retries):
+        try:
+            # 파일 다운로드
+            blob.download_to_filename(local_file_path)
+            print(f"다운로드 성공: {file_name}")
+            break  # 다운로드 성공시 반복 중단
+        except Exception as e:
+            print(f"다운로드 실패: {file_name}, 재시도 {attempt+1}/{max_retries}")
+            time.sleep(retry_delay)  # 재시도 전 대기
+        if attempt == max_retries - 1:
+            print(f"최종 다운로드 실패: {file_name}")
 
 # 이미지 파일들이 있는 폴더 경로
 folder_path = local_folder_path
@@ -101,7 +120,7 @@ with tqdm(total=total_images, desc="이미지 처리 중", ncols=50) as pbar:
 
         # 이미지 캡션 생성
         inputs = processor(raw_image, return_tensors="pt")
-        out = model.generate(**inputs)
+        out = model.generate(**inputs, max_length=50)
         caption = processor.decode(out[0], skip_special_tokens=True)
 
         # CSV 파일에 결과 추가
@@ -114,6 +133,7 @@ with tqdm(total=total_images, desc="이미지 처리 중", ncols=50) as pbar:
 
 # 작업 완료 메시지 표시
 print("이미지 캡션 생성 및 CSV 파일 저장 완료.")
+
 import csv
 from googletrans import Translator
 
@@ -215,7 +235,7 @@ for image_file in tqdm(image_files, desc="OCR Progress", ncols=50):
         cleaned_text_with_slash = cleaned_text
         csv_writer.writerow([cleaned_text_with_slash])  # 파일 이름 대신 출력 문장 저장
     else:
-        csv_writer.writerow(['None'])  # 결과가 없을 때 'None' 저장
+        csv_writer.writerow(['문장없음'])  # 결과가 없을 때 'None' 저장
 
 # CSV 파일 닫기
 csv_file.close()
@@ -258,7 +278,7 @@ with open(file_path, newline='', encoding='utf-8') as csvfile:
 for row in data:
     for i, value in enumerate(row):
         if not value:
-            row[i] = 'None'
+            row[i] = '문장없음'
 
 # 기존 파일 덮어쓰기
 with open(file_path, 'w', newline='', encoding='utf-8') as csvfile:
@@ -273,7 +293,7 @@ from tqdm import tqdm
 import time
 
 def classify_sentence(sentence):
-    model_path = "C:\\Users\\WIN10\\Desktop\\G-pair\\ai\\epoch_4_evalAcc_64.pth"
+    model_path = "C:\\Users\\advan\\OneDrive\\바탕 화면\\mission\\git_repository\\G-pair\\ai\\epoch_4_evalAcc_64.pth"
     tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
     config = BertConfig.from_pretrained('bert-base-multilingual-cased', num_labels=8)
     model = BertForSequenceClassification(config)
@@ -304,19 +324,34 @@ def classify_sentence(sentence):
 df = pd.read_csv(f'public\\js\\board\\{webtoon_id}\\{episode_number}\\vitCsv\\상황과 대사.csv', header=None)
 
 # 새로운 데이터프레임 생성
-new_df = pd.DataFrame()
+# new_df = pd.DataFrame()
 
 # 파일 이름, 문장1, 문장2, 문장1의 분류 라벨링, 문장2의 분류 라벨링으로 구성
+new_df = pd.DataFrame(columns=['파일 이름', '문장1', '문장2', '문장1의 분류 라벨링', '문장2의 분류 라벨링'])
 new_df['파일 이름'] = df[0]
 new_df['문장1'] = df[1]
 new_df['문장2'] = df[2]
+new_df['문장1의 분류 라벨링'] = new_df['문장1의 분류 라벨링'].astype(str)
+new_df['문장2의 분류 라벨링'] = new_df['문장2의 분류 라벨링'].astype(str)
 
 start = time.time()
 
 # tqdm을 사용하여 진행 상황을 로딩바로 표시
-for i in tqdm(range(len(df)), ncols=50):
-    new_df.loc[i, '문장1의 분류 라벨링'] = classify_sentence(df.loc[i, 1])
-    new_df.loc[i, '문장2의 분류 라벨링'] = classify_sentence(df.loc[i, 2])
+for i in tqdm(range(len(df)), desc="문장 분류 라벨링", ncols=50):
+    sentence1 = df.loc[i, 1]
+    sentence2 = df.loc[i, 2]
+
+    # 문장1과 문장2가 유효한지 확인
+    if pd.isna(sentence1) or sentence1.strip() == "":
+        new_df.loc[i, '문장1의 분류 라벨링'] = "유효하지 않음"  # 또는 다른 적절한 기본값
+    else:
+        new_df.loc[i, '문장1의 분류 라벨링'] = classify_sentence(sentence1)
+
+    if pd.isna(sentence2) or sentence2.strip() == "":
+        new_df.loc[i, '문장2의 분류 라벨링'] = "유효하지 않음"  # 또는 다른 적절한 기본값
+    else:
+        new_df.loc[i, '문장2의 분류 라벨링'] = classify_sentence(sentence2)
+
 
 end = time.time()
 
