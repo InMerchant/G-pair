@@ -9,10 +9,14 @@
         <title>웹툰-상세페이지</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles02.css" rel="stylesheet" />
+		<link rel="stylesheet" href="assets/css/styles01.css" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
-    <body>
-        <!-- 네비 바 -->
+    <body class="is-preload">
+
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-5">
                 <a class="navbar-brand" href="/">웹툰</a>
@@ -33,19 +37,30 @@
                 </div>
             </div>
         </nav>
-        
         <!-- Page Content-->
+        <div id="wrapper">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 align-items-center my-5">
                 <div class="col-lg-3"><img class="img-fluid rounded mb-4 mb-lg-0" alt="..." /></div>
                 <div class="col-lg-9">
-                    <h1 id="webtoon-title" class="font-weight-light"></h1> <!-- 웹툰 제목 위치 -->
-                    <p id="webtoon-description"></p>  <!-- 웹툰 설명 위치 -->
-                    <span id="webtoon-author"></span> <!-- 웹툰 작가 이름 위치 -->
+                    <article class="post">
+                        <header>
+                            <div class="title">
+                                <h2 id="webtoon-title" class="font-weight-light"></h2> <!-- 웹툰 제목 위치 -->
+                                 <span id="webtoon-author"></span> <!-- 웹툰 작가 이름 위치 -->
+                            </div>
+                          
+                        </header>
+                        <HR>
+                        <footer>
+                            <br>
+                            <p id="webtoon-description"></p>
+                        </footer>
+                    </article>
                 </div>
-            </div>
             <div class="card text-white bg-secondary my-5 py-4 text-center">
                 <div class="card-body"><p id="webtoon-tag" class="text-white m-0"> 태그: </p></div>
+            </div>
             </div>
             <!-- 화수 별 데이터 테이블 -->
             <div class="card mb-4">
@@ -71,6 +86,67 @@
             </div>
         </div>
 
+
+        <section id="sidebar">
+            <!-- Intro -->
+                <section id="intro">
+                    <a href="#" class="image featured"><img src="images/logo.jpg" alt="" /></a>
+                    <header>
+                        <h2>scene Search</h2>
+                        <h1>AI 웹툰 플랫폼</h1>
+                    </header>
+                    <h2>독자들이 많이 본 웹툰!</h2>
+                </section>
+            <!-- Mini Posts -->
+                <section>
+                    <div class="mini-posts">
+
+                        <!-- Mini Post -->
+                            <article class="mini-post">
+                                <header>
+                                    <h3><a href="single.html">검색 기록</a></h3>
+                                    <time class="published" datetime="2015-10-20">23년 9월 14일</time>
+                                    <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
+                                </header>
+                                <a href="single.html" class="image"><img src="images/pic04.jpg" alt="" /></a>
+                                
+                            </article>
+                            <article class="mini-post">
+                                <header>
+                                    <h3><a href="single.html">검색 기록</a></h3>
+                                    <time class="published" datetime="2015-10-20">23년 9월 14일</time>
+                                    <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
+                                </header>
+                                <a href="single.html" class="image"><img src="images/pic04.jpg" alt="" /></a>
+                                
+                            </article>
+                            <article class="mini-post">
+                                <header>
+                                    <h3><a href="single.html">검색 기록</a></h3>
+                                    <time class="published" datetime="2015-10-20">23년 9월 14일</time>
+                                    <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
+                                </header>
+                                <a href="single.html" class="image"><img src="images/pic04.jpg" alt="" /></a>
+                                
+                            </article>
+                    </div>
+                </section>
+            <!-- Footer -->
+                <section id="footer">
+                    <ul class="icons">
+                        <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                        <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                        <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                        <li><a href="#" class="icon solid fa-rss"><span class="label">RSS</span></a></li>
+                        <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+                    </ul>
+                    <p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>
+                </section>
+
+        </section>
+    </div>
+
+    
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
@@ -129,5 +205,10 @@
                 }
             });
         </script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
     </body>
 </html>
