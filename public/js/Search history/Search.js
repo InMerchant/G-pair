@@ -15,11 +15,14 @@ const resultsContainer = document.querySelector('.card-body');
 searchButton.addEventListener('click', () => {
     const query = searchInput.value.trim(); // 공백 제거
     const searchType = searchTypeSelect.value;
+    const selectedWebtoon = webtoonNameSelect.value; // 드롭다운에서 선택된 웹툰
+    console.log("선택된 웹툰:", selectedWebtoon);
 
     console.log("검색 쿼리:", query);
     console.log("검색 유형:", searchType);
+    const modifiedQuery = query + ' ' + selectedWebtoon;
 
-    index.search(query).then(({ hits }) => {
+    index.search(modifiedQuery).then(({ hits }) => {
         let searchResults = '';
 
         console.log("검색 결과:", hits);
