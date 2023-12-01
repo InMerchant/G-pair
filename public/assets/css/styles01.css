@@ -1,4 +1,6 @@
 @charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Lato:300);
+
 /*!
 * Start Bootstrap - Landing Page v6.0.6 (https://startbootstrap.com/theme/landing-page)
 * Copyright 2013-2023 Start Bootstrap
@@ -11580,3 +11582,141 @@ body {
     -ms-transition: none !important;
     transition: none !important;
   }
+
+
+
+  /* Wrapper */
+
+	#wrapper {
+		display: -moz-flex;
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: flex;
+		-moz-flex-direction: row-reverse;
+		-webkit-flex-direction: row-reverse;
+		-ms-flex-direction: row-reverse;
+		flex-direction: row-reverse;
+		-moz-transition: opacity 0.5s ease;
+		-webkit-transition: opacity 0.5s ease;
+		-ms-transition: opacity 0.5s ease;
+		transition: opacity 0.5s ease;
+		margin: 0 auto;
+		max-width: 100%;
+		opacity: 1;
+		padding: 4.5em;
+		width: 90em;
+	}
+
+		body.is-menu-visible #wrapper {
+			opacity: 0.15;
+		}
+
+		@media screen and (max-width: 1680px) {
+
+			#wrapper {
+				padding: 3em;
+			}
+
+		}
+
+		@media screen and (max-width: 1280px) {
+
+			#wrapper {
+				display: block;
+			}
+
+		}
+
+		@media screen and (max-width: 736px) {
+
+			#wrapper {
+				padding: 1.5em;
+			}
+
+		}
+
+		body.single #wrapper {
+			display: block;
+		}
+
+   /* 흐릿한 배경을 위한 오버레이 스타일 */
+.bluroverlay {
+  position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 색상과 투명도 조절 */
+    backdrop-filter: blur(8px); /* 배경을 흐리게 만듭니다. */
+    display: none; /* 초기에는 숨김 */
+    z-index: 100; /* 다른 요소 위에 표시 */
+}
+
+/* 로딩바 오버레이 스타일 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 로딩바를 위한 높은 z-index */
+}
+
+/* 로딩바 스타일 */
+.loader3 {
+  width: 150px;
+  height: 20px;
+  position: fixed; /* 고정된 위치 */
+  top: 50%; /* 화면 상단에서 50% 떨어진 위치에 */
+  left: 50%; /* 화면 왼쪽에서 50% 떨어진 위치에 */
+  transform: translate(-430%, -1750%); /* 스피너를 가운데로 이동 */
+}
+
+.loader3:after {
+  content: "에피소드 업로드 중!";
+  color: #000000;
+  font-family: Lato, "Helvetica Neue";
+  font-weight: 200;
+  font-size: 16px;
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+  left: 0;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.loader3:before {
+  content: "";
+  position: absolute;
+  background-color: #000000;
+  top: -5px;
+  left: 0px;
+  height: 30px;
+  width: 0px;
+  z-index: 0;
+  opacity: 1;
+  -webkit-transform-origin: 100% 0%;
+  transform-origin: 100% 0%;
+  -webkit-animation: loader3 10s ease-in-out infinite;
+  animation: loader3 10s ease-in-out infinite;
+}
+
+@-webkit-keyframes loader3 {
+  0% { width: 0px; }
+  70% { width: 100%; opacity: 1; }
+  90% { opacity: 0; width: 100%; }
+  100% { opacity: 0; width: 0px; }
+}
+
+@keyframes loader3 {
+  0% { width: 0px; }
+  70% { width: 100%; opacity: 1; }
+  90% { opacity: 0; width: 100%; }
+  100% { opacity: 0; width: 0px; }
+}

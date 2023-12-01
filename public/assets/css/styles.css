@@ -2,17 +2,7 @@
 
 
 
-.container{
-  text-align: center;
-  background-color: #e74c3c;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* 전체 높이 */
-  visibility: hidden; /* 기본적으로 숨김 처리 */
-}
-
+article
 .box:nth-child(2n-1){
   background-color: rgba(0,0,0,0.05);
 }
@@ -333,7 +323,7 @@
 }
 
 .loader3:after{
-  content: "데이터 크롤링";
+  content: "에피소드 업로드 중!";
   color: #000000;
   font-family:  Lato,"Helvetica Neue" ;
   font-weight: 200;
