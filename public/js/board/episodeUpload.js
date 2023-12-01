@@ -72,7 +72,9 @@ async function uploadFiles(files, webtoonID,episodeNumber,subTitle,title,author)
         console.log(title,author)
         await updateSearch (webtoonID, episodeNumber,filesData,jsonData,title,author);
 
-        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('blurOverlay').style.display = 'none'; // 수정된 ID 사용
+        document.getElementById('overlay').style.display = 'none';
+
         window.location.href="/"
     } catch (error) {
         console.error("Error uploading files:", error);
@@ -100,7 +102,9 @@ async function waitForFileCreation(webtoonID, episodeNumber) {
 var fileInput = document.getElementById("file");
 var uploadButton = document.getElementById("submitEpisode");
 uploadButton.addEventListener("click", function() {
-    document.getElementById('loadingSpinner').style.display = 'block';
+    document.getElementById('blurOverlay').style.display = 'block'; // 수정된 ID 사용
+    document.getElementById('overlay').style.display = 'flex';
+    document.querySelector('.main-content').classList.add('blur');
     var webtoonID = document.getElementById('webtoonSelect').value;
     var episodeNumber = document.getElementById('episodeNumber').value;
     var episodeSubtitle = document.getElementById('subTitle').value;
