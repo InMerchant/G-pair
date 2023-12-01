@@ -6,21 +6,6 @@
   width: 200px; /* 원하는 넓이로 설정합니다. */
   height: 450px;
 }
-.slide-banner {
-    position: relative;
-    margin: 0; /* 상하좌우 여백 제거 */
-}
-  
-.slides {
-display: flex; /* 슬라이드를 가로로 나열 */
-transition: transform 0.5s ease; /* 부드러운 전환 효과 */
-}
-
-.slide {
-  width: 100%; /* 부모 요소의 전체 너비를 사용 */
-  overflow: hidden; /* 슬라이드 바깥으로 나간 이미지를 숨김 */
-}
-
 
 .weekdays {
   display: flex;
@@ -45,58 +30,79 @@ background-color: #4CAF50;
 color: white;
 }
 
+
+
+#banner {
+  position: relative;
+  max-width: 100%;
+  height: 500px; /* 최대 높이를 설정하여 내용이 이 이상 커지지 않도록 제한 */
+  padding-top: 0;
+  overflow: hidden; /* 내용이 지정된 높이를 초과할 경우 숨김 처리 */
+}
+
+
+@media (max-width: 600px) {
   #banner {
-		position: relative;
-		padding: 4.5em;
-    max-width: 100%; /* 최대 너비 설정 */
-    height: auto;
-    
-	}
+    height: auto; /* 모바일에서는 높이를 자동으로 조정 */
+    min-height: 300px;
+  }
 
-		#banner h2 {
-			font-size: 3.5em;
-			margin: 0.1em 0 0.35em 0;
-		}
+  #banner .slide img {
+    max-width: 100%;
+    height: 300px; /* 모바일 기기에서의 이미지 높이 */
+    object-fit: cover; /* 이미지가 컨테이너를 꽉 채우도록 */
+  }
+}
 
-		#banner p {
-			font-size: 2.75em;
-			line-height: 1.35em;
-			margin: 0;
-		}
+#banner h2 {
+  font-size: 3.5em;
+  margin: 0.1em 0 0.35em;
+}
 
-		#banner .button {
-			width: 100%;
-			margin-bottom: 0.5em;
-		}
+#banner p {
+  font-size: 2.75em;
+  line-height: 1.35em;
+  margin: 0;
+}
 
-			#banner .button.icon:before {
-				position: absolute;
-				right: 0.15em;
-				top: 50%;
-				margin-top: -0.5em;
-			}
+#banner .button {
+  width: 100%;
+  margin-bottom: 0.5em;
+}
 
-			#banner .button.alt {
-				margin-bottom: 0;
-			}
+#banner .button.icon:before {
+  position: absolute;
+  right: 0.15em;
+  top: 50%;
+  margin-top: -0.5em;
+}
 
-		#banner ul {
-			list-style: none;
-			padding-left: 0;
-			margin: 0 0 0 2em;
-		}
+#banner .button.alt {
+  margin-bottom: 0;
+}
 
-			#banner ul li {
-				padding-left: 0;
-			}
+#banner ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 0 2em;
+}
 
-      @media (max-width: 600px) {
-        .slide img {
-            width: 100%;
-            height: 300px;
-        }
-    
-        #banner {
-            min-height: 300px; /* 모바일 기기에서의 최소 높이 조정 */
-        }
-     } 
+#banner ul li {
+  padding-left: 0;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease; /* 부드러운 전환 효과 */
+}
+
+.slide {
+  flex: 0 0 100%; /* flex 컨테이너 내에서 각 슬라이드가 전체 너비를 차지하도록 설정 */
+  max-width: 100%; /* 슬라이드가 컨테이너 너비를 넘지 않도록 설정 */
+}
+
+.slide img {
+  width: 100%; /* 배너 너비에 맞춤 */
+  height: 500px;
+
+}

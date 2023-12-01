@@ -20,7 +20,6 @@ document.getElementById('submitbutton').addEventListener('click', async function
     const genreInputs = document.querySelectorAll('input[type=checkbox]:checked');
     const fileInput = document.getElementById('formFile').files[0];
 
-    // 입력 필드가 비어 있는지 확인
     if (!titleInput || !authorInput || !subtitleInput || !dayInput || genreInputs.length === 0 || !fileInput) {
         alert('빈 공간이 있습니다!');
         return; 
