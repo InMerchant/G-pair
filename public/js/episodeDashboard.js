@@ -38,7 +38,8 @@ fetchEpisodesAndAddToDropdown(webtoonID);
 var lineChartContainer = document.querySelector('#lineChartCard')
 
 // 대시보드를 만드는 동안 로딩창이 나오도록 함
-document.getElementById('loadingSpinner').style.display = 'block';
+document.getElementById('blurOverlay').style.display = 'block'; // 수정된 ID 사용
+document.getElementById('overlay').style.display = 'flex';
 
 //드롭아웃 이벤트 추가 코드
 const dropdownMenu = document.querySelector('.dropdown-menu');
@@ -274,7 +275,8 @@ function selectTotalDropdown() {
     updateIconHeight(malePercentage, femalePercentage);
     barChart(allEpisodesData.ageGroups, 'ageChart');
     // 로딩 완료시 스피너 제거
-    document.getElementById('loadingSpinner').style.display = 'none';
+    document.getElementById('blurOverlay').style.display = 'none'; // 수정된 ID 사용
+    document.getElementById('overlay').style.display = 'none';
 }
 
 //드롭다운 선택시 실행코드(에피소드별 통계)
