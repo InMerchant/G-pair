@@ -46,12 +46,12 @@ const createCard = (data) => {
                 <div class="card-body p-1 d-flex flex-column justify-content-between">
                     <div class="text-center mt-3">
                         <!-- 상단에 위치할 제품 이름 -->
-                        <h5 class="fw-bolder">${data.title}</h5>
+                        <h2>${data.title}</h2>
                     </div>
                     
                     <div class="text-center mb-3">
                         <!-- 하단에 위치할 제품 부제목 -->
-                        ${data.author}
+                        <h5 class="fw-bolder">${data.author}</h5>
                     </div>
                 </div>
                 <!-- Product actions-->
