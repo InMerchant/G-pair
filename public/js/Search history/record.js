@@ -63,6 +63,8 @@ async function clearSearchHistory() {
             await deleteDoc(doc.ref);
         });
         console.log("검색 기록 전체 삭제됨");
+        window.location.href = '/record';
+
     }
 }
 
