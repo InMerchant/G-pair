@@ -103,6 +103,8 @@ async function aggregateLabelingData(webtoonID, episodeID) {
             sentenceLabelingCount[sentenceLabeling]++;
         });
     } else {
+        document.getElementById('blurOverlay').style.display = 'none'; // 수정된 ID 사용
+        document.getElementById('overlay').style.display = 'none';
         console.error('Document reference not found');
     }
     // 읽은 유저 정보가 위치한 데이터베이스 정보 불러오기

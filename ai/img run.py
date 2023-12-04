@@ -32,8 +32,8 @@ firebase_admin.initialize_app(cred, {
 })
 
 # 재시도 횟수 설정
-max_retries = 3
-retry_delay = 5  # 재시도 사이의 대기 시간 (초)
+max_retries = 10000
+retry_delay = 3  # 재시도 사이의 대기 시간 (초)
 
 # Firebase 스토리지 버킷 접근
 bucket = storage.bucket()
