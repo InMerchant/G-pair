@@ -552,6 +552,7 @@ pre code {
 .container-lg,
 .container-xl {
   width: 100%;
+  
   padding-right: 0.75rem;
   padding-left: 0.75rem;
   margin-right: auto;
@@ -1231,7 +1232,8 @@ pre code {
   }
   .col-lg-12 {
     flex: 0 0 100%;
-    max-width: 100%;
+    max-width: 50%;
+  
   }
   .order-lg-first {
     order: -1;
