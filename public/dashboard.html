@@ -13,29 +13,23 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <link href="css/styles03.css" rel="stylesheet" />
+        <link rel="stylesheet" href="assets/css/styles01.css" />
+        <link rel="stylesheet" href="assets/css/main.css" />
     </head>
     <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="/">웹툰</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/search">검색</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" id="navbarDropdown" href="/" role="button" aria-expanded="false">대시보드 상태 해제</a>
-                        </li>
-                        <li class="nav-item" id="uploadNavItem" style="display: none;">
-                            <a class="nav-link active" aria-current="page" href="/board">업로드</a>
-                        </li>  
-                    </ul>
-                    <form class="d-flex">
-                        <a class="btn btn-outline-dark" href="/setting">mypage</a>
-                    </form>
-                </div>
-            </div>
-        </nav>
+        <header id="header">
+            <h1><a href="/">SCENE SEARCH</a></h1>
+            <nav class="links">
+                <ul>
+                    <li><a href="/search">검색</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" id="navbarDropdown" href="/" role="button" aria-expanded="false">대시보드 상태 해제</a>
+                    </li>
+                    <li><a href="/setting">my page</a></li>
+                </ul>
+            </nav>
+        </header>
+        
         <section class="py-5">
             <div class="container px-4 px-lg-6 mt-5">
                 <div class="weekdays">
