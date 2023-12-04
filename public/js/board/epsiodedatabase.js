@@ -1,5 +1,5 @@
 import { db } from '../firebase.js';
-import { collection, getDocs, query, where,doc,setDoc,updateDoc,arrayUnion,addDoc} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
+import { collection, getDocs, query, where,doc,setDoc,updateDoc,arrayUnion,addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 
 export async function updateOrCreateEpisode(webtoonID, episodeData, episodeNumber,filesData,response) {
   try {
@@ -54,7 +54,8 @@ export async function updateSearch(webtoonID,episodeNumber,filesData,response,we
       webtoonID:webtoonID,
       title:webtoonTitle,
       episodeNumber:episodeNumber,
-      author:webtoonAuthor
+      author:webtoonAuthor,
+      timestamp: serverTimestamp(), // 타임 스탬프 추가
     });
 
   } catch (error) {

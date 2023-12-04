@@ -5,7 +5,7 @@ import { db } from '../firebase.js';
 const client = algoliasearch('TOBZK90LFP', '7e6fca838d4c8a9dc0bee205f5a7a380');
 const index = client.initIndex('webtoonDATASEARCH');
 
-const searchButton = document.querySelector('.custom-btn.btn-3');
+const searchButton = document.querySelector('.custom-btn.btn-3'); // 클래스 선택자 수정
 const searchInput = document.getElementById('searchQuery');
 const searchTypeSelect = document.getElementById('searchType');
 const webtoonNameSelect = document.getElementById('WebtoonID'); 
