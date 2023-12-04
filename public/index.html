@@ -83,24 +83,17 @@
 
         <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let slides = document.querySelectorAll('.slide');
+            let slider = document.querySelector('.slides');
             let index = 0;
-
-            // 모든 슬라이드를 숨깁니다.
-            slides.forEach(function(slide) {
-                slide.style.display = 'none';
-            });
-
-            // 첫 번째 슬라이드를 보여줍니다.
-            slides[index].style.display = 'block';
+            let slides = document.querySelectorAll('.slide');
+            let totalSlides = slides.length;
 
             function nextSlide() {
-                slides[index].style.display = 'none';
-                index = (index + 1) % slides.length;
-                slides[index].style.display = 'block';
+                index = (index + 1) % totalSlides;
+                slider.style.transform = `translateX(${-100 * index}%)`;
             }
 
-            setInterval(nextSlide, 3000);
+            setInterval(nextSlide, 3000); // 3초마다 슬라이드 자동 전환
         });
         </script>
         <!-- Bootstrap core JS-->

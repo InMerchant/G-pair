@@ -104,5 +104,7 @@ color: white;
 .slide img {
   width: 100%; /* 배너 너비에 맞춤 */
   height: 500px;
-
+}
+.slide-banner {
+  overflow: hidden;
 }
