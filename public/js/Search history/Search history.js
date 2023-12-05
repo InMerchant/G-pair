@@ -2,7 +2,7 @@ import { db } from '../firebase.js'; // 경로는 실제 설정에 맞게 조정
 import { collection, addDoc, serverTimestamp, doc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
-const searchButton = document.querySelector('.custom-btn.btn-3');
+const searchButton = document.getElementById('searchButton');
 const searchInput = document.getElementById('searchQuery');
 const auth = getAuth();
 

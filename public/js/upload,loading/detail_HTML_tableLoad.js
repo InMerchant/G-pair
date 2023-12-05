@@ -10,33 +10,55 @@ export async function loadEpisodesToTable(webtoonID) {
     
         const tableBody = document.getElementById('datatablesSimple').querySelector('tbody');
         tableBody.innerHTML = '';
+
+        let highestImgSearchCount = 0;
+        let highestRecommend = 0;
+        let highestEpisode = null;
     
         for (const doc of querySnapshot.docs) {
             const episodesCollectionRef = collection(doc.ref, "Episode");
-            // episodeID에 따라 정렬합니다.
             const episodesQuery = query(episodesCollectionRef, orderBy("episodeID"));
             const episodesSnapshot = await getDocs(episodesQuery);
     
             episodesSnapshot.forEach((episodeDoc) => {
-            const episode = episodeDoc.data();
-            const formattedUploadDate = formatDate(episode.uploadDate);
-            const row = `
-                <tr>
-                <td>${episode.episodeID}화</td>
-                <td>${episode.subTitle}</td>
-                <td>${episode.comment}</td>
-                <td>${episode.imgSearchCount}</td>
-                <td>${episode.recommend}</td>
-                <td>${formattedUploadDate}</td>
-                </tr>
-            `;
-            tableBody.innerHTML += row;
+                const episode = episodeDoc.data();
+                const formattedUploadDate = formatDate(episode.uploadDate);
+                const row = `
+                    <tr>
+                    <td>${episode.episodeID}화</td>
+                    <td>${episode.subTitle}</td>
+                    <td>${episode.comment}</td>
+                    <td>${episode.imgSearchCount}</td>
+                    <td>${episode.recommend}</td>
+                    <td>${formattedUploadDate}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+
+                if (episode.imgSearchCount > highestImgSearchCount) {
+                    highestImgSearchCount = episode.imgSearchCount;
+                    highestEpisode = episode;
+                    
+                }
+
+                if (episode.recommend > highestRecommend) {
+                    highestRecommend = episode.recommend;
+                    highestEpisode = episode;
+                }
             });        
+        }
+
+        if (highestEpisode) {
+            document.getElementById('episodeId').textContent = `${highestEpisode.episodeID}화`;
+            document.getElementById('imgSearchCount').textContent = `장면검색 수: ${highestEpisode.imgSearchCount}`;
+            document.getElementById('recommend').textContent = `추천 수: ${highestEpisode.recommend}`; // 추가된 부분
+
         }
     } catch (error) {
       console.error("Error loading episodes: ", error);
     }
 }
+
 
 // Timestamp 객체에서 yy-mm-dd 형식의 날짜 문자열을 생성하는 함수
 function formatDate(dateStr) {
