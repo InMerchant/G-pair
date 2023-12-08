@@ -80,6 +80,7 @@ export function lineChart(situationLineData, elementId) {
     });
 }
 
+
 export function drawChart(data, elementId) {
     // 해당 elementId에 대한 이전 차트가 있다면 파괴
     if (charts[elementId]) {
@@ -88,30 +89,20 @@ export function drawChart(data, elementId) {
 
     var ctx = document.getElementById(elementId).getContext('2d');
     charts[elementId] = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: translate(Object.keys(data)),
             datasets: [{
                 data: Object.values(data),
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(100, 100, 100, 0.5)',
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(75, 192, 192, 0.5)',
-                    'rgba(153, 102, 255, 0.5)',
-                    'rgba(255, 159, 64, 0.5)',
-                    'rgba(199, 199, 199, 0.5)',
-                    'rgba(54, 162, 235, 0.5)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 0.5)',
-                    'rgba(100, 100, 100, 0.5)',
-                    'rgba(255, 206, 86, 0.5)',
-                    'rgba(75, 192, 192, 0.5)',
-                    'rgba(153, 102, 255, 0.5)',
-                    'rgba(255, 159, 64, 0.5)',
-                    'rgba(199, 199, 199, 0.5)',
-                    'rgba(54, 162, 235, 0.5)'
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(100, 100, 100, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)',
+                    'rgba(255, 159, 64, 0.7)',
+                    'rgba(199, 199, 199, 0.7)',
+                    'rgba(210, 180, 140, 0.5)'
                 ],
                 borderWidth: 1
             }]
@@ -122,6 +113,7 @@ export function drawChart(data, elementId) {
         }
     });
 }
+
 
 export function barChart(data, elementId) {
     // 해당 elementId에 대한 이전 차트가 있다면 파괴
