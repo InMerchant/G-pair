@@ -19,3 +19,27 @@
 
 # 시나리오 구상도
 ![시나리오 구성도](https://github.com/InMerchant/Scene-Search/assets/106319540/f136d003-901c-41d5-88f5-9fc269d4360f)
+
+# 모델 적용 예시
+![모델 적용 예시](https://github.com/InMerchant/Scene-Search/assets/106319540/1697bb5a-1dda-491d-a7eb-e16ff317e807)
+
+# 아키텍쳐 설계도
+![아키텍쳐 설계도](https://github.com/InMerchant/Scene-Search/assets/106319540/b5ef5698-8946-4de2-9b88-1ccce7710555)
+
+# 화면 정의
+![화면정의](https://github.com/InMerchant/Scene-Search/assets/106319540/fe14f260-cfe8-4cc5-aa57-ef2fc79bfa4a)
+
+# 메인 화면
+<img width="434" alt="메인페이지" src="https://github.com/InMerchant/Scene-Search/assets/106319540/6ef994a7-1334-4edc-ab4b-24248408ee9a">
+
+# 웹툰 상세보기 페이지
+![웹툰 상세보기 페이지](https://github.com/InMerchant/Scene-Search/assets/106319540/84a2f2f3-62d6-4b09-ac7f-a0330b01af59)
+
+# 대사 검색
+![대사검색](https://github.com/InMerchant/Scene-Search/assets/106319540/3c361816-87b2-404c-8c18-4d8d1295b5d8)
+
+# 상황 검색
+![상황검색](https://github.com/InMerchant/Scene-Search/assets/106319540/7878f4b9-078f-4291-b2fc-f41977dcce23)
+
+# 유해요소 대시보드
+![유해요소 대시보드](https://github.com/InMerchant/Scene-Search/assets/106319540/a8d8583d-f2cc-4988-917d-8c859ee9f493)
