@@ -30,7 +30,7 @@
 ![화면정의](https://github.com/InMerchant/Scene-Search/assets/106319540/fe14f260-cfe8-4cc5-aa57-ef2fc79bfa4a)
 
 # 메인 화면
-<img width="434" alt="메인페이지" src="https://github.com/InMerchant/Scene-Search/assets/106319540/6ef994a7-1334-4edc-ab4b-24248408ee9a">
+<img width="634" alt="메인페이지" src="https://github.com/InMerchant/Scene-Search/assets/106319540/332459dc-1290-4e7d-8a58-1d500db041ad">
 
 # 웹툰 상세보기 페이지
 ![웹툰 상세보기 페이지](https://github.com/InMerchant/Scene-Search/assets/106319540/84a2f2f3-62d6-4b09-ac7f-a0330b01af59)
@@ -43,3 +43,5 @@
 
 # 유해요소 대시보드
 ![유해요소 대시보드](https://github.com/InMerchant/Scene-Search/assets/106319540/a8d8583d-f2cc-4988-917d-8c859ee9f493)
+
+# 시연 영상
