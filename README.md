@@ -29,12 +29,6 @@
 # 화면 정의
 ![화면정의](https://github.com/InMerchant/Scene-Search/assets/106319540/fe14f260-cfe8-4cc5-aa57-ef2fc79bfa4a)
 
-# 메인 화면
-<img width="634" alt="메인페이지" src="https://github.com/InMerchant/Scene-Search/assets/106319540/332459dc-1290-4e7d-8a58-1d500db041ad">
-
-# 웹툰 상세보기 페이지
-![웹툰 상세보기 페이지](https://github.com/InMerchant/Scene-Search/assets/106319540/84a2f2f3-62d6-4b09-ac7f-a0330b01af59)
-
 # 대사 검색
 ![대사검색](https://github.com/InMerchant/Scene-Search/assets/106319540/3c361816-87b2-404c-8c18-4d8d1295b5d8)
 
