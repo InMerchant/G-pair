@@ -39,3 +39,5 @@
 ![유해요소 대시보드](https://github.com/InMerchant/Scene-Search/assets/106319540/a8d8583d-f2cc-4988-917d-8c859ee9f493)
 
 # 시연 영상
+![KakaoTalk_20240517_092601844](https://github.com/InMerchant/Scene-Search/assets/106319540/73a6ba19-1872-49db-8235-0ec0794d40a1)
+[링크] https://youtu.be/cj6GSZxhgvU?si=UKIPp_eXCcq_2usG
